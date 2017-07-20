@@ -57,7 +57,8 @@ TARGETS = agat         \
           sim65c02     \
           supervision  \
           sym1         \
-          telestrat
+          telestrat    \
+          bbc
 
 TARGETTEST = none     \
              sim6502  \
@@ -203,6 +204,10 @@ endif
 ifeq ($(TARGET),$(filter $(TARGET),$(GEOS)))
   SRCDIRS += $(addprefix $(TARGET)/,  $(GEOSDIRS))
   SRCDIRS += $(addprefix geos-common/,$(GEOSDIRS))
+endif
+
+ifeq ($(TARGET), bbc)
+  SRCDIRS += bbc\oslib
 endif
 
 SRCDIRS += common   \
