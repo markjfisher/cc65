@@ -115,7 +115,7 @@ L0009:	ldy     #$02
 	ora     (sp),y
 	bne     L0017
 ;
-; _errno = EMFILE;
+; __errno = EMFILE;
 ;
 	.dbg	line, "opendir.c", 30
 	tax

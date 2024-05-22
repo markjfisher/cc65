@@ -46,7 +46,7 @@ int open(const char *name, int flags, ...) {
 		channel = 0; //error;
 		
 	if (!channel) {
-		_errno = EIO;	// ??? more work needed here!
+		__errno = EIO;	// ??? more work needed here!
 		*p = 0;
 		return -1;
 	}

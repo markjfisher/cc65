@@ -132,11 +132,11 @@ off_t __fastcall__ lseek(int fd, off_t offset, int whence) {
 	return startpos;
 	
 einval:
-	_errno = EINVAL;
+	__errno = EINVAL;
 	return -1;
 		
 epipe:
-	_errno = ESPIPE;
+	__errno = ESPIPE;
 	return -1;
 		
 

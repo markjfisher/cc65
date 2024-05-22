@@ -30,9 +30,9 @@ ebadf:	lda	#<EBADF
 eio:	lda	#<EIO
 	bne	eio
 			
-errout:	sta	__errno
+errout:	sta	___errno
 errout2:ldx	#0
-	stx	__errno + 1
+	stx	___errno + 1
 	dex
 	txa
 	sta	sreg
