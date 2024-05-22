@@ -11,7 +11,7 @@
 	.import		_raise
 	.import		ldaxysp, pushax, popax
 	.import		eio, ebadf, einval, errout2
-	.importzp	sp, ptr1, ptr2, ptr3, tmp2, tmp1
+	.importzp	c_sp, ptr1, ptr2, ptr3, tmp2, tmp1
 	.import		incsp6
 	
 	.include 	"oslib/os.inc"

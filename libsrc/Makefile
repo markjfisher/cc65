@@ -58,7 +58,8 @@ TARGETS = agat         \
           supervision  \
           sym1         \
           telestrat    \
-          bbc
+          bbc          \
+          bbc-clib
 
 TARGETTEST = none     \
              sim6502  \
@@ -138,6 +139,9 @@ install:
 	$(INSTALL) -d $(DESTDIR)$(datadir)/include/oslib
 	$(INSTALL) -m0644 bbc/oslib/*.h $(DESTDIR)$(datadir)/include/oslib
 	$(INSTALL) -m0644 bbc/oslib/*.inc $(DESTDIR)$(datadir)/include/oslib
+	$(INSTALL) -d $(DESTDIR)$(datadir)/include/oslib-clib
+	$(INSTALL) -m0644 bbc-clib/oslib/*.h $(DESTDIR)$(datadir)/include/oslib-clib
+	$(INSTALL) -m0644 bbc-clib/oslib/*.inc $(DESTDIR)$(datadir)/include/oslib-clib
 
 endif # CMD_EXE
 
@@ -214,19 +218,32 @@ ifeq ($(TARGET),$(filter $(TARGET),$(GEOS)))
 endif
 
 ifeq ($(TARGET), bbc)
-  SRCDIRS += bbc\oslib
+  SRCDIRS += bbc/oslib
+  SRCDIRS += bbc/brk/bbc
 endif
 
+ifeq ($(TARGET), bbc-clib)
+  # Include main bbc-clib directory for ROM-specific files
+  SRCDIRS += bbc-clib
+  # Also include bbc directory for BBC-specific functions (disable_cursor_edit, trap_brk, etc.)
+  SRCDIRS += bbc
+  # brk handling for ROM targets requires additional handling
+  SRCDIRS += bbc/brk/bbc-clib
+endif
+
+# ROM targets that use manifest-driven function selection
+ROM_TARGETS = bbc-clib
+
 SRCDIRS += common   \
-           conio    \
-           dbg      \
-           em       \
-           joystick \
-           mouse    \
-           runtime  \
-           serial   \
-           tgi      \
-           zlib
+            conio    \
+            dbg      \
+            em       \
+            joystick \
+            mouse    \
+            runtime  \
+            serial   \
+            tgi      \
+            zlib
 
 vpath %.s $(SRCDIRS)
 vpath %.c $(SRCDIRS)
@@ -235,6 +252,21 @@ OBJS := $(patsubst %.s,%.o,$(foreach dir,$(SRCDIRS),$(wildcard $(dir)/*.s)))
 OBJS += $(patsubst %.c,%.o,$(foreach dir,$(SRCDIRS),$(wildcard $(dir)/*.c)))
 
 OBJS := $(addprefix ../libwrk/$(TARGET)/,$(sort $(notdir $(OBJS))))
+
+####################################################################################
+# ROM handling
+# Do we have an "inc_objs.mk" file?
+# It contains the list of files cc65 should build from the full set of files
+# as anything else is already provided elsewhere (e.g. ROM)
+ifneq ($(wildcard $(TARGET)/inc_objs.mk),)
+-include $(TARGET)/inc_objs.mk
+
+# If present, keep exactly those objects:
+ifneq ($(strip $(INC_CLIB_OBJS)),)
+  OBJS := $(filter $(addprefix ../libwrk/$(TARGET)/,$(INC_CLIB_OBJS)),$(OBJS))
+endif
+endif
+####################################################################################
 
 DEPS = $(OBJS:.o=.d)
 
