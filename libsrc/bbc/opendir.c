@@ -27,7 +27,7 @@ DIR* __fastcall__ opendir (const char* name) {
 	}
 
 	if (ret == NULL) {
-		_errno = EMFILE;
+		__errno = EMFILE;
 		return NULL;
 	}
 
