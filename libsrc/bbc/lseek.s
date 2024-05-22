@@ -230,7 +230,7 @@ L0028:	ldy     #$03
 	jsr     ldeaxysp
 	jmp     L0002
 ;
-; _errno = EINVAL;
+; __errno = EINVAL;
 ;
 	.dbg	line, "lseek.c", 135
 L000F:	ldx     #$00
@@ -241,7 +241,7 @@ L000F:	ldx     #$00
 	.dbg	line, "lseek.c", 136
 	jmp     L0041
 ;
-; _errno = ESPIPE;
+; __errno = ESPIPE;
 ;
 	.dbg	line, "lseek.c", 139
 L000B:	ldx     #$00
