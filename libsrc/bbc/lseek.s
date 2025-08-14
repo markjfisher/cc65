@@ -7,7 +7,7 @@
 	.autoimport	on
 	.case		on
 	.debuginfo	on
-	.importzp	sp, sreg, regsave, regbank, tmp1, ptr1, ptr2
+	.importzp	c_sp, sreg, regsave, regbank, tmp1, ptr1, ptr2
 	.macpack	longbranch
 	.dbg		file, "lseek.c", 2446, 1142154975
 	.dbg		file, "./fdtable.h", 1678, 1142154975
@@ -45,10 +45,10 @@
 	.dbg	line, "lseek.c", 97
 	jsr     decsp6
 	ldy     #$0C
-	lda     (sp),y
+	lda     (c_sp),y
 	jsr     __fd_getflags
 	ldy     #$04
-	sta     (sp),y
+	sta     (c_sp),y
 ;
 ; if (flags == 0xFF) 
 ;
@@ -67,7 +67,7 @@
 ; if (flags & FD_FLAG_CON)
 ;
 	.dbg	line, "lseek.c", 101
-L0006:	lda     (sp),y
+L0006:	lda     (c_sp),y
 	and     #$10
 ;
 ; goto epipe;
@@ -93,7 +93,7 @@ L0006:	lda     (sp),y
 ;
 	.dbg	line, "lseek.c", 107
 	ldy     #$04
-	lda     (sp),y
+	lda     (c_sp),y
 	cmp     #$FF
 	bne     L0010
 ;
@@ -109,19 +109,19 @@ L0006:	lda     (sp),y
 ;
 	.dbg	line, "lseek.c", 110
 L0010:	ldy     #$0C
-	lda     (sp),y
+	lda     (c_sp),y
 	jsr     __fd_getchannel
 	ldy     #$05
-	sta     (sp),y
+	sta     (c_sp),y
 ;
 ; if (whence == SEEK_SET) {
 ;
 	.dbg	line, "lseek.c", 112
 	ldy     #$07
-	lda     (sp),y
+	lda     (c_sp),y
 	bne     L0016
 	dey
-	lda     (sp),y
+	lda     (c_sp),y
 	cmp     #$02
 	bne     L0016
 ;
@@ -130,29 +130,29 @@ L0010:	ldy     #$0C
 	.dbg	line, "lseek.c", 113
 	ldy     #$00
 	tya
-	sta     (sp),y
+	sta     (c_sp),y
 	iny
-	sta     (sp),y
+	sta     (c_sp),y
 	iny
-	sta     (sp),y
+	sta     (c_sp),y
 	iny
-	sta     (sp),y
+	sta     (c_sp),y
 ;
 ; } else if (whence == SEEK_CUR) {
 ;
 	.dbg	line, "lseek.c", 114
 	jmp     L0028
 L0016:	ldy     #$06
-	lda     (sp),y
+	lda     (c_sp),y
 	iny
-	ora     (sp),y
+	ora     (c_sp),y
 	bne     L001C
 ;
 ; if (flags & FD_FLAG_SEEKPEND) {
 ;
 	.dbg	line, "lseek.c", 115
 	ldy     #$04
-	lda     (sp),y
+	lda     (c_sp),y
 	and     #$08
 	beq     L001F
 ;
@@ -160,7 +160,7 @@ L0016:	ldy     #$06
 ;
 	.dbg	line, "lseek.c", 117
 	ldy     #$0C
-	lda     (sp),y
+	lda     (c_sp),y
 	jsr     __fd_getseek
 ;
 ; } else {
@@ -172,7 +172,7 @@ L0016:	ldy     #$06
 ;
 	.dbg	line, "lseek.c", 119
 L001F:	iny
-	lda     (sp),y
+	lda     (c_sp),y
 	jsr     ___ptr
 ;
 ; } else {
@@ -184,7 +184,7 @@ L001F:	iny
 ;
 	.dbg	line, "lseek.c", 122
 L001C:	ldy     #$05
-	lda     (sp),y
+	lda     (c_sp),y
 	jsr     ___ext
 L003C:	ldy     #$00
 	jsr     steaxysp
@@ -220,7 +220,7 @@ L0028:	ldy     #$03
 	jsr     ldeaxysp
 	jsr     pusheax
 	ldy     #$10
-	lda     (sp),y
+	lda     (c_sp),y
 	jsr     __fd_setseek
 ;
 ; return startpos;

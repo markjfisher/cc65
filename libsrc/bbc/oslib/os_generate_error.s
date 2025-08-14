@@ -12,7 +12,7 @@
 		.export _os_generate_error
 		.export _xos_generate_error
 		.import	pusha, popax
-		.importzp sp, ptr1, ptr2
+		.importzp c_sp, ptr1, ptr2
 
 _os_generate_error:
 _xos_generate_error:
@@ -24,11 +24,11 @@ _xos_generate_error:
 		stx	ptr2 + 1
 
 		; reserve 256 bytes on stack 
-		dec	sp + 1
+		dec	c_sp + 1
 
-		lda	sp
+		lda	c_sp
 		sta	ptr1
-		lda	sp + 1
+		lda	c_sp + 1
 		sta	ptr1 + 1
 		
 		ldy	#0

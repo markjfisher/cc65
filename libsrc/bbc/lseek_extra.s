@@ -1,7 +1,7 @@
 ; Dominic Beesley 23.05.2005
 ; Assembler support functions for lseek etc
 
-	.importzp ptr1, sreg, sp
+	.importzp ptr1, sreg, c_sp
 	.export ___ext, ___ptr, ___ptr2
 	.export __seekcheck
 	.import OSARGS
@@ -47,7 +47,7 @@ ___ptr2:	sta	ptr1
 		bne	__ptr2err
 		
 		ldy	#0
-		lda	(sp), y
+		lda	(c_sp), y
 		tay
 		lda	#OSARGS_WRITE_PTR
 		ldx	#ptr1
@@ -61,8 +61,8 @@ ___ptr2:	sta	ptr1
 		rts
 		
 __ptr2err:	jsr	incsp1
-		lda	sp
-		lda	sp + 1
+		lda	c_sp
+		lda	c_sp + 1
 		lda	#$FF
 		tax
 		rts
@@ -81,7 +81,7 @@ l1:	and	#FD_FLAG_SEEKPEND
 		
 ;		channel = _fd_getchannel(fd);
 	ldy	#0
-	lda	(sp), y
+	lda	(c_sp), y
 	jsr	__fd_getchannel
 		
 ;		if (channel == -1) 
@@ -93,7 +93,7 @@ l1:	and	#FD_FLAG_SEEKPEND
 		
 ;		pos = _fd_getseek(fd);
 	ldy	#1
-	lda	(sp), y
+	lda	(c_sp), y
 	jsr	__fd_getseek
 	
 ;		if (pos == -1)

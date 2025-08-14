@@ -38,7 +38,7 @@
 		.import		OSFIND
 				
 		.import		ebadf
-		.importzp 	tmp1, tmp2, sreg, sp
+		.importzp 	tmp1, tmp2, sreg, c_sp
 
 		.include	"fdtable.inc"
 
@@ -140,19 +140,19 @@ __fd_setseek:	sta	tmp1
 		
 		ldy	#3
 		
-		lda	(sp), y
+		lda	(c_sp), y
 		sta	fd_seek, x
 		dey
 		dex
-		lda	(sp), y
+		lda	(c_sp), y
 		sta	fd_seek, x
 		dey
 		dex
-		lda	(sp), y
+		lda	(c_sp), y
 		sta	fd_seek, x
 		dey
 		dex
-		lda	(sp), y
+		lda	(c_sp), y
 		sta	fd_seek, x
 	
 		jsr	incsp4

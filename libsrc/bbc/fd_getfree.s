@@ -1,7 +1,7 @@
 ; Dominic Beesley 27.04.2005
 
 		.export		__fd_getfree
-		.importzp	sp, tmp1
+		.importzp	c_sp, tmp1
 		.import		fd_chan, fd_flags, emfile
 		.import		incsp1
 		.include	"fdtable.inc"
@@ -30,7 +30,7 @@ gotfreefd:	sta	fd_flags, y
 		tax
 				
 		ldy	#0
-		lda	(sp), y
+		lda	(c_sp), y
 		sta	fd_chan - FD_START, x
 		
 		jsr	incsp1

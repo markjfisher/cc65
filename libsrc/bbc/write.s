@@ -12,7 +12,7 @@
         .import		pushax, popax, ldaxysp
 	.import		__seekcheck
 	.import		eio, ebadf, einval, errout2
-	.importzp       sp, ptr1, ptr2, ptr3, tmp2, tmp1
+	.importzp       c_sp, ptr1, ptr2, ptr3, tmp2, tmp1
 	
         .include	"bbc.inc"
 	.include	"oslib/os.inc"

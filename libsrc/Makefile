@@ -214,7 +214,7 @@ ifeq ($(TARGET),$(filter $(TARGET),$(GEOS)))
 endif
 
 ifeq ($(TARGET), bbc)
-  SRCDIRS += bbc\oslib
+  SRCDIRS += bbc/oslib
 endif
 
 SRCDIRS += common   \

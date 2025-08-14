@@ -5,15 +5,15 @@
 ;	osfile_* utility functions
 ;
 ;	Assumes an OSFILE parameter block is at TOS
-;	call OSFILE A contains reason code, sp points to parameter block
+;	call OSFILE A contains reason code, c_sp points to parameter block
 
 		.import OSFILE
 		.export osfile_callosfile
-		.importzp sp
+		.importzp c_sp
 
 		.proc osfile_callosfile
-		ldx	sp
-		ldy	sp + 1
+		ldx	c_sp
+		ldy	c_sp + 1
 		jsr	OSFILE
 		rts
 		.endproc

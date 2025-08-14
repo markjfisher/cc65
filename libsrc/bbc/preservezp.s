@@ -11,8 +11,8 @@ preservezp:
 	
 	ldy	#zpspace-1
 preserveloop:
-	lda	sp, y		; ??? sp always first in zp?
-	sta	(sp), y	
+	lda	c_sp, y		; ??? c_sp always first in zp?
+	sta	(c_sp), y	
 
 	dey
 	bpl	preserveloop
@@ -21,8 +21,8 @@ preserveloop:
 restorezp:
 	ldy	#zpspace-1
 restoreloop:
-	lda	(sp), y
-	sta	sp, y
+	lda	(c_sp), y
+	sta	c_sp, y
 	dey
 	bpl	restoreloop
 	

@@ -16,7 +16,7 @@
 		.import ldeaxysp
 		.import ldaxysp
 		.import addysp
-		.importzp sp, sreg
+		.importzp c_sp, sreg
 		.export _osfile_save
 
 ;extern os_error *xosfile_save (char const *file_name,
