@@ -81,9 +81,9 @@ more:
 	domessage initstackmsg
 	jsr	init_stack
 
-	lda	sp + 1
+	lda	c_sp + 1
 	jsr	printhex
-	lda	sp
+	lda	c_sp
 	jsr	printhex
 	jsr	OSNEWL
 
@@ -130,10 +130,10 @@ more:
 	jsr	pushax
 
 	sec
-	lda	sp
+	lda	c_sp
 	sbc	#<__STACKSIZE__
 	pha
-	lda	sp + 1
+	lda	c_sp + 1
 	sbc	#>__STACKSIZE__
 	tax
 	pla

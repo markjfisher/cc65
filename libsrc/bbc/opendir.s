@@ -7,7 +7,7 @@
 	.autoimport	on
 	.case		on
 	.debuginfo	on
-	.importzp	sp, sreg, regsave, regbank, tmp1, ptr1, ptr2
+	.importzp	c_sp, sreg, regsave, regbank, tmp1, ptr1, ptr2
 	.macpack	longbranch
 	.dbg		file, "opendir.c", 517, 1142595077
 	.dbg		file, "/home/dominic/Documents/programming/6502/mysources/cc65-2.11.0/include/dirent.h", 3037, 1142524617
@@ -110,9 +110,9 @@ L000A:	ldy     #$01
 ;
 	.dbg	line, "opendir.c", 29
 L0009:	ldy     #$02
-	lda     (sp),y
+	lda     (c_sp),y
 	iny
-	ora     (sp),y
+	ora     (c_sp),y
 	bne     L0017
 ;
 ; __errno = EMFILE;

@@ -7,7 +7,7 @@
 	.autoimport	on
 	.case		on
 	.debuginfo	on
-	.importzp	sp, sreg, regsave, regbank, tmp1, ptr1, ptr2
+	.importzp	c_sp, sreg, regsave, regbank, tmp1, ptr1, ptr2
 	.macpack	longbranch
 	.dbg		file, "closedir.c", 107, 1142525752
 	.dbg		file, "/home/dominic/Documents/programming/6502/mysources/cc65-2.11.0/include/dirent.h", 3037, 1142524617
@@ -34,9 +34,9 @@
 ;
 	.dbg	line, "closedir.c", 7
 	ldy     #$01
-	lda     (sp),y
+	lda     (c_sp),y
 	dey
-	ora     (sp),y
+	ora     (c_sp),y
 	jeq     incsp2
 ;
 ; dir->used = 0;

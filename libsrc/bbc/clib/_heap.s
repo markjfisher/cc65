@@ -9,12 +9,12 @@
 ; account of prevailing circumstances
 
 
-; void __fastcall__ _initheap(__BSS_RUN__ + __BSS_SIZE__, sp - __STACK_SIZE);
+; void __fastcall__ _initheap(__BSS_RUN__ + __BSS_SIZE__, c_sp - __STACK_SIZE);
 
 
 ;       	.constructor	__initheap, 24
 ;       	.import	       	__BSS_RUN__, __BSS_SIZE__, __STACKSIZE__
-	.importzp	sp
+	.importzp	c_sp
 	.import		popax
 	.import		printhex
 	.import		OSNEWL, OSASCI
@@ -78,10 +78,10 @@ __initheap:
 	rts
 
 ;      	sec
-;      	lda	sp
+;      	lda	c_sp
 ;      	sbc	#<__STACKSIZE__
 ;      	sta	__heapend
-;      	lda	sp+1
+;      	lda	c_sp+1
 ;	sbc	#>__STACKSIZE__
 ;	sta	__heapend+1
 ;	rts

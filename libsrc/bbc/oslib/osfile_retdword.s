@@ -8,7 +8,7 @@
 ;	return a dword (32bit) value from the parameter block at TOS
 ;	to the callee
 ;
-;	On entry sp	->	OSFILE parameter block
+;	On entry c_sp	->	OSFILE parameter block
 ;		 ax	->	dword return parameter
 ;		 y	->	offset on stack of OSFILE parameter
 ;		
@@ -17,7 +17,7 @@
 		.import OSFILE
 		.export osfile_retdword
 		.export osfile_retA
-		.importzp sp, ptr1, ptr2
+		.importzp c_sp, ptr1, ptr2
 
 		.proc osfile_retdword	
 		cpx	#0
@@ -28,9 +28,9 @@ go:		sta	ptr1
 		stx	ptr1 + 1
 		tya
 		clc
-		adc	sp
+		adc	c_sp
 		sta	ptr2
-		lda	sp + 1
+		lda	c_sp + 1
 		sta	ptr2 + 1
 		bcc	noc
 		inc	ptr2 + 1

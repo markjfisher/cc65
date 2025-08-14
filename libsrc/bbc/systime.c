@@ -9,10 +9,10 @@ time_t _systime(void) {
 	block[0] = 1;
 	
 	__asm__("clc");
-	__asm__("lda sp");
+	__asm__("lda c_sp");
 	__asm__("adc #%o", block);
 	__asm__("tax");
-	__asm__("lda sp+1");
+	__asm__("lda c_sp+1");
 	__asm__("adc #0");
 	__asm__("tay");
 	

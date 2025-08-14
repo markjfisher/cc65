@@ -7,7 +7,7 @@
 	.autoimport	on
 	.case		on
 	.debuginfo	on
-	.importzp	sp, sreg, regsave, regbank, tmp1, ptr1, ptr2
+	.importzp	c_sp, sreg, regsave, regbank, tmp1, ptr1, ptr2
 	.macpack	longbranch
 	.dbg		file, "clibtest.c", 82, 1367476720
 	.dbg		file, "../../../include/stdio.h", 5964, 1254052987

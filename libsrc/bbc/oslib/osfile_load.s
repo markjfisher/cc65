@@ -14,7 +14,7 @@
 		.import ldeaxysp
 		.import ldaxysp
 		.import addysp
-		.importzp sp, sreg
+		.importzp c_sp, sreg
 		.export _osfile_load
 
 ;extern os_error *xosfile_load (char const *file_name,
@@ -48,7 +48,7 @@
 
 		lda	#1
 		ldy	#6
-		sta	(sp), y
+		sta	(c_sp), y
 
 d:		lda	#OSFile_Load
 		jsr	osfile_callosfile
@@ -59,7 +59,7 @@ d:		lda	#OSFile_Load
 setupload:	pha
 		lda	#0
 		ldy	#6
-		sta	(sp),  Y
+		sta	(c_sp),  Y
 		sta	sreg
 		sta	sreg + 1
 		pla

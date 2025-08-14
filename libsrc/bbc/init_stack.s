@@ -2,7 +2,7 @@
 	.export init_stack
 	.include "oslib/os.inc"
 	.include "oslib/osbyte.inc"
-	.importzp sp
+	.importzp c_sp
 
 init_stack:
 	; of the two blocks below, one should be selected
@@ -14,14 +14,14 @@ init_stack:
 	lda	#osbyte_READ_TOP
 	jsr	OSBYTE
 	tya
-	sta	sp+1   		; Set argument stack ptr
+	sta	c_sp+1   		; Set argument stack ptr
 	txa
-     	sta	sp              ; #<(__RAM_START__ + __RAM_SIZE__)
+     	sta	c_sp              ; #<(__RAM_START__ + __RAM_SIZE__)
 
 	; put the stack in the BASIC work area &400-7FF
 ;	lda	#$ff
-;	sta	sp
+;	sta	c_sp
 ;	lda	#$7
-;	sta	sp + 1
+;	sta	c_sp + 1
 
 	rts
