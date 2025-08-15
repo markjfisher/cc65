@@ -1,5 +1,6 @@
 #
-# cc65 makefile for the bbc specific modules
+# cc65 makefile for the bbc-clib (ROM stub) target
+# This target provides minimal stubs that call functions in the cc65 CLIB ROM
 #
 
 .SUFFIXES: .o .s .c
@@ -7,14 +8,14 @@
 #--------------------------------------------------------------------------
 # Programs and flags
 
-SYS	= c128
+SYS	= bbc-clib
 
-AS	= ../../src/ca65/ca65
-CC	= ../../src/cc65/cc65
-LD	= ../../src/ld65/ld65
+AS	= ca65
+CC	= cc65
+LD	= ld65
 
-AFLAGS	= -t $(SYS) --forget-inc-paths -I../../asminc
-CFLAGS	= -Osir -g -T -t $(SYS) --forget-inc-paths -I . -I ../../include
+AFLAGS	= -t bbc
+CFLAGS	= -Osir -g -T -t bbc
 
 #--------------------------------------------------------------------------
 # Rules
@@ -42,89 +43,25 @@ CFLAGS	= -Osir -g -T -t $(SYS) --forget-inc-paths -I . -I ../../include
 	@$(LD) -t module -o $@ $^
 
 #--------------------------------------------------------------------------
-# Object files
-
-C_OBJS =	open.o	\
-		lseek.o		\
-		systime.o	\
-		opendir.o	\
-		readdir.o	\
-		closedir.o
+# Object files for ROM stub target
+# Only includes startup, ROM detection, error handling, and ROM stubs
 
 S_OBJS  =       crt0.o          \
-                ctype.o		\
-		write.o         \
-		rwcommon.o	\
-		close.o		\
-		clock.o		\
-		clrscr.o	\
-		cputc.o		\
-		gotox.o		\
-		gotoxy.o	\
-		gotoy.o		\
-		wherex.o	\
-		wherey.o	\
-		read.o		\
-		cgetc.o		\
-		mainargs.o	\
-		sysuname.o	\
-		_scrsize.o	\
-		cclear.o	\
-		chline.o	\
-		color.o		\
-		revers.o	\
-		cvline.o	\
-		lseek_extra.o	\
-		fdtable.o	\
-		fd_getfree.o	\
-		preservezp.o	\
-		errors.o	\
-		rom_detect.o	\
-		strlen_rom.o	\
-		brkret.o	\
-		printhex.o	\
-		printstr.o	\
-		print0.o	\
-		readdir.o	\
-		kbhit.o		\
-		disable_cursor_edit.o	\
-		init_stack.o	\
-		brkvec.o
-#--------------------------------------------------------------------------
-# Drivers
-
-EMDS = 
-
-JOYS = 
-
-MOUS = 
-
-SERS = 
-
-TGIS = 
+                rom_detect.o    \
+                rom_error.o     \
+                rom_stubs.o
 
 #--------------------------------------------------------------------------
 # Targets
 
 .PHONY:	all clean zap
 
-all:   	$(OBJS) $(EMDS) $(JOYS) $(MOUS) $(SERS) $(TGIS)
+all:	$(S_OBJS)
 
 ../runtime/zeropage.o:
 	$(MAKE) -C $(dir $@) $(notdir $@)
 
-
 clean:
-	@$(RM) $(OBJS) $(EMDS:.emd=.o) $(JOYS:.joy=.o) $(MOUS:.mou=.o) $(SERS:.ser=.o) $(TGIS:.tgi=.o)
-	@for i in clib oslib rom; do\
-       	   $(MAKE) -C $$i clean;			      		   	\
-	done
+	@$(RM) $(S_OBJS)
 
 zap:	clean
-	@for i in clib oslib rom; do\
-	   $(MAKE) -C $$i zap;     	    	       	      	   		\
-	done
-	@$(RM) $(EMDS) $(JOYS) $(MOUS) $(SERS) $(TGIS)
-	
-	
-

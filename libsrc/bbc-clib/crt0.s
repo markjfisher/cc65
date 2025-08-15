@@ -1,5 +1,6 @@
 ;
-; Startup code for cc65 (bbc normal library - not ROM)
+; Startup code for cc65 BBC CLIB ROM target
+; REQUIRES cc65 CLIB ROM to be present in sideways slot 1
 ;
 ; This must be the *first* file on the linker command line
 ;
@@ -16,6 +17,9 @@
         .import         restore_cursor_edit
         .import         init_stack
         .import         detect_clib_rom
+        .import         clib_rom_available
+        .import         print_error_and_exit
+        .import         rom_error_msg
         
         .import         brkret
         .import         trap_brk, release_brk
@@ -40,8 +44,19 @@ reset:
         jsr        disable_cursor_edit
         jsr        init_stack
         
-        ; Check for cc65 CLIB ROM
+        ; Check for cc65 CLIB ROM (REQUIRED!)
         jsr        detect_clib_rom
+        
+        ; ROM must be present - exit with error if not found
+        lda        clib_rom_available
+        bne        rom_found
+        
+        ; ROM not found - display error and exit
+        lda        #<rom_error_msg
+        ldx        #>rom_error_msg
+        jsr        print_error_and_exit
+        
+rom_found:
         
         ; disable interrupts while we setup the vectors
         sei

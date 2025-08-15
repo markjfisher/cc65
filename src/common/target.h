@@ -70,6 +70,7 @@ typedef enum {
     TGT_OSIC1P,
     TGT_PET,
     TGT_BBC,
+    TGT_BBC_CLIB,
     TGT_APPLE2,
     TGT_APPLE2ENH,
     TGT_GEOS_CBM,
