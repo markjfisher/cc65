@@ -225,16 +225,25 @@ ifeq ($(TARGET), bbc-clib)
   SRCDIRS += bbc-clib/oslib
 endif
 
-SRCDIRS += common   \
-           conio    \
-           dbg      \
-           em       \
-           joystick \
-           mouse    \
-           runtime  \
-           serial   \
-           tgi      \
-           zlib
+# ROM targets that exclude most common library functions
+ROM_TARGETS = bbc-clib
+
+# Add common library sources for all targets except ROM targets
+ifeq ($(filter $(TARGET),$(ROM_TARGETS)),)
+  SRCDIRS += common   \
+             conio    \
+             dbg      \
+             em       \
+             joystick \
+             mouse    \
+             runtime  \
+             serial   \
+             tgi      \
+             zlib
+else
+  # For ROM targets, exclude common library sources entirely
+  # We'll manually add essential files in the target-specific directory
+endif
 
 vpath %.s $(SRCDIRS)
 vpath %.c $(SRCDIRS)
