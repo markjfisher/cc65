@@ -58,7 +58,8 @@ TARGETS = agat         \
           supervision  \
           sym1         \
           telestrat    \
-          bbc
+          bbc          \
+          bbc-clib
 
 TARGETTEST = none     \
              sim6502  \
@@ -138,6 +139,9 @@ install:
 	$(INSTALL) -d $(DESTDIR)$(datadir)/include/oslib
 	$(INSTALL) -m0644 bbc/oslib/*.h $(DESTDIR)$(datadir)/include/oslib
 	$(INSTALL) -m0644 bbc/oslib/*.inc $(DESTDIR)$(datadir)/include/oslib
+	$(INSTALL) -d $(DESTDIR)$(datadir)/include/oslib-clib
+	$(INSTALL) -m0644 bbc-clib/oslib/*.h $(DESTDIR)$(datadir)/include/oslib-clib
+	$(INSTALL) -m0644 bbc-clib/oslib/*.inc $(DESTDIR)$(datadir)/include/oslib-clib
 
 endif # CMD_EXE
 
@@ -215,6 +219,10 @@ endif
 
 ifeq ($(TARGET), bbc)
   SRCDIRS += bbc/oslib
+endif
+
+ifeq ($(TARGET), bbc-clib)
+  SRCDIRS += bbc-clib/oslib
 endif
 
 SRCDIRS += common   \
