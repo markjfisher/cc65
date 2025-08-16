@@ -222,10 +222,13 @@ ifeq ($(TARGET), bbc)
 endif
 
 ifeq ($(TARGET), bbc-clib)
-  SRCDIRS += bbc-clib/oslib
+  # Include main bbc-clib directory for ROM-specific files
+  SRCDIRS += bbc-clib
+  # Exclude oslib to avoid duplicate OS function symbols with ROM stubs
+  # SRCDIRS += bbc-clib/oslib  
 endif
 
-# ROM targets that exclude most common library functions
+# ROM targets that use manifest-driven function selection
 ROM_TARGETS = bbc-clib
 
 # Add common library sources for all targets except ROM targets
@@ -241,8 +244,9 @@ ifeq ($(filter $(TARGET),$(ROM_TARGETS)),)
              tgi      \
              zlib
 else
-  # For ROM targets, exclude common library sources entirely
-  # We'll manually add essential files in the target-specific directory
+  # For ROM targets, include common/runtime sources but filter based on manifests
+  SRCDIRS += common runtime
+  # Note: Manifest-based filtering happens after OBJS collection
 endif
 
 vpath %.s $(SRCDIRS)
@@ -252,6 +256,16 @@ OBJS := $(patsubst %.s,%.o,$(foreach dir,$(SRCDIRS),$(wildcard $(dir)/*.s)))
 OBJS += $(patsubst %.c,%.o,$(foreach dir,$(SRCDIRS),$(wildcard $(dir)/*.c)))
 
 OBJS := $(addprefix ../libwrk/$(TARGET)/,$(sort $(notdir $(OBJS))))
+
+# For ROM targets, filter out objects that conflict with ROM functions
+ifeq ($(filter $(TARGET),$(ROM_TARGETS)),$(TARGET))
+  # Exclude common runtime functions that are available in ROM
+  # These correspond to functions in rom_functions.manifest
+  ROM_CONFLICT_OBJS = add.o tosaddax.o tosmulax.o tossubax.o tosdivax.o \
+                     div.o mul.o sub.o and.o or.o xor.o shl.o shr.o \
+                     pushax.o popax.o incsp1.o incsp2.o decsp1.o decsp2.o
+  OBJS := $(filter-out $(addprefix ../libwrk/$(TARGET)/,$(ROM_CONFLICT_OBJS)),$(OBJS))
+endif
 
 DEPS = $(OBJS:.o=.d)
 
