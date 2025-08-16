@@ -18,11 +18,13 @@
         .import         init_stack
         .import         detect_clib_rom
         .import         clib_rom_available
+        .import         clib_rom_slot
         .import         print_error_and_exit
         .import         rom_error_msg
         
         .import         brkret
         .import         trap_brk, release_brk
+        .import         OSWRCH                  ; For debug output
         
         .export         __Cstart
         .export         _exit_bits
@@ -40,16 +42,32 @@ save_s:        .res        1                ; save stack pointer before entering
 __Cstart:
 
 reset:
+        ; Debug: Print startup indicator
+        lda        #'S'
+        jsr        OSWRCH
+        
         jsr        zerobss
         jsr        disable_cursor_edit
         jsr        init_stack
         
+        ; Debug: Print before ROM detection  
+        lda        #'D'
+        jsr        OSWRCH
+        
         ; Check for cc65 CLIB ROM (REQUIRED!)
         jsr        detect_clib_rom
+        
+        ; Debug: Print after ROM detection
+        lda        #'C'
+        jsr        OSWRCH
         
         ; ROM must be present - exit with error if not found
         lda        clib_rom_available
         bne        rom_found
+        
+        ; Debug: Print ROM not found
+        lda        #'N'
+        jsr        OSWRCH
         
         ; ROM not found - display error and exit
         lda        #<rom_error_msg
@@ -57,6 +75,19 @@ reset:
         jsr        print_error_and_exit
         
 rom_found:
+        ; Debug: Print ROM found
+        lda        #'F'
+        jsr        OSWRCH
+        
+        ; Debug: Print ROM slot number
+        lda        #'['
+        jsr        OSWRCH
+        lda        clib_rom_slot
+        clc
+        adc        #'0'           ; Convert to ASCII digit
+        jsr        OSWRCH
+        lda        #']'
+        jsr        OSWRCH
         
         ; disable interrupts while we setup the vectors
         sei
