@@ -19,6 +19,7 @@
         .import         detect_clib_rom
         .import         clib_rom_available
         .import         clib_rom_slot
+        .import         original_romsel
         .import         print_error_and_exit
         .import         rom_error_msg
         
@@ -73,6 +74,8 @@ reset:
         lda        #<rom_error_msg
         ldx        #>rom_error_msg
         jsr        print_error_and_exit
+        ; After error message, halt completely - don't continue to rom_found
+        rts
         
 rom_found:
         ; Debug: Print ROM found
@@ -152,6 +155,15 @@ l1:     sei
         cli
         
         jsr        restore_cursor_edit
+
+        ; Invalidate ROM detection state to force fresh scan on next run
+        lda        #0
+        sta        clib_rom_available  ; Clear "ROM found" flag
+        sta        clib_rom_slot       ; Clear slot number
+        
+        ; Restore original ROMSEL before exit
+        lda        original_romsel
+        sta        $FE30
 
 exit:   rts
 
