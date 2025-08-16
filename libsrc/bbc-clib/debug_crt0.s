@@ -47,6 +47,8 @@ reset:
         lda        #<rom_error_msg
         ldx        #>rom_error_msg
         jsr        print_error_and_exit
+        ; After error message, halt completely - don't continue to rom_found
+        rts
         
 rom_found:
         ; Debug: Print ROM found
@@ -90,6 +92,11 @@ call_main:
 ; Simple exit routine  
 .export _exit
 _exit:
+        ; Invalidate ROM detection state to force fresh scan on next run
+        lda     #0
+        sta     clib_rom_available  ; Clear "ROM found" flag
+        sta     clib_rom_slot       ; Clear slot number
+        
         ; Restore original ROMSEL before exit
         lda     original_romsel
         sta     $FE30
@@ -115,9 +122,8 @@ _exit:
         jsr     OSWRCH
         lda     #10
         jsr     OSWRCH
-        ; Halt execution - prevents continuing to main()
-exit_loop:
-        jmp     exit_loop
+        ; Return to OS cleanly
+        rts
 
 ; print_hex_byte - Print byte in A as two hex digits
 ; Input: A = byte to print

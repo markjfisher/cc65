@@ -4,7 +4,6 @@
 ;
 
         .export         print_error_and_exit
-        .import         _exit
         .importzp       ptr1
 
         .include "oslib/os.inc"
@@ -35,9 +34,8 @@ print_done:
         lda     #10  
         jsr     OSWRCH
         
-        ; Exit with error code
-        lda     #1
-        jmp     _exit
+        ; Simple return to OS (no complex cleanup needed in early startup)
+        rts
 
 
 
