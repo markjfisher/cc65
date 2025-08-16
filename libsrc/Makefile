@@ -224,6 +224,8 @@ endif
 ifeq ($(TARGET), bbc-clib)
   # Include main bbc-clib directory for ROM-specific files
   SRCDIRS += bbc-clib
+  # Also include bbc directory for BBC-specific functions (disable_cursor_edit, trap_brk, etc.)
+  SRCDIRS += bbc
   # Exclude oslib to avoid duplicate OS function symbols with ROM stubs
   # SRCDIRS += bbc-clib/oslib  
 endif
@@ -259,12 +261,17 @@ OBJS := $(addprefix ../libwrk/$(TARGET)/,$(sort $(notdir $(OBJS))))
 
 # For ROM targets, filter out objects that conflict with ROM functions
 ifeq ($(filter $(TARGET),$(ROM_TARGETS)),$(TARGET))
-  # Exclude common runtime functions that are available in ROM
-  # These correspond to functions in rom_functions.manifest
-  ROM_CONFLICT_OBJS = add.o tosaddax.o tosmulax.o tossubax.o tosdivax.o \
-                     div.o mul.o sub.o and.o or.o xor.o shl.o shr.o \
-                     pushax.o popax.o incsp1.o incsp2.o decsp1.o decsp2.o
-  OBJS := $(filter-out $(addprefix ../libwrk/$(TARGET)/,$(ROM_CONFLICT_OBJS)),$(OBJS))
+  # For ROM targets, only include objects for functions NOT in ROM
+  # Use excluded_functions.manifest as whitelist of what to include
+  ifneq ($(wildcard $(TARGET)/excluded_functions.manifest),)
+    # Get the functions that must be local (not in ROM)
+    LOCAL_FUNCTIONS := $(shell grep -v '^#' $(TARGET)/excluded_functions.manifest | grep '^_' | sed 's/^_//' | sed 's/$$/\.o/')
+    # Only keep objects that provide essential local functions plus our ROM infrastructure
+    # Also include essential C runtime functions not in manifest
+    RUNTIME_OBJS := callmain.o condes.o raise.o signal.o sigtable.o _seterrno.o jmpvec.o errno.o disable_cursor_edit.o brkvec.o brkret.o
+    ESSENTIAL_OBJS := $(addprefix ../libwrk/$(TARGET)/,$(LOCAL_FUNCTIONS) $(RUNTIME_OBJS)) ../libwrk/$(TARGET)/crt0.o ../libwrk/$(TARGET)/rom_detect.o ../libwrk/$(TARGET)/rom_error.o ../libwrk/$(TARGET)/rom_stubs.o ../libwrk/$(TARGET)/zerobss.o
+    OBJS := $(filter $(ESSENTIAL_OBJS),$(OBJS))
+  endif
 endif
 
 DEPS = $(OBJS:.o=.d)
