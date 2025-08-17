@@ -22,80 +22,109 @@
         .import         original_romsel
         .import         print_error_and_exit
         .import         rom_error_msg
-        
+        .import         OSWRCH                  ; For debug output
+        .import         __HIMEM__               ; Top of memory (defined by linker)
+        .importzp       c_sp                    ; C software stack pointer
+
         .import         brkret
         .import         trap_brk, release_brk
-        
+
         .export         __Cstart
         .export         _exit_bits
-                
-        .include "zeropage.inc"
-        .include "oslib/os.inc"
-        .include "oslib/osbyte.inc"
-        
-        .bss
-save_s:        .res        1                ; save stack pointer before entering main
-                                ; exit can be called from any level!
+
+        .include        "zeropage.inc"
+        .include        "oslib/os.inc"
+        .include        "oslib/osbyte.inc"
 
 .segment        "STARTUP"
 
 __Cstart:
+        ; Debug A: Startup
+        lda        #'A'
+        jsr        OSWRCH
+
+        ; Save stack pointer for clean exit
+        tsx
+        stx        save_s
+
+        ; THIS IS DONE BELOW IN init_stack
+        ; ; Setup minimal C runtime
+        ; ; Setup software stack pointer to top of memory
+        ; lda        #<__HIMEM__
+        ; sta        c_sp
+        ; lda        #>__HIMEM__
+        ; sta        c_sp+1
 
 reset:
+
+        ; Zero BSS segment BEFORE ROM detection
+        ; (so we don't zero out clib_rom_available after setting it)
         jsr        zerobss
-        jsr        disable_cursor_edit
-        jsr        init_stack
-        
-        ; Check for cc65 CLIB ROM (REQUIRED!)
+
+        ; Check for cc65 CLIB ROM
         jsr        detect_clib_rom
-        
+
+        ; Debug B: After basic setup
+        lda        #'B'
+        jsr        OSWRCH
+
         ; ROM must be present - exit with error if not found
         lda        clib_rom_available
         bne        rom_found
-        
+
         ; ROM not found - display error and exit
         lda        #<rom_error_msg
         ldx        #>rom_error_msg
         jsr        print_error_and_exit
-        ; After error message, halt completely - don't continue to rom_found
+        ; After error message, return to the user
+        ; debatable if we care about the stack pointer value restoration
         rts
-        
+
 rom_found:
-        
+        jsr        disable_cursor_edit
+        jsr        init_stack
+
         ; disable interrupts while we setup the vectors
         sei
-                
+
         ; set up escape handler
         lda        EVNTV
         sta        oldeventv
         lda        EVNTV + 1
         sta        oldeventv + 1
-        
+
         lda        #<eschandler
         sta        EVNTV
         lda        #>eschandler
         sta        EVNTV + 1
-        
+
         jsr        trap_brk
-        
+
         ; reenable interrupts
         cli
-                
+
         ; enable escape event
         lda        #osbyte_ENABLE_EVENT
         ldx        #EVNTV_ESCAPE
         jsr        OSBYTE
         stx        oldescen
-        
+
+        ; Debug C: After interrupt setup
+        lda        #'C'
+        jsr        OSWRCH
+
         jsr        initlib
 
-        tsx
-        stx        save_s                
-        
+        ; tsx
+        ; stx        save_s                
+
+        ; Debug D: Before calling main
+        lda        #'D'
+        jsr        OSWRCH
+
         jsr        callmain
 
 _exit_bits:        ; AX contains exit code, store LSB in user flag
-        
 
         tax
         ldy        #0
@@ -103,7 +132,7 @@ _exit_bits:        ; AX contains exit code, store LSB in user flag
         jsr        OSBYTE
 
         jsr        donelib
-        
+
         ; reset escape event state
         lda        oldescen
         bne        l1
@@ -111,26 +140,25 @@ _exit_bits:        ; AX contains exit code, store LSB in user flag
         ldx        #EVNTV_ESCAPE
         jsr        OSBYTE
 
-        
+
 l1:     sei
 
         jsr        release_brk
 
-                
         ; restore event handler
         lda        oldeventv
         sta        EVNTV
         lda        oldeventv + 1
         sta        EVNTV + 1
         cli
-        
+
         jsr        restore_cursor_edit
 
         ; Invalidate ROM detection state to force fresh scan on next run
         lda        #0
         sta        clib_rom_available  ; Clear "ROM found" flag
         sta        clib_rom_slot       ; Clear slot number
-        
+
         ; Restore original ROMSEL before exit
         lda        original_romsel
         sta        $FE30
@@ -145,32 +173,27 @@ eschandler:
         php        ;push flags
         cmp        #EVNTV_ESCAPE
         bne        nohandle
-        
-        
-        
+
         pha        ; push regs
         txa
         pha
         tya
         pha
-        
-        
+
         ; preserve zp
         jsr        preservezp
-        
+
         cli                        ; reenable interrupts
-        
 
         ldx        #0
         lda        #3              ; SIGINT ???
         jsr        _raise
 
-        
         sei                        ; disable interrupts, as we pass it on...
-        
+
         ; restore zp
         jsr        restorezp
-        
+
         pla
         tay
         pla
@@ -178,14 +201,13 @@ eschandler:
         pla
         plp
         rts
-        
+
 nohandle:
         plp
         jmp        (oldeventv)
-        
-
 
 
         .bss
 oldeventv:         .res        2
 oldescen:          .res        1        ; was escape event enabled before?
+save_s:            .res        1        ; old stack pointer
