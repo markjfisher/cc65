@@ -40,8 +40,8 @@
 
 __Cstart:
         ; Debug A: Startup
-        lda        #'A'
-        jsr        OSWRCH
+        ; lda        #'A'
+        ; jsr        OSWRCH
 
         ; Save stack pointer for clean exit
         tsx
@@ -65,8 +65,8 @@ reset:
         jsr        detect_clib_rom
 
         ; Debug B: After basic setup
-        lda        #'B'
-        jsr        OSWRCH
+        ; lda        #'B'
+        ; jsr        OSWRCH
 
         ; ROM must be present - exit with error if not found
         lda        clib_rom_available
@@ -110,8 +110,8 @@ rom_found:
         stx        oldescen
 
         ; Debug C: After interrupt setup
-        lda        #'C'
-        jsr        OSWRCH
+        ; lda        #'C'
+        ; jsr        OSWRCH
 
         jsr        initlib
 
@@ -119,8 +119,8 @@ rom_found:
         ; stx        save_s                
 
         ; Debug D: Before calling main
-        lda        #'D'
-        jsr        OSWRCH
+        ; lda        #'D'
+        ; jsr        OSWRCH
 
         jsr        callmain
 
