@@ -126,12 +126,59 @@ rom_found:
 
 _exit_bits:        ; AX contains exit code, store LSB in user flag
 
-        tax
-        ldy        #0
+        ; Debug: Print exit code before storing
+        pha                     ; Save exit code on stack
+        
+        ; Print "Exit code: " 
+        lda        #'E'
+        jsr        OSWRCH
+        lda        #'='
+        jsr        OSWRCH
+        
+        ; Print exit code as hex
+        pla                     ; Restore exit code
+        pha                     ; Save again for later use
+        jsr        print_hex_byte
+        
+        ; Print newline
+        lda        #13
+        jsr        OSWRCH
+        lda        #10  
+        jsr        OSWRCH
+        
+        ; Now store in user flag
+        pla                     ; Restore exit code
+        tax                     ; Move to X for OSBYTE
+        ldy        #255
         lda        #osbyte_USER_FLAG
         jsr        OSBYTE
 
+        lda        #'R'
+        jsr        debug_checkpoint
+
+        lda        #'A'
+        jsr        debug_checkpoint
+
+        lda        #'B'
+        jsr        debug_checkpoint
+
+        lda        #'C'
+        jsr        debug_checkpoint
+
+        lda        #'D'
+        jsr        debug_checkpoint
+
+        ; Print newline
+        lda        #13
+        jsr        OSWRCH
+        lda        #10  
+        jsr        OSWRCH
+
         jsr        donelib
+
+        ; Debug checkpoint 1: After donelib
+        lda        #'1'
+        jsr        debug_checkpoint
 
         ; reset escape event state
         lda        oldescen
@@ -140,10 +187,17 @@ _exit_bits:        ; AX contains exit code, store LSB in user flag
         ldx        #EVNTV_ESCAPE
         jsr        OSBYTE
 
+        ; Debug checkpoint 2: After disable event
+        lda        #'2'
+        jsr        debug_checkpoint
 
 l1:     sei
 
         jsr        release_brk
+
+        ; Debug checkpoint 3: After release_brk
+        lda        #'3'
+        jsr        debug_checkpoint
 
         ; restore event handler
         lda        oldeventv
@@ -152,7 +206,15 @@ l1:     sei
         sta        EVNTV + 1
         cli
 
+        ; Debug checkpoint 4: After restore event handler
+        lda        #'4'
+        jsr        debug_checkpoint
+
         jsr        restore_cursor_edit
+
+        ; Debug checkpoint 5: After restore_cursor_edit
+        lda        #'5'
+        jsr        debug_checkpoint
 
         ; Invalidate ROM detection state to force fresh scan on next run
         lda        #0
@@ -162,6 +224,10 @@ l1:     sei
         ; Restore original ROMSEL before exit
         lda        original_romsel
         sta        $FE30
+
+        ; Debug checkpoint 6: Final checkpoint before exit
+        lda        #'6'
+        jsr        debug_checkpoint
 
 exit:   rts
 
@@ -207,7 +273,81 @@ nohandle:
         jmp        (oldeventv)
 
 
+; print_hex_byte - Print byte in A as two hex digits
+; Input: A = byte to print
+; Destroys: A, X
+print_hex_byte:
+        ; Save original value
+        pha
+
+        ; Print high nibble
+        lsr                     ; Shift right 4 times
+        lsr
+        lsr  
+        lsr
+        jsr     print_hex_digit
+
+        ; Print low nibble
+        pla                     ; Restore original
+        and     #$0F            ; Keep only low nibble
+        jsr     print_hex_digit
+        rts
+
+; print_hex_digit - Print single hex digit (0-15)
+; Input: A = digit (0-15)
+; Destroys: A
+print_hex_digit:
+        cmp     #10
+        bcc     print_decimal   ; 0-9
+        ; A-F 
+        clc
+        adc     #'A'-10
+        jmp     print_char
+print_decimal:
+        clc
+        adc     #'0'
+print_char:
+        jsr     OSWRCH
+        rts
+
+; debug_checkpoint - Print checkpoint number and current user flag value
+; Input: A = checkpoint character ('1', '2', etc.)
+; Destroys: A, X, Y
+debug_checkpoint:
+        ; Print checkpoint character
+        jsr        OSWRCH
+        
+        ; Print "="
+        lda        #'='
+        jsr        OSWRCH
+        
+        ; Read current user flag value
+        ; ldx        #0
+        ldy        #0
+        lda        #osbyte_USER_FLAG
+        jsr        OSBYTE
+
+        ; Save the original user flag value we just read
+        stx        temp_user_flag
+        
+        ; Print the user flag value in hex
+        txa                     ; Move returned value to A
+        jsr        print_hex_byte
+        
+        ; Print space for readability
+        lda        #' '
+        jsr        OSWRCH
+
+        ; Restore the original value (Call 2 of workaround)
+        ldx        temp_user_flag  ; X=original value to restore
+        ldy        #255            ; Y=255 for restoration mode
+        lda        #osbyte_USER_FLAG
+        jsr        OSBYTE
+
+        rts
+
         .bss
 oldeventv:         .res        2
 oldescen:          .res        1        ; was escape event enabled before?
 save_s:            .res        1        ; old stack pointer
+temp_user_flag:    .res        1        ; temporary storage for user flag value
