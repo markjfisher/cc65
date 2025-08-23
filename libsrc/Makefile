@@ -269,7 +269,7 @@ ifeq ($(filter $(TARGET),$(ROM_TARGETS)),$(TARGET))
     # Only keep objects that provide essential local functions plus our ROM infrastructure
     # Also include essential C runtime functions not in manifest
     RUNTIME_OBJS := callmain.o condes.o raise.o signal.o sigtable.o _seterrno.o jmpvec.o errno.o disable_cursor_edit.o brkvec.o brkret.o
-    ESSENTIAL_OBJS := $(addprefix ../libwrk/$(TARGET)/,$(LOCAL_FUNCTIONS) $(RUNTIME_OBJS)) ../libwrk/$(TARGET)/crt0.o ../libwrk/$(TARGET)/rom_detect.o ../libwrk/$(TARGET)/rom_error.o ../libwrk/$(TARGET)/rom_stubs.o ../libwrk/$(TARGET)/zerobss.o
+    ESSENTIAL_OBJS := $(addprefix ../libwrk/$(TARGET)/,$(LOCAL_FUNCTIONS) $(RUNTIME_OBJS)) ../libwrk/$(TARGET)/crt0.o ../libwrk/$(TARGET)/rom_detect.o ../libwrk/$(TARGET)/rom_error.o ../libwrk/$(TARGET)/clib_stubs.o ../libwrk/$(TARGET)/zerobss.o
     OBJS := $(filter $(ESSENTIAL_OBJS),$(OBJS))
   endif
 endif

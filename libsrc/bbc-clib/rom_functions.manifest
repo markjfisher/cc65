@@ -116,6 +116,14 @@ _mul40
 _ntohl
 _ntohs
 _os_generate_error
+_osfile_delete
+_osfile_load
+_osfile_read
+_osfile_save
+_osfile_write
+_osfile_write_attr
+_osfile_write_exec
+_osfile_write_load
 _stpcpy
 _strcasecmp
 _strcat
@@ -300,8 +308,10 @@ osfile_ret_read_delete_load
 osfile_retdword
 osfile_store_attr
 osfile_store_exec
+osfile_store_fn
 osfile_store_len
 osfile_store_load
+osfile_write_X_start
 popa
 popax
 popeax
