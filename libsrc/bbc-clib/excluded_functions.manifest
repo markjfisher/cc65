@@ -111,14 +111,6 @@ _optarg
 _opterr
 _optind
 _optopt
-_osfile_delete
-_osfile_load
-_osfile_read
-_osfile_save
-_osfile_write
-_osfile_write_attr
-_osfile_write_exec
-_osfile_write_load
 _osfind
 _perror
 _posix_memalign
@@ -176,7 +168,6 @@ _vsprintf
 _vsscanf
 _write
 _xosfile_delete
-bbc_string_buf
 brkret
 callirq
 callirq_y
@@ -207,8 +198,6 @@ initstkchk
 irq_done
 irq_init
 jmpvec
-osfile_store_fn
-osfile_write_X_start
 release_brk
 restore_cursor_edit
 searchenv
