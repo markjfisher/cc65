@@ -56,7 +56,6 @@ _bsearch
 _calloc
 _cgetc
 _chdir
-_clear_brk_ret
 _clearerr
 _clock
 _close
@@ -122,7 +121,6 @@ _qsort
 _raise
 _rand
 _read
-_readdir
 _realloc
 _remove
 _rename
@@ -132,7 +130,6 @@ _revflag
 _rewind
 _rmdir
 _scanf
-_set_brk_ret
 _set_irq
 _setlocale
 _signal
@@ -167,8 +164,6 @@ _vsnprintf
 _vsprintf
 _vsscanf
 _write
-_xosfile_delete
-brkret
 callirq
 callirq_y
 callmain
@@ -198,14 +193,11 @@ initstkchk
 irq_done
 irq_init
 jmpvec
-release_brk
 restore_cursor_edit
 searchenv
 setcolors
 setcursor
 sigtable
 stkchk
-trap_brk
-trap_brk_clib
 vsnprintf
 zerobss

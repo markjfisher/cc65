@@ -18,21 +18,38 @@
         
         .import         brkret
         .import         trap_brk, release_brk
+        .importzp       clib_ws, clib_jptr
         
         .export         __Cstart
         .export         _exit_bits
                 
-        .include "zeropage.inc"
-        .include "oslib/os.inc"
-        .include "oslib/osbyte.inc"
-        
-        .bss
-save_s:        .res        1                ; save stack pointer before entering main
-                                ; exit can be called from any level!
+        .include        "zeropage.inc"
+        .include        "oslib/os.inc"
+        .include        "oslib/osbyte.inc"
+        .include        "bbc.inc"
+
+; --- Workspace lives in BSS (RAM) ---
+.segment "BSS"
+        .export  __clib_ws_base
+__clib_ws_base:
+        .res 10
 
 .segment        "STARTUP"
 
 __Cstart:
+
+        lda     #<__clib_ws_base
+        sta     clib_ws
+        lda     #>__clib_ws_base
+        sta     clib_ws+1
+
+        ; save the exit location into workspace for break handler
+        lda     #<_exit_bits
+        ldy     #WS_EXIT_BITS_LO
+        sta     (clib_ws),y
+        lda     #>_exit_bits
+        iny
+        sta     (clib_ws),y
 
 reset:
         jsr        zerobss
@@ -155,3 +172,4 @@ nohandle:
         .bss
 oldeventv:         .res        2
 oldescen:          .res        1        ; was escape event enabled before?
+save_s:            .res        1                ; save stack pointer before entering main
