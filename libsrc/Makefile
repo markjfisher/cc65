@@ -258,20 +258,20 @@ OBJS := $(patsubst %.s,%.o,$(foreach dir,$(SRCDIRS),$(wildcard $(dir)/*.s)))
 OBJS += $(patsubst %.c,%.o,$(foreach dir,$(SRCDIRS),$(wildcard $(dir)/*.c)))
 
 OBJS := $(addprefix ../libwrk/$(TARGET)/,$(sort $(notdir $(OBJS))))
+$(info ALL OBJS: $(OBJS))
 
-# For ROM targets, filter out objects that conflict with ROM functions
-ifeq ($(filter $(TARGET),$(ROM_TARGETS)),$(TARGET))
-  # For ROM targets, only include objects for functions NOT in ROM
-  # Use excluded_functions.manifest as whitelist of what to include
-  ifneq ($(wildcard $(TARGET)/excluded_functions.manifest),)
-    # Get the functions that must be local (not in ROM)
-    LOCAL_FUNCTIONS := $(shell grep -v '^#' $(TARGET)/excluded_functions.manifest | grep '^_' | sed 's/^_//' | sed 's/$$/\.o/')
-    # Only keep objects that provide essential local functions plus our ROM infrastructure
-    # Also include essential C runtime functions not in manifest
-    RUNTIME_OBJS := callmain.o condes.o raise.o signal.o sigtable.o _seterrno.o jmpvec.o errno.o disable_cursor_edit.o brkvec.o brkret.o
-    ESSENTIAL_OBJS := $(addprefix ../libwrk/$(TARGET)/,$(LOCAL_FUNCTIONS) $(RUNTIME_OBJS)) ../libwrk/$(TARGET)/crt0.o ../libwrk/$(TARGET)/rom_detect.o ../libwrk/$(TARGET)/rom_error.o ../libwrk/$(TARGET)/clib_stubs.o ../libwrk/$(TARGET)/zerobss.o
-    OBJS := $(filter $(ESSENTIAL_OBJS),$(OBJS))
-  endif
+# For ROM targets, ensure the excluded (from ROM) files are added to our built library
+ifneq ($(wildcard $(TARGET)/excluded_objs.mk),)
+include $(TARGET)/excluded_objs.mk
+EXCLUDED_OBJS_BASENAMES := $(notdir $(EXCLUDED_OBJS))
+ESSENTIAL_OBJS := $(addprefix ../libwrk/$(TARGET)/,$(EXCLUDED_OBJS_BASENAMES)) \
+                  ../libwrk/$(TARGET)/rom_detect.o \
+                  ../libwrk/$(TARGET)/rom_error.o \
+                  ../libwrk/$(TARGET)/clib_ws.o \
+                  ../libwrk/$(TARGET)/clib_stubs.o
+
+OBJS := $(filter $(ESSENTIAL_OBJS),$(OBJS))
+$(info XXXXXXXXXXXXXXXX OBJS: $(OBJS))
 endif
 
 DEPS = $(OBJS:.o=.d)

@@ -70,6 +70,7 @@ _cclear
 _cclearxy
 _chline
 _chlinexy
+_clear_brk_ret
 _cputc
 _cputcxy
 _decompress_lz4
@@ -124,6 +125,8 @@ _osfile_write
 _osfile_write_attr
 _osfile_write_exec
 _osfile_write_load
+_readdir
+_set_brk_ret
 _stpcpy
 _strcasecmp
 _strcat
@@ -163,6 +166,7 @@ _utoa
 _wherex
 _wherey
 _xos_generate_error
+_xosfile_delete
 addeq0sp
 addeqysp
 addysp
@@ -207,6 +211,7 @@ boolule
 boolult
 bpushbsp
 bpushbysp
+brkhandler
 callax
 callptr4
 checkferror
@@ -357,6 +362,7 @@ putchar
 regswap
 regswap1
 regswap2
+release_brk
 resteax
 restorezp
 return0
@@ -496,6 +502,8 @@ tosxor0ax
 tosxora0
 tosxorax
 tosxoreax
+trap_brk
+trap_brk_clib
 tsteax
 udiv16
 udiv32

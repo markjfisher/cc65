@@ -42,6 +42,6 @@ print_done:
         .rodata
 rom_error_msg:
         .byte   "ERROR: cc65 CLIB ROM not found", 0
-        .byte   "Please install cc65 CLIB ROM in sideways slot 1", 0
+        .byte   "Please install cc65 CLIB ROM", 0
 
         .export rom_error_msg

@@ -1,166 +1,215 @@
+        .export         trap_brk
+        .export         trap_brk_clib
+        .export         release_brk
+        .export         brkhandler
 
-	.export	brkret
-	.export trap_brk
-	.export trap_brk_clib
-	.export release_brk
-	
-	.import _exit_bits
-	.import BRKV
+        .import         _exit_bits
+        .import         BRKV
 
-	.bss
-oldbrkv:	.res	2
-brkret:		.res	2	; where to jump back to if a BRK is trapped
-				; this is set by __set_brk_ret
-	.code
+        .importzp       clib_ws
+        .importzp       clib_jptr
 
+        .include        "bbc.inc"
+
+        .code
+
+; ------------------------------------------------------------
+; Install our BRK handler, chaining to a fixed "bombmessage"
+; afterwards (used for CLIB self-test).
+; ------------------------------------------------------------
 trap_brk_clib:
-	php
-	sei
-	
-	lda	#<bombmessage
-	sta	oldbrkv
-	lda	#>bombmessage
-	sta	oldbrkv + 1
-	
-	lda	#<brkhandler
-	sta	BRKV
-	lda	#>brkhandler
-	sta	BRKV + 1
+        php
+        sei
+        ; oldbrkv = &bombmessage
+        lda     #<bombmessage
+        ldy     #WS_OLDBRKV_LO
+        sta     (clib_ws),y
+        lda     #>bombmessage
+        iny
+        sta     (clib_ws),y
 
-	plp			; restore interrupt status in P	
-	rts
+        ; BRKV = &brkhandler
+        lda     #<brkhandler
+        sta     BRKV
+        lda     #>brkhandler
+        sta     BRKV+1
+        plp
+        rts
 
+; ------------------------------------------------------------
+; Install our BRK handler, chaining back to the previous BRKV.
+; ------------------------------------------------------------
 trap_brk:
-	php
-	sei
-	
-	lda	BRKV
-	sta	oldbrkv
-	lda	BRKV + 1
-	sta	oldbrkv + 1
-	
-	lda	#<brkhandler
-	sta	BRKV
-	lda	#>brkhandler
-	sta	BRKV + 1
+        php
+        sei
+        ; Save current BRKV into workspace
+        lda     BRKV
+        ldy     #WS_OLDBRKV_LO
+        sta     (clib_ws),y
+        lda     BRKV+1
+        iny
+        sta     (clib_ws),y
 
-	plp			; restore interrupt status in P	
-	rts
+        ; BRKV = &brkhandler
+        lda     #<brkhandler
+        sta     BRKV
+        lda     #>brkhandler
+        sta     BRKV+1
+        plp
+        rts
 
+; ------------------------------------------------------------
+; Restore the previous BRKV from workspace.
+; ------------------------------------------------------------
 release_brk:
+        php
+        sei
+        ldy     #WS_OLDBRKV_LO
+        lda     (clib_ws),y
+        sta     BRKV
+        iny
+        lda     (clib_ws),y
+        sta     BRKV+1
+        plp
+        rts
 
-	php
-	sei
-
-	; restore break handler
-	lda	oldbrkv
-	sta	BRKV
-	lda	oldbrkv + 1
-	sta	BRKV + 1
-
-	plp
-	rts
-
+; ------------------------------------------------------------
+; BRK handler:
+; - If ESC ($1B), pass through (cleanup + chain)
+; - If workspace brkret != 0, tail-jump to that target
+; - Else, cleanup + chain to old BRKV
+; ------------------------------------------------------------
 brkhandler:
-	php
-	pha
-	txa
-	pha
-	tya
-	pha
-	ldy	#0
-	lda	($FD), y	;get error code (byte after BRK)
-	cmp	#$1B		;escape
-	beq	brk_pass
-	
-		
-	lda	brkret
-	bne	brk_back
-	lda	brkret + 1
-	beq	brk_pass
-	
-brk_back:
-	jmp	(brkret)	
+        php
+        pha
+        txa
+        pha
+        tya
+        pha
 
-brk_pass:	; pass it through...
-	jsr	_exit_bits	; OS is going to bomb do clean up
-	pla
-	tay
-	pla
-	tax
-	pla
-	plp
-	jmp	(oldbrkv)	
+        ; Check escape (error code is byte after BRK)
+        ldy     #0
+        lda     ($FD),y
+        cmp     #$1B
+        beq     brk_pass
 
-	.import print0
-	.import printhex
-	.import OSWRCH
+        ; Load workspace brkret into clib_jptr and test non-zero
+        ldy     #WS_BRKRET_LO
+        lda     (clib_ws),y
+        sta     clib_jptr
+        iny
+        lda     (clib_ws),y
+        sta     clib_jptr+1
+        lda     clib_jptr
+        ora     clib_jptr+1
+        beq     brk_pass
 
-	.macro domessage msgaddr
-	lda	#<msgaddr
-	sta	$F2
-	lda	#>msgaddr
-	sta	$F3
-	jsr	print0
-	.endmacro
+        ; Tail-jump to brkret target (trap entry from brkret.s)
+        plp                     ; restore P (optional: you can also keep interrupts disabled)
+        jmp     (clib_jptr)
 
-m0:	.byte "BRK occurred at &", 0
-m1:	.byte ", Y=", 0
-m2:	.byte ", X=", 0
-m3:	.byte ", A=", 0
-m4:	.byte ", P=", 0
-m5:	.byte 13, 10, "ERR=", 0
-m6:	.byte " : ", 0
+brk_pass:
+        ; Pass-through: perform cleanup then chain to saved BRKV / bombmessage
+        ; Load pointer to _exit_bits from workspace -> clib_jptr
+        ldy     #WS_EXIT_BITS_LO
+        lda     (clib_ws),y
+        sta     clib_jptr
+        iny
+        lda     (clib_ws),y
+        sta     clib_jptr+1
 
-bombmessage:	; show the error message and then hang
-	php
-	pha
-	txa
-	pha
-	tya
-	pha
+        ; Emulate "JSR (clib_jptr)".
+        ; For RTS to land at label :after, we must push (:after - 1).
+        lda     #<(after-1)
+        pha
+        lda     #>(after-1)
+        pha
+        jmp     (clib_jptr)
 
-	domessage m0
+after:
+        ; restore registers before chaining
+        pla
+        tay
+        pla
+        tax
+        pla
+        plp
 
-	lda	$FE
-	jsr	printhex
-	lda	$FD
-	jsr	printhex
+        ; jmp (oldbrkv)
+        ldy     #WS_OLDBRKV_LO
+        lda     (clib_ws),y
+        sta     clib_jptr
+        iny
+        lda     (clib_ws),y
+        sta     clib_jptr+1
+        jmp     (clib_jptr)
 
-	domessage m1
-	
-	pla
-	jsr	printhex
+; ------------------------------------------------------------
+; Optional "bomb" message routine (unchanged)
+; ------------------------------------------------------------
+        .import print0
+        .import printhex
+        .import OSWRCH
 
-	domessage m2
+        .macro domessage msgaddr
+        lda     #<msgaddr
+        sta     $F2
+        lda     #>msgaddr
+        sta     $F3
+        jsr     print0
+        .endmacro
 
-	pla
-	jsr	printhex
+m0:     .byte "BRK occurred at &", 0
+m1:     .byte ", Y=", 0
+m2:     .byte ", X=", 0
+m3:     .byte ", A=", 0
+m4:     .byte ", P=", 0
+m5:     .byte 13, 10, "ERR=", 0
+m6:     .byte " : ", 0
 
-	domessage m3
+bombmessage:
+        php
+        pha
+        txa
+        pha
+        tya
+        pha
 
-	pla
-	jsr	printhex
+        domessage m0
 
-	domessage m4
+        lda     $FE
+        jsr     printhex
+        lda     $FD
+        jsr     printhex
 
-	pla
-	jsr	printhex
+        domessage m1
+        pla
+        jsr     printhex
 
-	domessage m5
+        domessage m2
+        pla
+        jsr     printhex
 
-	ldy 	#0
-	lda	($FD), y
-	jsr	printhex
+        domessage m3
+        pla
+        jsr     printhex
 
-	domessage m6
+        domessage m4
+        pla
+        jsr     printhex
 
-	ldy	#0
-lp:	iny
-	beq	done
-	lda	($FD), y
-	beq	done
-	jsr	OSWRCH
-	jmp	lp
+        domessage m5
+        ldy     #0
+        lda     ($FD),y
+        jsr     printhex
 
-done:	jmp	done
+        domessage m6
+        ldy     #0
+lp:     iny
+        beq     done
+        lda     ($FD),y
+        beq     done
+        jsr     OSWRCH
+        jmp     lp
+
+done:   jmp     done
