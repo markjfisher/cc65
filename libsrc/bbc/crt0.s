@@ -4,158 +4,129 @@
 ; This must be the *first* file on the linker command line
 ;
 
-        .export         _exit
-        .export         __STARTUP__ : absolute = 1      ; Mark as startup
-        .import         initlib, donelib
-        .import         zerobss
-        .import         callmain        
-        .import         preservezp, restorezp
-        .import         _raise
+        .export     _exit
+        .export     __STARTUP__ : absolute = 1      ; Mark as startup
+        .import     initlib, donelib
+        .import     zerobss
+        .import     callmain
+        .import     preservezp, restorezp
+        .import     _raise
 
-        .import         disable_cursor_edit
-        .import         restore_cursor_edit
-        .import         init_stack
-        
-        .import         brkret
-        .import         trap_brk, release_brk
-        .importzp       clib_ws, clib_jptr
-        
-        .export         __Cstart
-        .export         _exit_bits
-                
-        .include        "zeropage.inc"
-        .include        "oslib/os.inc"
-        .include        "oslib/osbyte.inc"
-        .include        "bbc.inc"
+        .import     disable_cursor_edit
+        .import     restore_cursor_edit
+        .import     init_stack
 
-; --- Workspace lives in BSS (RAM) ---
-.segment "BSS"
-        .export  __clib_ws_base
-__clib_ws_base:
-        .res 10
+        .export     __Cstart
+        .export     _exit_bits
 
-.segment        "STARTUP"
+        .include    "zeropage.inc"
+        .include    "oslib/os.inc"
+        .include    "oslib/osbyte.inc"
+
+.segment "STARTUP"
 
 __Cstart:
 
-        lda     #<__clib_ws_base
-        sta     clib_ws
-        lda     #>__clib_ws_base
-        sta     clib_ws+1
-
-        ; save the exit location into workspace for break handler
-        lda     #<_exit_bits
-        ldy     #WS_EXIT_BITS_LO
-        sta     (clib_ws),y
-        lda     #>_exit_bits
-        iny
-        sta     (clib_ws),y
-
 reset:
-        jsr        zerobss
-        jsr        disable_cursor_edit
-        jsr        init_stack
-        
+        jsr     zerobss
+        jsr     disable_cursor_edit
+        jsr     init_stack
+
         ; disable interrupts while we setup the vectors
         sei
-                
+
         ; set up escape handler
-        lda        EVNTV
-        sta        oldeventv
-        lda        EVNTV + 1
-        sta        oldeventv + 1
-        
-        lda        #<eschandler
-        sta        EVNTV
-        lda        #>eschandler
-        sta        EVNTV + 1
-        
-        jsr        trap_brk
-        
+        lda     EVNTV
+        sta     oldeventv
+        lda     EVNTV + 1
+        sta     oldeventv + 1
+
+        lda     #<eschandler
+        sta     EVNTV
+        lda     #>eschandler
+        sta     EVNTV + 1
+
+        ; jsr     trap_brk
+
         ; reenable interrupts
         cli
-                
+
         ; enable escape event
-        lda        #osbyte_ENABLE_EVENT
-        ldx        #EVNTV_ESCAPE
-        jsr        OSBYTE
-        stx        oldescen
-        
-        jsr        initlib
+        lda     #osbyte_ENABLE_EVENT
+        ldx     #EVNTV_ESCAPE
+        jsr     OSBYTE
+        stx     oldescen
+
+        jsr     initlib
 
         tsx
-        stx        save_s                
-        
-        jsr        callmain
+        stx     save_s
 
-_exit_bits:        ; AX contains exit code, store LSB in user flag
-        
+        jsr     callmain
+
+_exit_bits:	; AX contains exit code, store LSB in user flag
 
         tax
-        ldy        #0
-        lda        #osbyte_USER_FLAG
-        jsr        OSBYTE
+        ldy	#0
+        lda	#osbyte_USER_FLAG
+        jsr     OSBYTE
 
-        jsr        donelib
-        
+        jsr     donelib
+
         ; reset escape event state
-        lda        oldescen
-        bne        l1
-        lda        #osbyte_DISABLE_EVENT
-        ldx        #EVNTV_ESCAPE
-        jsr        OSBYTE
+        lda     oldescen
+        bne     l1
+        lda	#osbyte_DISABLE_EVENT
+        ldx	#EVNTV_ESCAPE
+        jsr     OSBYTE
 
-        
-l1:     sei
 
-        jsr        release_brk
+l1:	sei
 
-                
+        ; jsr     release_brk
+
+
         ; restore event handler
-        lda        oldeventv
-        sta        EVNTV
-        lda        oldeventv + 1
-        sta        EVNTV + 1
+        lda     oldeventv
+        sta     EVNTV
+        lda     oldeventv + 1
+        sta     EVNTV + 1
         cli
-        
-        jsr        restore_cursor_edit
+
+        jsr     restore_cursor_edit
 
 exit:   rts
 
-_exit:  ldx        save_s                ; force return to OS
+_exit:	ldx     save_s          ; force return to OS
         txs
-        jmp        _exit_bits
+        jmp     _exit_bits
 
 eschandler:
-        php        ;push flags
-        cmp        #EVNTV_ESCAPE
-        bne        nohandle
-        
-        
-        
-        pha        ; push regs
+        php	;push flags
+        cmp	#EVNTV_ESCAPE
+        bne     nohandle
+
+        pha     ; push regs
         txa
         pha
         tya
         pha
-        
-        
+
         ; preserve zp
-        jsr        preservezp
-        
-        cli                        ; reenable interrupts
-        
+        jsr     preservezp
 
-        ldx        #0
-        lda        #3              ; SIGINT ???
-        jsr        _raise
+        ; reenable interrupts
+        cli
 
-        
-        sei                        ; disable interrupts, as we pass it on...
-        
+        ldx	#0
+        lda	#3              ;SIGINT ???
+        jsr     _raise
+
+        sei                    ; disable interrupts, as we pass it on...
+
         ; restore zp
-        jsr        restorezp
-        
+        jsr     restorezp
+
         pla
         tay
         pla
@@ -163,13 +134,13 @@ eschandler:
         pla
         plp
         rts
-        
+
 nohandle:
         plp
-        jmp        (oldeventv)
-        
+        jmp	(oldeventv)
+
 
         .bss
-oldeventv:         .res        2
-oldescen:          .res        1        ; was escape event enabled before?
-save_s:            .res        1                ; save stack pointer before entering main
+oldeventv:      .res    2
+oldescen:       .res    1       ; was escape event enabled before?
+save_s:	        .res    1       ; save stack pointer before entering main
