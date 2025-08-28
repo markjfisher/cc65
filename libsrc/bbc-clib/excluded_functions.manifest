@@ -56,6 +56,7 @@ _bsearch
 _calloc
 _cgetc
 _chdir
+_clear_brk_ret
 _clearerr
 _clock
 _close
@@ -96,6 +97,7 @@ _getenv
 _getopt
 _gets
 _gmtime
+_install_brk_handler_global
 _localeconv
 _localtime
 _lseek
@@ -121,6 +123,7 @@ _qsort
 _raise
 _rand
 _read
+_readdir
 _realloc
 _remove
 _rename
@@ -130,6 +133,8 @@ _revflag
 _rewind
 _rmdir
 _scanf
+_set_brk_ret
+_set_brk_ret_debug
 _set_irq
 _setlocale
 _signal
@@ -155,6 +160,7 @@ _textcolor
 _time
 _uname
 _ungetc
+_uninstall_brk_handler_global
 _unlink
 _vfprintf
 _vfscanf
@@ -164,6 +170,13 @@ _vsnprintf
 _vsprintf
 _vsscanf
 _write
+_xosfile_delete
+bh_brkret
+bh_installed
+bh_oldbrkv
+bh_olds
+bh_rtsto
+brkhandler
 callirq
 callirq_y
 callmain
