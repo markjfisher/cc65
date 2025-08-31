@@ -40,12 +40,15 @@ select_clib:
 _clear_brk_ret:
         php
         sei
+
+        ; Disarm guard if armed
         lda     bh_brkret
         ora     bh_brkret+1
         beq     @maybe_restore
         lda     #0
         sta     bh_brkret
         sta     bh_brkret+1
+
 @maybe_restore:
         lda     bh_installed
         beq     @done
@@ -55,7 +58,9 @@ _clear_brk_ret:
         sta     BRKV+1
         lda     #0
         sta     bh_installed
-@done:  plp
+
+@done:
+        plp
         rts
 
 ; --- RAM BRK handler (ROM-aware) ---

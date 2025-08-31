@@ -7,8 +7,17 @@
         ; These are shared variables installers will import:
         .export  bh_brkret, bh_rtsto, bh_olds, bh_oldbrkv, bh_installed
 
-        .import  _exit_main
+        .import  _exit
+        .import  _soft_abort_cleanup
         .import  BRKV
+
+; Absolute vectors/regs:
+ROMSEL_CURRENT  := $F4
+ROMSEL          := $FE30
+ERR_MSG_PTR     := $FD
+
+ESC_CODE        = $1B
+
 
         .bss
 bh_oldbrkv:   .res 2      ; saved BRKV (or debug chain target)
@@ -48,13 +57,6 @@ _clear_brk_ret:
 
 
 ; RAM BRK handler
-;  - If ESC ($1B) → pass-through path: cleanup then chain to bh_oldbrkv.
-;  - If bh_brkret != 0 (armed) → perform “return via BRK” locally:
-;       * disarm
-;       * restore S from bh_olds
-;       * push saved return address (bh_rtsto)
-;       * A=1, RTS
-;  - Else pass-through.
 brkhandler:
         php
         pha
@@ -65,17 +67,16 @@ brkhandler:
 
         ; ESC?
         ldy     #0
-        lda     ($FD),y
-        cmp     #$1B
-        beq     brk_pass
+        lda     (ERR_MSG_PTR),y
+        cmp     #ESC_CODE
+        beq     @pass
 
         ; armed?
         lda     bh_brkret
         ora     bh_brkret+1
-        beq     brk_pass
+        beq     @pass
 
         ; ---- armed return path ----
-
         ; disarm
         lda     #0
         sta     bh_brkret
@@ -100,15 +101,7 @@ brkhandler:
         lda     #1
         rts
 
-brk_pass:
-        ; Cleanup (user exit bits), restore regs, then chain to saved vector
-        jsr     _exit_main
-
-        pla
-        tay
-        pla
-        tax
-        pla
-        plp
-
-        jmp     (bh_oldbrkv)
+@pass:
+        ; jsr     _soft_abort_cleanup
+        lda     #$1B    ; restore our pass thorugh exit code
+        jmp     _exit
