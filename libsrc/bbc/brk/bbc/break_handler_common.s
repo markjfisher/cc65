@@ -7,7 +7,7 @@
         ; These are shared variables installers will import:
         .export  bh_brkret, bh_rtsto, bh_olds, bh_oldbrkv, bh_installed
 
-        .import  _exit_bits
+        .import  _exit_main
         .import  BRKV
 
         .bss
@@ -102,7 +102,7 @@ brkhandler:
 
 brk_pass:
         ; Cleanup (user exit bits), restore regs, then chain to saved vector
-        jsr     _exit_bits
+        jsr     _exit_main
 
         pla
         tay

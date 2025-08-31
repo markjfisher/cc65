@@ -21,17 +21,25 @@
         .import         original_romsel
         .import         print_error_and_exit
         .import         rom_error_msg
-        .import         OSWRCH                  ; For debug output
+        .import         OSWRCH
+        .import         _clear_brk_ret
+        .import         cursor
+        .import         setcursor
+
         .importzp       c_sp                    ; C software stack pointer
 
         ; .import         trap_brk, release_brk
 
         .export         __Cstart
-        .export         _exit_bits
+        .export         _exit_main
+        .export         _soft_abort_cleanup
 
         .include        "zeropage.inc"
         .include        "oslib/os.inc"
         .include        "oslib/osbyte.inc"
+
+ROMSEL_CURRENT  := $F4
+ROMSEL          := $FE30
 
 .segment        "STARTUP"
 __Cstart:
@@ -94,7 +102,7 @@ rom_found:
 
         jsr     callmain
 
-_exit_bits:     ; AX contains exit code, store LSB in user flag
+_exit_main:     ; AX contains exit code, store LSB in user flag
 
         ; Save the exit code in user flag
         tax                     ; Move to X for OSBYTE set user flag.
@@ -102,27 +110,8 @@ _exit_bits:     ; AX contains exit code, store LSB in user flag
         lda     #osbyte_USER_FLAG
         jsr     OSBYTE
 
+        jsr     _clear_brk_ret
         jsr     donelib
-
-        ; reset escape event state
-        lda     oldescen
-        bne     l1
-        lda     #osbyte_DISABLE_EVENT
-        ldx     #EVNTV_ESCAPE
-        jsr     OSBYTE
-
-l1:     sei
-
-        ; jsr     release_brk
-
-        ; restore event handler
-        lda     oldeventv
-        sta     EVNTV
-        lda     oldeventv + 1
-        sta     EVNTV + 1
-        cli
-
-        jsr     restore_cursor_edit
 
         ; Invalidate ROM detection state to force fresh scan on next run
         lda     #0
@@ -131,13 +120,16 @@ l1:     sei
 
         ; Restore original ROMSEL before exit
         lda     original_romsel
-        sta     $FE30
+        sta     ROMSEL_CURRENT
+        sta     ROMSEL
+        jsr     _cleanup_display
 
-exit:   rts
+exit:
+        rts
 
 _exit:  ldx     save_s                ; force return to OS
         txs
-        jmp     _exit_bits
+        jmp     _exit_main
 
 eschandler:
         php     ;push flags
@@ -174,10 +166,42 @@ eschandler:
 
 nohandle:
         plp
-        jmp     (oldeventv)
+        pha
+        lda     oldeventv
+        sta     @evj+1
+        lda     oldeventv+1
+        sta     @evj+2
+        pla
+@evj:   jmp     $FFFF           ; patched to oldeventv
 
+_soft_abort_cleanup:
+        ; Restore EVNTV atomically
+        sei
+        lda     oldeventv
+        sta     EVNTV
+        lda     oldeventv+1
+        sta     EVNTV+1
+        cli
+
+        ; If we enabled ESC events, restore previous state
+        lda     oldescen
+        bne     :+
+        lda     #osbyte_DISABLE_EVENT
+        ldx     #EVNTV_ESCAPE
+        jsr     OSBYTE
+:
+        rts
+
+_cleanup_display:
+        lda     #$01
+        sta     cursor
+        jsr     setcursor
+        jsr     restore_cursor_edit
+        rts
 
         .bss
 oldeventv:         .res     2
-oldescen:          .res     1        ; was escape event enabled before?
-save_s:            .res     1        ; old stack pointer
+oldescen:          .res     1 
+
+        .data
+save_s:            .byte 0        ; old stack pointer, must be DATA so zerobss doesn't clear it!

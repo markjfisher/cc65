@@ -6,11 +6,19 @@
         .export  brkhandler
         .export  bh_brkret, bh_rtsto, bh_olds, bh_oldbrkv, bh_installed
 
-        .import  _exit_bits
+        .export  ROMSEL_CURRENT, ROMSEL, ERR_MSG_PTR
+
+        .import  _exit
+        .import  _soft_abort_cleanup
         .import  clib_rom_slot
-        ; Absolute vectors/regs:
-        BRKV   = $0202
-        ROMSEL = $FE30
+
+; Absolute vectors/regs:
+BRKV            := $0202
+ROMSEL_CURRENT  := $F4
+ROMSEL          := $FE30
+ERR_MSG_PTR     := $FD
+
+ESC_CODE        = $1B
 
         .bss
 bh_oldbrkv:   .res 2
@@ -24,6 +32,7 @@ bh_installed: .res 1
 ; --- helper: select CLIB ROM bank (clobbers A) ---
 select_clib:
         lda     clib_rom_slot
+        sta     ROMSEL_CURRENT
         sta     ROMSEL
         rts
 
@@ -50,8 +59,6 @@ _clear_brk_ret:
         rts
 
 ; --- RAM BRK handler (ROM-aware) ---
-; ESC ($1B) → pass-through: page CLIB ROM, call _exit_bits, then chain to bh_oldbrkv
-; armed      → disarm, page CLIB ROM, restore S, push saved return, A=1, RTS
 brkhandler:
         php
         pha
@@ -62,8 +69,8 @@ brkhandler:
 
         ; ESC?
         ldy     #0
-        lda     ($FD),y
-        cmp     #$1B
+        lda     (ERR_MSG_PTR),y
+        cmp     #ESC_CODE
         beq     @pass
 
         ; armed?
@@ -99,16 +106,6 @@ brkhandler:
         rts
 
 @pass:
-        ; ensure CLIB ROM before calling CLIB code (_exit_bits)
-        jsr     select_clib
-        jsr     _exit_bits
-
-        ; restore regs and flags (we stayed on the handler's stack)
-        pla
-        tay
-        pla
-        tax
-        pla
-        plp
-
-        jmp     (bh_oldbrkv)
+        jsr     _soft_abort_cleanup
+        lda     #$1B    ; restore our pass thorugh exit code
+        jmp     _exit
