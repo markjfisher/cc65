@@ -15,9 +15,14 @@
         .import     disable_cursor_edit
         .import     restore_cursor_edit
         .import     init_stack
+        .import     OSWRCH
+        .import     _clear_brk_ret
+        .import     cursor
+        .import     setcursor
 
         .export     __Cstart
         .export     _exit_main
+        ;.export     _soft_abort_cleanup
 
         .include    "zeropage.inc"
         .include    "oslib/os.inc"
@@ -59,6 +64,7 @@ reset:
 
         jsr     initlib
 
+        ; Save stack pointer for clean exit
         tsx
         stx     save_s
 
@@ -66,11 +72,13 @@ reset:
 
 _exit_main:	; AX contains exit code, store LSB in user flag
 
-        tax
-        ldy	#0
-        lda	#osbyte_USER_FLAG
+        ; Save the exit code in user flag
+        tax                     ; Move to X for OSBYTE set user flag.
+        ldy     #255
+        lda     #osbyte_USER_FLAG
         jsr     OSBYTE
 
+        jsr     _clear_brk_ret
         jsr     donelib
 
         ; reset escape event state
@@ -93,7 +101,7 @@ l1:	sei
         sta     EVNTV + 1
         cli
 
-        jsr     restore_cursor_edit
+        jsr     _cleanup_display
 
 exit:   rts
 
@@ -138,6 +146,14 @@ eschandler:
 nohandle:
         plp
         jmp	(oldeventv)
+
+
+_cleanup_display:
+        lda     #$01
+        sta     cursor
+        jsr     setcursor
+        jsr     restore_cursor_edit
+        rts
 
 
         .bss

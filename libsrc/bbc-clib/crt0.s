@@ -26,8 +26,6 @@
         .import         cursor
         .import         setcursor
 
-        .importzp       c_sp                    ; C software stack pointer
-
         ; .import         trap_brk, release_brk
 
         .export         __Cstart
@@ -43,9 +41,6 @@ ROMSEL          := $FE30
 
 .segment        "STARTUP"
 __Cstart:
-        ; Save stack pointer for clean exit
-        tsx
-        stx     save_s
 
 reset:
 
@@ -99,6 +94,10 @@ rom_found:
         stx     oldescen
 
         jsr     initlib
+
+        ; Save stack pointer for clean exit
+        tsx
+        stx     save_s
 
         jsr     callmain
 
@@ -202,6 +201,4 @@ _cleanup_display:
         .bss
 oldeventv:         .res     2
 oldescen:          .res     1 
-
-        .data
-save_s:            .byte 0        ; old stack pointer, must be DATA so zerobss doesn't clear it!
+save_s:            .res     1
