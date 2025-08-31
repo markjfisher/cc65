@@ -69,7 +69,7 @@ _cvline
 _cvlinexy
 _dirs
 _exit
-_exit_bits
+_exit_main
 _fclose
 _fdopen
 _feof

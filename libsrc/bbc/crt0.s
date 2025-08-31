@@ -17,7 +17,7 @@
         .import     init_stack
 
         .export     __Cstart
-        .export     _exit_bits
+        .export     _exit_main
 
         .include    "zeropage.inc"
         .include    "oslib/os.inc"
@@ -64,7 +64,7 @@ reset:
 
         jsr     callmain
 
-_exit_bits:	; AX contains exit code, store LSB in user flag
+_exit_main:	; AX contains exit code, store LSB in user flag
 
         tax
         ldy	#0
@@ -99,7 +99,7 @@ exit:   rts
 
 _exit:	ldx     save_s          ; force return to OS
         txs
-        jmp     _exit_bits
+        jmp     _exit_main
 
 eschandler:
         php	;push flags

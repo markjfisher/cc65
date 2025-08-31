@@ -31,8 +31,7 @@ _set_brk_ret:
         lda     #>brkhandler
         sta     BRKV+1
 
-        lda     #1
-        sta     bh_installed
+        inc     bh_installed
 
 @bh_is_installed:
         plp
