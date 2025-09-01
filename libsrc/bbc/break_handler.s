@@ -7,34 +7,20 @@
         .import  brkhandler            ; RAM handler in common
 
         ; shared state from common
-        .import  bh_brkret, bh_rtsto, bh_olds, bh_oldbrkv, bh_installed
+        .import  bh_brkret, bh_rtsto, bh_olds
+        .import  bh_mode
+        .import  _install_brk_handler_global
 
         .code
 
 ; returns A=0 on first return (armed), A=1 when returning via BRK
 _set_brk_ret:
-        ; Install handler into BRKV once (production chain to old BRKV)
-        php
-        sei
-        lda     bh_installed
-        bne     @bh_is_installed
+        ; production mode
+        lda     #$00
+        sta     bh_mode
 
-        ; Save current BRKV to chain back to it
-        lda     BRKV
-        sta     bh_oldbrkv
-        lda     BRKV+1
-        sta     bh_oldbrkv+1
-
-        ; Install our RAM handler
-        lda     #<brkhandler
-        sta     BRKV
-        lda     #>brkhandler
-        sta     BRKV+1
-
-        inc     bh_installed
-
-@bh_is_installed:
-        plp
+        ; ensure global BRKV is installed (idempotent)
+        jsr     _install_brk_handler_global
 
         ; Save S
         tsx

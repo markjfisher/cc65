@@ -22,15 +22,15 @@
         .import         print_error_and_exit
         .import         rom_error_msg
         .import         OSWRCH
-        .import         _clear_brk_ret
         .import         cursor
         .import         setcursor
+        .import         _install_brk_handler_global
+        .import         _uninstall_brk_handler_global
 
         ; .import         trap_brk, release_brk
 
         .export         __Cstart
         .export         _exit_main
-        .export         _soft_abort_cleanup
 
         .include        "zeropage.inc"
         .include        "oslib/os.inc"
@@ -69,6 +69,7 @@ rom_found:
         jsr     init_stack
 
         ; disable interrupts while we setup the vectors
+        php
         sei
 
         ; set up escape handler
@@ -82,10 +83,8 @@ rom_found:
         lda     #>eschandler
         sta     EVNTV + 1
 
-        ; jsr     trap_brk
-
-        ; reenable interrupts
-        cli
+        jsr     _install_brk_handler_global
+        plp
 
         ; enable escape event
         lda     #osbyte_ENABLE_EVENT
@@ -109,8 +108,25 @@ _exit_main:     ; AX contains exit code, store LSB in user flag
         lda     #osbyte_USER_FLAG
         jsr     OSBYTE
 
-        jsr     _clear_brk_ret
         jsr     donelib
+
+        ; If we enabled ESC events, restore previous state
+        lda     oldescen
+        bne     @skip_disable
+        lda     #osbyte_DISABLE_EVENT
+        ldx     #EVNTV_ESCAPE
+        jsr     OSBYTE
+
+@skip_disable:
+        php
+        sei
+        jsr     _uninstall_brk_handler_global
+
+        lda     oldeventv
+        sta     EVNTV
+        lda     oldeventv+1
+        sta     EVNTV+1
+        plp
 
         ; Invalidate ROM detection state to force fresh scan on next run
         lda     #0
@@ -173,26 +189,9 @@ nohandle:
         pla
 @evj:   jmp     $FFFF           ; patched to oldeventv
 
-_soft_abort_cleanup:
-        ; Restore EVNTV atomically
-        sei
-        lda     oldeventv
-        sta     EVNTV
-        lda     oldeventv+1
-        sta     EVNTV+1
-        cli
-
-        ; If we enabled ESC events, restore previous state
-        lda     oldescen
-        bne     :+
-        lda     #osbyte_DISABLE_EVENT
-        ldx     #EVNTV_ESCAPE
-        jsr     OSBYTE
-:
-        rts
 
 _cleanup_display:
-        lda     #$01
+        lda     #$01    ; turn cursor back on, in case anything turned it off (e.g. cgetc() with default cursor value off)
         sta     cursor
         jsr     setcursor
         jsr     restore_cursor_edit

@@ -22,7 +22,6 @@
 
         .export     __Cstart
         .export     _exit_main
-        ;.export     _soft_abort_cleanup
 
         .include    "zeropage.inc"
         .include    "oslib/os.inc"

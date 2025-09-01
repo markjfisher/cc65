@@ -1,15 +1,12 @@
-; break_handler_ram_common.s
+; break_handler_common.s
 ; Shared state & RAM brkhandler used by both prod/debug installers.
 
-        .export  _clear_brk_ret
+        .export  _disarm_brk_ret
         .export  brkhandler
-
-        ; These are shared variables installers will import:
         .export  bh_brkret, bh_rtsto, bh_olds, bh_oldbrkv, bh_installed
+        .export  bh_mode, bh_dbg_entry
 
         .import  _exit
-        .import  _soft_abort_cleanup
-        .import  BRKV
 
 ; Absolute vectors/regs:
 ROMSEL_CURRENT  := $F4
@@ -28,30 +25,12 @@ bh_installed: .res 1      ; 0/1: whether we've installed our handler into BRKV
 
         .code
 
-; Disarm guard and restore BRKV if we installed it.
-_clear_brk_ret:
+_disarm_brk_ret:
         php
         sei
-
-        ; Disarm guard if armed
-        lda     bh_brkret
-        ora     bh_brkret+1
-        beq     @maybe_restore
-        lda     #0
+        lda     #$00
         sta     bh_brkret
         sta     bh_brkret+1
-
-@maybe_restore:
-        lda     bh_installed
-        beq     @done
-        lda     bh_oldbrkv
-        sta     BRKV
-        lda     bh_oldbrkv+1
-        sta     BRKV+1
-        lda     #0
-        sta     bh_installed
-
-@done:
         plp
         rts
 
@@ -59,6 +38,7 @@ _clear_brk_ret:
 ; RAM BRK handler
 brkhandler:
         php
+        sei
         pha
         txa
         pha
@@ -102,6 +82,32 @@ brkhandler:
         rts
 
 @pass:
-        ; jsr     _soft_abort_cleanup
-        lda     #$1B    ; restore our pass thorugh exit code
+        lda     bh_mode
+        beq     bh_prod
+
+        ; if debug and entry is set, tail-jump there
+        lda     bh_dbg_entry
+        ora     bh_dbg_entry+1
+        beq     bh_prod
+
+        ; patch-and-jump (safe absolute)
+        php
+        sei
+        lda     bh_dbg_entry
+        sta     bh_jmp_loc
+        lda     bh_dbg_entry+1
+        sta     bh_jmp_loc + 1
+        plp     ; restores previous interrupt status value
+
+        jmp     $FFFF
+
+bh_jmp_loc = * - 2
+
+bh_prod:
+        ldy     #$00
+        lda     (ERR_MSG_PTR), y
         jmp     _exit
+
+        .bss
+bh_dbg_entry:   .res 2
+bh_mode:        .res 1

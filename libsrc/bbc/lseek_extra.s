@@ -10,7 +10,7 @@
 	.import __fd_getseek
 	.import __fd_getchannel
 	.import __fd_getflags
-	.import	_clear_brk_ret, _set_brk_ret	
+	.import	_disarm_brk_ret, _set_brk_ret	
 	.import	errout2
 	.include "oslib/osargs.inc"
 	.include "fdtable.inc"
@@ -53,7 +53,7 @@ ___ptr2:	sta	ptr1
 		ldx	#ptr1
 		jsr	OSARGS
 		
-		jsr	_clear_brk_ret
+		jsr	_disarm_brk_ret
 		
 		jsr	incsp1
 		lda	#0
