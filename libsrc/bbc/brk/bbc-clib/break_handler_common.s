@@ -19,11 +19,11 @@ ERR_MSG_PTR     := $FD
 ESC_CODE        = $1B
 
         .bss
-bh_oldbrkv:   .res 2
-bh_brkret:    .res 2
-bh_rtsto:     .res 2
-bh_olds:      .res 1
-bh_installed: .res 1
+bh_oldbrkv:   .res 2      ; saved BRKV (or debug chain target)
+bh_brkret:    .res 2      ; non-zero => armed, hbh_olds trap entry (&trapbrk or &trapbrk_dbg)
+bh_rtsto:     .res 2      ; saved return address of caller of set_brk_ret*
+bh_olds:      .res 1      ; saved hardware S at set_brk_ret* time
+bh_installed: .res 1      ; 0/1: whether we've installed our handler into BRKV
 
         .code
 
@@ -40,6 +40,9 @@ _disarm_brk_ret:
         lda     #$00
         sta     bh_brkret
         sta     bh_brkret+1
+        sta     bh_dbg_entry
+        sta     bh_dbg_entry+1
+        sta     bh_mode
         plp
         rts
 
@@ -69,6 +72,9 @@ brkhandler:
         lda     #0
         sta     bh_brkret
         sta     bh_brkret+1
+        sta     bh_dbg_entry
+        sta     bh_dbg_entry+1
+        sta     bh_mode
 
         ; ensure CLIB ROM is selected before we resume C
         jsr     select_clib
@@ -116,6 +122,8 @@ bh_jmp_loc = * - 2
 bh_prod:
         ldy     #$00
         lda     (ERR_MSG_PTR), y
+        ; this is vital, to restore the old interrupt status value. Side effects of not doing this are next application run, cgetc doesn't get any key presses due to irq_handler not firing.
+        plp
         jmp     _exit
 
         .bss

@@ -195,6 +195,13 @@ _cleanup_display:
         sta     cursor
         jsr     setcursor
         jsr     restore_cursor_edit
+
+        ; --- Clear ESC/VDU state so next run reads keys normally ---
+        lda     #$7E            ; OSBYTE 126: acknowledge Escape
+        jsr     OSBYTE
+        lda     #$DA            ; OSBYTE 218: flush VDU queue
+        jsr     OSBYTE
+
         rts
 
         .bss

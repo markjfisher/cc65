@@ -1,6 +1,21 @@
 ; break_handler.s
 ; Production install/arm entry: _set_brk_ret
 
+; Explanation of break handling.
+
+; Lifecycle (crt0 does this for you)
+; - Global install once at startup so all BRKs go through the handler.
+; - Global uninstall on exit so the language’s BRK handler is restored.
+;
+; Arming (trap/long-jump use)
+; - set_brk_ret() — Production armer. Arms once; non-ESC BRK returns A=1 to the caller; ESC falls through to OS exit.
+; - set_brk_ret_debug() — Debug armer. Arms once and enables the debug banner for pass-through cases. Non-ESC BRK still returns A=1.
+; - disarm_brk_ret() — Clears the one-shot arm (no BRKV changes).
+;
+; Debug “catch-all” switch (no arming)
+; - set_brk_debug_mode_only() — Enable banner for unarmed BRKs (and ESC if you want). Doesn’t arm; doesn’t touch stacks. Use it when you want to catch unexpected BRKs anywhere.
+; Internally this just sets bh_mode=1 and bh_dbg_entry = bombmessage_and_hang. Because bh_dbg_entry lives in the debug object, the banner code only links if you call a debug API.
+
         .export  _set_brk_ret
 
         .import  BRKV
