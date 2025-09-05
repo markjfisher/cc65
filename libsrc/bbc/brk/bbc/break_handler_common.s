@@ -31,6 +31,9 @@ _disarm_brk_ret:
         lda     #$00
         sta     bh_brkret
         sta     bh_brkret+1
+        sta     bh_dbg_entry
+        sta     bh_dbg_entry+1
+        sta     bh_mode
         plp
         rts
 
@@ -61,6 +64,9 @@ brkhandler:
         lda     #0
         sta     bh_brkret
         sta     bh_brkret+1
+        sta     bh_dbg_entry
+        sta     bh_dbg_entry+1
+        sta     bh_mode
 
         ; restore hardware S saved at set_brk_ret* time
         ldx     bh_olds
@@ -106,6 +112,8 @@ bh_jmp_loc = * - 2
 bh_prod:
         ldy     #$00
         lda     (ERR_MSG_PTR), y
+        ; this is vital, to restore the old interrupt status value. Side effects of not doing this are next application run, cgetc doesn't get any key presses due to irq_handler not firing.
+        plp
         jmp     _exit
 
         .bss
