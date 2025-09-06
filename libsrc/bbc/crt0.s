@@ -1,42 +1,43 @@
 ;
 ; Startup code for cc65 (bbc normal library - not ROM)
-;
-; This must be the *first* file on the linker command line
-;
 
-        .export     _exit
-        .export     __STARTUP__ : absolute = 1      ; Mark as startup
-        .import     initlib, donelib
-        .import     zerobss
-        .import     callmain
-        .import     preservezp, restorezp
-        .import     _raise
+        .export         _exit
+        .export         __STARTUP__ : absolute = 1      ; Mark as startup
+        .export         __Cstart
+        .export         _exit_main
 
-        .import     disable_cursor_edit
-        .import     restore_cursor_edit
-        .import     init_stack
-        .import     OSWRCH
-        .import     _clear_brk_ret
-        .import     cursor
-        .import     setcursor
+        .import         initlib, donelib
+        .import         zerobss
+        .import         callmain
+        .import         preservezp, restorezp
+        .import         _raise
 
-        .export     __Cstart
-        .export     _exit_main
+        .import         disable_cursor_edit
+        .import         restore_cursor_edit
+        .import         init_stack
 
-        .include    "zeropage.inc"
-        .include    "oslib/os.inc"
-        .include    "oslib/osbyte.inc"
+        .import         OSWRCH
+        .import         cursor
+        .import         setcursor
 
-.segment "STARTUP"
+        .import         _install_brk_handler_global
+        .import         _uninstall_brk_handler_global
 
+        .include        "zeropage.inc"
+        .include        "oslib/os.inc"
+        .include        "oslib/osbyte.inc"
+
+.segment        "STARTUP"
 __Cstart:
 
 reset:
         jsr     zerobss
+
         jsr     disable_cursor_edit
         jsr     init_stack
 
         ; disable interrupts while we setup the vectors
+        php
         sei
 
         ; set up escape handler
@@ -50,10 +51,8 @@ reset:
         lda     #>eschandler
         sta     EVNTV + 1
 
-        ; jsr     trap_brk
-
-        ; reenable interrupts
-        cli
+        jsr     _install_brk_handler_global
+        plp
 
         ; enable escape event
         lda     #osbyte_ENABLE_EVENT
@@ -69,48 +68,47 @@ reset:
 
         jsr     callmain
 
-_exit_main:	; AX contains exit code, store LSB in user flag
-
+_exit_main:
         ; Save the exit code in user flag
-        tax                     ; Move to X for OSBYTE set user flag.
-        ldy     #255
+        tax
+        ldy     #$FF
         lda     #osbyte_USER_FLAG
         jsr     OSBYTE
 
-        jsr     _clear_brk_ret
         jsr     donelib
 
-        ; reset escape event state
+        ; If we enabled ESC events, restore previous state
         lda     oldescen
-        bne     l1
-        lda	#osbyte_DISABLE_EVENT
-        ldx	#EVNTV_ESCAPE
+        bne     @skip_disable
+        lda     #osbyte_DISABLE_EVENT
+        ldx     #EVNTV_ESCAPE
         jsr     OSBYTE
 
-
-l1:	sei
-
-        ; jsr     release_brk
-
+@skip_disable:
+        php
+        sei
+        jsr     _uninstall_brk_handler_global
 
         ; restore event handler
         lda     oldeventv
         sta     EVNTV
-        lda     oldeventv + 1
-        sta     EVNTV + 1
-        cli
+        lda     oldeventv+1
+        sta     EVNTV+1
+        plp
 
         jsr     _cleanup_display
 
-exit:   rts
+exit:
+        rts
 
-_exit:	ldx     save_s          ; force return to OS
+; force return to OS, restoring SP will remove any potential return calls no longer needed
+_exit:  ldx     save_s
         txs
         jmp     _exit_main
 
 eschandler:
-        php	;push flags
-        cmp	#EVNTV_ESCAPE
+        php     ;push flags
+        cmp     #EVNTV_ESCAPE
         bne     nohandle
 
         pha     ; push regs
@@ -119,19 +117,15 @@ eschandler:
         tya
         pha
 
-        ; preserve zp
         jsr     preservezp
-
-        ; reenable interrupts
         cli
 
-        ldx	#0
-        lda	#3              ;SIGINT ???
+        ldx     #0
+        lda     #3              ; SIGINT ???
         jsr     _raise
 
-        sei                    ; disable interrupts, as we pass it on...
-
-        ; restore zp
+        ; disable interrupts, as we pass it on...
+        sei
         jsr     restorezp
 
         pla
@@ -144,18 +138,32 @@ eschandler:
 
 nohandle:
         plp
-        jmp	(oldeventv)
+
+        pha
+        lda     oldeventv
+        sta     @evj+1
+        lda     oldeventv+1
+        sta     @evj+2
+        pla
+@evj:   jmp     $FFFF           ; patched to oldeventv
 
 
 _cleanup_display:
+        ; turn cursor back on, in case anything turned it off (e.g. cgetc() with default cursor value off)
         lda     #$01
         sta     cursor
         jsr     setcursor
         jsr     restore_cursor_edit
-        rts
 
+        ; --- Clear ESC/VDU state so next run reads keys normally ---
+        lda     #$7E            ; OSBYTE 126: acknowledge Escape
+        jsr     OSBYTE
+        lda     #$DA            ; OSBYTE 218: flush VDU queue
+        jsr     OSBYTE
+
+        rts
 
         .bss
 oldeventv:      .res    2
 oldescen:       .res    1       ; was escape event enabled before?
-save_s:	        .res    1       ; save stack pointer before entering main
+save_s:	        .res    1       ; save stack pointer
