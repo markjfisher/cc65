@@ -1,6 +1,6 @@
 
 #include <dirent.h>
-#include <dir.h>
+#include "dir.h"
 #include <errno.h>
 
 #define MAXOPENDIRS 2
@@ -16,6 +16,8 @@ DIR* __fastcall__ opendir (const char* name) {
 	/* ignore name for now and just use current directory! */
 	DIR *ret;
 	int i;
+    // fake using name so it will compile
+    const char *n = name;
 
 	// find a free entry
 

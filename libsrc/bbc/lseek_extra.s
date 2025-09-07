@@ -137,5 +137,3 @@ outerr: jsr	incsp1
 		
 		
 	.end
-	
-		

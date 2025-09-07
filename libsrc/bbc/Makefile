@@ -2,6 +2,8 @@
 # cc65 makefile for the bbc specific modules
 #
 
+$(error This should not be used)
+
 .SUFFIXES: .o .s .c
 
 #--------------------------------------------------------------------------

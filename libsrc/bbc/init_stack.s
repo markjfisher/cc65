@@ -16,7 +16,7 @@ init_stack:
     tya
     sta    c_sp+1           ; Set argument stack ptr
     txa
-	sta    c_sp              ; #<(__RAM_START__ + __RAM_SIZE__)
+    sta    c_sp              ; #<(__RAM_START__ + __RAM_SIZE__)
 
     ; put the stack in the BASIC work area &400-7FF
 ;    lda    #$ff
