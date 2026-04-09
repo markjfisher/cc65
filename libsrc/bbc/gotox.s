@@ -6,10 +6,12 @@
 
         .include        "oslib/os.inc"
         .include        "oslib/vduvars.inc"
+        .export         gotox
         .export         _gotox
         .import         _gotoxy
         .import         _wherey
 
+gotox:
 _gotox:
         pha
         lda     #31

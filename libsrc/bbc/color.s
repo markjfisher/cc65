@@ -64,4 +64,4 @@ rev:
         rts
 
 _bordercolor:
-        jsr return1;
+        jsr return1

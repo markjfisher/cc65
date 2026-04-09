@@ -6,11 +6,17 @@
 
         .include "oslib/os.inc"
 
-        .export         _gotoxy
-        .import         popa
+        .export  gotoxy
+        .export  _gotoxy
+        .import  popa
 
+; This is called by cc65 functions that have still Y on c_sp
+gotoxy:
+        jsr     popa            ; Get Y
+
+; this is the C exposed version
 _gotoxy:                        ; Set the cursor position
-        pha
+        pha                     ; save Y for the moment
         lda     #31
         jsr     OSWRCH
         jsr     popa            ; Get X

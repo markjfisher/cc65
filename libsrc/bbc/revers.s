@@ -5,11 +5,11 @@
 ;
         .include "bbc.inc"
 
-        .export         _revers
-        .export         _revflag
-        .import         _textcolor
-        .import         _bgcolor
-        .import         setcolors
+        .export  _revers
+        .export  _revflag
+        .import  _textcolor
+        .import  _bgcolor
+        .import  setcolors
 
 ;       ??? Not quite sure if this is right
 ;       ??? should probably interact with _textcolor, _bgcolor
