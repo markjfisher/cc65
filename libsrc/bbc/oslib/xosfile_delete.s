@@ -30,12 +30,10 @@
 ;      bits32 *exec_addr,
 ;      long *size,
 ;      fileswitch_attr *attr);
-
-
 .proc _xosfile_delete
 
         jsr     osfile_alloc_block  ; Allocates OSFILE block + filename buffer, sets up ptr2
-  
+
         ; Get filename pointer (offset by 18-byte OSFILE block + 128-byte filename buffer)
         ldy     #18 + 128 + 11
         jsr     ldaxysp

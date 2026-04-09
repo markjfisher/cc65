@@ -21,12 +21,12 @@
         ; Get filename pointer (offset by 18-byte OSFILE block + 128-byte filename buffer) 
         ldy     #18 + 128 + 5  ; file_name
         jsr     ldaxysp
-  
+
         jsr     osfile_store_fn
-  
+
         ldy     #18 + 128 + 3  ; parameter data
         jsr     ldeaxysp
-  
+
         rts
 
-  .endproc
+.endproc

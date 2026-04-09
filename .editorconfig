@@ -13,3 +13,9 @@ cpp_new_line_before_open_brace_block=same_line
 cpp_new_line_before_open_brace_function=new_line
 cpp_space_before_function_open_parenthesis=insert
 cpp_new_line_before_else=false
+
+# ca65 assembly under BBC lib: spaces, 8-column indent (fn-rom / BBC style)
+[libsrc/bbc/{*.s,**/*.s}]
+indent_style = space
+indent_size = 8
+tab_width = 8

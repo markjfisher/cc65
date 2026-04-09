@@ -14,8 +14,6 @@ ROMSEL          := $FE30
 ERR_MSG_PTR     := $FD
 
 ESC_CODE        = $1B
-
-
         .bss
 bh_oldbrkv:   .res 2      ; saved BRKV (or debug chain target)
 bh_brkret:    .res 2      ; non-zero => armed, hbh_olds trap entry (&trapbrk or &trapbrk_dbg)
@@ -36,8 +34,6 @@ _disarm_brk_ret:
         sta     bh_mode
         plp
         rts
-
-
 ; RAM BRK handler
 brkhandler:
         php

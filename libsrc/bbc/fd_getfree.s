@@ -9,7 +9,7 @@
 
         .include        "fdtable.inc"
 
-; unsigned char __fastcall _fd_getfree(unsigned char channel, unsigned char flags)        
+; unsigned char __fastcall _fd_getfree(unsigned char channel, unsigned char flags)
 ; // get a free fd, if not available returns -1
 ; // and sets errno to EMFILE
 ; // sets flags to flags, channel to channel
@@ -27,7 +27,7 @@ next:   ldx     fd_flags, y
 
         ; failed to find a free FD, remove stack parameter, and exit with ___errno set to EMFILE
         jsr     incsp1
-        jmp     emfile        
+        jmp     emfile
 
 gotfreefd:
         ; Y contains the FD, A contains "flags"

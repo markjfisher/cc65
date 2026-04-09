@@ -26,12 +26,12 @@
         used     .byte
         name_len .byte
         name     .res 20
-.endstruct 
+.endstruct
 
 _readdir:
         sta     ptr1            ; ptr1 points to DIR entry
         stx     ptr1 + 1        ; which is as above
-     
+
         clc                     ; Calculate address of
         lda     ptr1            ; ptr1.name_len
         adc     #DIR::name_len  ;
@@ -51,8 +51,6 @@ _readdir:
 
         jsr     _set_brk_ret    ; return here with carry
         bne     _er             ; Z = OK
-  
-
         ldy     ptr1 + 1        ; call os function
         ldx     ptr1
         lda     #OSGBPB_CSDEntries
@@ -70,7 +68,7 @@ _readdir:
         bne     sk1             ; at start of name
         inc     ptr2 + 1
 sk1:
-  
+
 loopZ:
         dey
         bmi     doneZ
@@ -80,14 +78,14 @@ loopZ:
         lda     #$0
         sta     (ptr2), y
         jmp     loopZ
-   
+
 doneZ:
         ldx     ptr2 + 1
-        lda     ptr2 
+        lda     ptr2
         rts
 
 _er2:   jsr     _disarm_brk_ret ; remove error handler
 
 _er:    lda     #0
         tax
-        rts 
+        rts

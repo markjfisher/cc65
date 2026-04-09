@@ -146,8 +146,6 @@ nohandle:
         sta     @evj+2
         pla
 @evj:   jmp     $FFFF           ; patched to oldeventv
-
-
 _cleanup_display:
         ; turn cursor back on, in case anything turned it off (e.g. cgetc() with default cursor value off)
         lda     #$01
@@ -166,4 +164,4 @@ _cleanup_display:
         .bss
 oldeventv:      .res    2
 oldescen:       .res    1       ; was escape event enabled before?
-save_s:	        .res    1       ; save stack pointer
+save_s:         .res    1       ; save stack pointer

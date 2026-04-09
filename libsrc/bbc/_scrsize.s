@@ -4,30 +4,24 @@
 ; Screen size variables
 ;
 
-	.export		screensize
+        .export         screensize
 
-	.include	"oslib/os.inc"
-	.include	"oslib/vduvars.inc"
-	
-		
+        .include        "oslib/os.inc"
+        .include        "oslib/vduvars.inc"
 .proc   screensize
 
-		
+        sec
+        lda     VDU_WKSP + VDUVAR_TEXT_WINDOW_TR
+        sbc     VDU_WKSP + VDUVAR_TEXT_WINDOW_BL
+        tax
+        inx
 
-	sec
-	lda	VDU_WKSP + VDUVAR_TEXT_WINDOW_TR
-	sbc	VDU_WKSP + VDUVAR_TEXT_WINDOW_BL
-	tax
-	inx
+        sec
+        lda     VDU_WKSP + VDUVAR_TEXT_WINDOW_BL + 1
+        sbc     VDU_WKSP + VDUVAR_TEXT_WINDOW_TR + 1
+        tay
+        iny
 
-	sec
-	lda	VDU_WKSP + VDUVAR_TEXT_WINDOW_BL + 1
-	sbc	VDU_WKSP + VDUVAR_TEXT_WINDOW_TR + 1
-	tay
-	iny
-
-	rts
+        rts
 
 .endproc
-
-

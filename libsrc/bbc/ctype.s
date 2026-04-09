@@ -18,7 +18,7 @@
 .rodata
 
 __ctypeidx:
-	.byte        CT_CTRL                        ;   0/00 ___ctrl_@___
+        .byte        CT_CTRL                        ;   0/00 ___ctrl_@___
         .byte        CT_CTRL                        ;   1/01 ___ctrl_A___
         .byte        CT_CTRL                        ;   2/02 ___ctrl_B___
         .byte        CT_CTRL                        ;   3/03 ___ctrl_C___
@@ -143,13 +143,11 @@ __ctypeidx:
         .byte        CT_LOWER                       ; 120/78 _____x_____
         .byte        CT_LOWER                       ; 121/79 _____y_____
         .byte        CT_LOWER                       ; 122/7a _____z_____
-	.byte        CT_NONE                        ; 123/7b _____{_____
-	.byte        CT_NONE                        ; 124/7c _____|_____
-	.byte        CT_NONE                        ; 125/7d _____}_____
-	.byte        CT_NONE                        ; 126/7e _____~_____
+        .byte        CT_NONE                        ; 123/7b _____{_____
+        .byte        CT_NONE                        ; 124/7c _____|_____
+        .byte        CT_NONE                        ; 125/7d _____}_____
+        .byte        CT_NONE                        ; 126/7e _____~_____
         .byte        CT_OTHER_WS                    ; 127/7f ____DEL____
 
         .res    128, CT_NONE                        ; 128-255
-
-
 

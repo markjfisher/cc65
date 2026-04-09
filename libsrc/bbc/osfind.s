@@ -2,13 +2,13 @@
 ; unsigned char __fastcall__ osfind(unsigned char mode, const char *name);
 
 ; see https://central.kaserver5.org/Kasoft/Typeset/BBC/Ch43.html
-; 
+;
 ; Opens a file for writing or reading and writing. The routine is entered at &FFCE and indirects via &21C. The value in A determines the type of operation.
 
-; A=0	causes a file or files to be closed.
-; A=&40	causes a file to be opened for input (reading).
-; A=&80	causes a file to be opened for output (writing).
-; A=&C0	causes a file to be opened for input and output (random access).
+; A=0   causes a file or files to be closed.
+; A=&40 causes a file to be opened for input (reading).
+; A=&80 causes a file to be opened for output (writing).
+; A=&C0 causes a file to be opened for input and output (random access).
 ; If A=&40, &80 or &C0 then Y(high byte) and X(low byte) must contain the address of a location in memory which contains
 ; the file name terminated with CR (&0D).
 ; On exit Y will contain the channel number allocated to the file for all future operations.

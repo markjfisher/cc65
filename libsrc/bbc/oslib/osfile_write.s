@@ -65,4 +65,4 @@
         jsr     addysp
         rts
 
-  .endproc
+.endproc

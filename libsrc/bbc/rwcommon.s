@@ -13,8 +13,6 @@
 
         .include        "errno.inc"
         .include        "fdtable.inc"
-
-
 ;--------------------------------------------------------------------------
 ; rwcommon: Pop the parameters from stack, preprocess them and place them
 ; into zero page locations. Return carry set if the handle is invalid,
@@ -44,8 +42,4 @@
         bcs     out
         sta     tmp2
 out:    rts                     ; Return with carry clear
-
-
 .endproc
-
-
