@@ -55,18 +55,19 @@
 d:      lda     #OSFile_Load
         jsr     osfile_callosfile
 
-        ; Clean up the 128-byte filename buffer allocated by osfile_store_fn
-        lda     #128
-        jsr     addysp
-
-        ldy     #18 + 12
+        ; A holds the returned object type; pass it straight to the return
+        ; handler without freeing the buffer first (see osfile_read.s). The
+        ; handler frees 18 (block) + 128 (buffer) + 12 (6 pointer args).
+        ldy     #18 + 128 + 12
         jmp     osfile_ret_read_delete_load
 
 setupload:
         pha
         lda     #0
-        ; we need the offset including the extra buffer we allocated as it hasn't been unallocated yet
-        ldy     #128 + 6
+        ; block+6 (exec-addr low byte) = 0 => load at the caller-supplied addr.
+        ; The block is at c_sp+0 (the filename buffer sits above it), so the
+        ; offset is just 6.
+        ldy     #6
         sta     (c_sp),  Y
         sta     sreg
         sta     sreg + 1

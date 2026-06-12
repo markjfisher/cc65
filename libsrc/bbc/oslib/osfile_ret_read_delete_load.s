@@ -21,22 +21,27 @@
         .export xosfile_ret_read_delete_load
 
 .proc xx
-        ldy     #18 + 7
+        ; The OSFILE parameter block is at SP+0..17 (written by the store_*
+        ; helpers and OSFILE). The 128-byte filename buffer is still allocated
+        ; ABOVE it (it is NOT freed early any more), so the caller's pointer
+        ; arguments sit at SP + 18 + 128 + <arg offset>. Block field offsets
+        ; (load=2, exec=6, size=10, attr=14) are relative to SP+0.
+        ldy     #18 + 128 + 7
         jsr     ldaxysp
         ldy     #2      ;load
         jsr     osfile_retdword
 
-        ldy     #18 + 5
+        ldy     #18 + 128 + 5
         jsr     ldaxysp
         ldy     #6      ;exec
         jsr     osfile_retdword
 
-        ldy     #18 + 3
+        ldy     #18 + 128 + 3
         jsr     ldaxysp
         ldy     #10     ;size
         jsr     osfile_retdword
 
-        ldy     #18 + 1
+        ldy     #18 + 128 + 1
         jsr     ldaxysp
         ldy     #14     ;attr
         jsr     osfile_retdword

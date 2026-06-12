@@ -38,9 +38,11 @@ _osfind:
         ; Call OSFIND
         jsr     OSFIND
 
-        ; OSFIND returns channel number in Y register
-        ; Return it in A (with X=0 for 16-bit return)
-        tya
+        ; OSFIND returns the file handle in A (0 if the open failed). The
+        ; earlier comment here claimed Y; that is wrong for the BBC MOS and
+        ; meant fopen()/open() received the name-pointer high byte as a bogus
+        ; non-zero handle, so every subsequent OSBGET/OSBPUT raised "Channel".
+        ; A already holds the handle; just clear the high byte of the return.
         ldx     #$00
 
         rts
