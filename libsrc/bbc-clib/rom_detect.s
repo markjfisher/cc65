@@ -116,19 +116,22 @@ check_current_rom:
         cmp     #$82
         bne     not_our_rom
 
-        ; Check for our ROM title string "cc65 CLIB"
-        ; Title starts at $8009.
+        ; Check for our ROM title string "cc65 CLIB".
+        ; Title starts at $8009. The expected_title string is NUL-terminated, so
+        ; the beq on the terminator is what ends a successful match. (The old
+        ; code also had a `cpy #9 / bcc` guard which exited the loop one
+        ; iteration too early — after matching all 9 chars y=9, the bcc was not
+        ; taken and it fell through to not_our_rom, so a matching ROM was never
+        ; detected. The NUL terminator alone is the correct, sufficient bound.)
         ; returns C=0 for match, C=1 for no match
         ldy     #0
 title_check_loop:
         lda     expected_title,y
-        beq     our_rom_found   ; End of string - match!
+        beq     our_rom_found   ; reached NUL terminator - all chars matched
         cmp     $8009,y
         bne     not_our_rom
         iny
-        cpy     #9              ; Length of "cc65 CLIB"
-        bcc     title_check_loop
-        ; this falls through to failure if the title does not EXACTLY match "cc65 CLIB" with a terminating nul byte
+        bne     title_check_loop ; always loops (NUL terminator ends the match)
 
 not_our_rom:
         sec
