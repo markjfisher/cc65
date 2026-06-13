@@ -17,7 +17,7 @@ print_error_and_exit:
         ; Store message pointer
         sta     ptr1
         stx     ptr1+1
-        
+
         ; Print error message character by character
         ldy     #0
 print_loop:
@@ -26,14 +26,14 @@ print_loop:
         jsr     OSWRCH
         iny
         bne     print_loop
-        
+
 print_done:
         ; Print newline
         lda     #13
         jsr     OSWRCH
         lda     #10  
         jsr     OSWRCH
-        
+
         ; Simple return to OS (no complex cleanup needed in early startup)
         rts
 

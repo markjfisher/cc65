@@ -43,28 +43,27 @@ detect_clib_rom:
         lda     #0
         sta     clib_rom_available
         sta     clib_rom_slot
-        
+
         ; Save current ROMSEL value, this is held in &F4, as ROMSEL is write only
         lda     ROMSEL_CURRENT
         pha
-        
-        ; Scan ROM slots 0-15
-        ldx     #0              ; Start with slot 0
-        
+
+        ; Scan ROM slots 15 to 0
+        ldx     #$0F            ; Start with top slot, as it has highest priority
+
 slot_loop:
         ; Page in ROM slot X
         stx     ROMSEL_CURRENT
         stx     ROMSEL
-        
+
         ; Check if this slot contains our ROM
         jsr     check_current_rom
-        bne     found_rom       ; A != 0 means ROM found
-        
+        bcc     found_rom       ; C == 0 means ROM found
+
         ; Try next slot
-        inx
-        cpx     #16             ; Check slots 0-15
-        bcc     slot_loop
-        
+        dex
+        bpl     slot_loop
+
         ; ROM not found in any slot
         pla                     ; Restore original ROMSEL
         sta     ROMSEL_CURRENT
@@ -73,13 +72,13 @@ slot_loop:
         lda     #0
         sta     clib_rom_available
         rts
-        
+
 found_rom:
         ; Store the slot number where ROM was found
         stx     clib_rom_slot
         lda     #1
         sta     clib_rom_available
-        
+
         ; DON'T restore original ROMSEL - keep our ROM active!
         ; The ROM slot X is already paged in from the scan
         ; Store original ROMSEL for later restoration at exit
@@ -98,7 +97,7 @@ check_current_rom:
         ; $8007: Copyright offset
         ; $8008: Version
         ; $8009: Title string
-        
+
         ; First check if there's a valid ROM header
         lda     $8000           ; Should be 0 for service ROM
         bne     not_our_rom
@@ -106,19 +105,20 @@ check_current_rom:
         bne     not_our_rom  
         lda     $8002           ; Should be 0
         bne     not_our_rom
-        
+
         ; Check for JMP instruction at service entry
         lda     $8003           ; Should be $4C (JMP)
         cmp     #$4C
         bne     not_our_rom
-        
+
         ; Check ROM type (we use $82)
         lda     $8006
         cmp     #$82
         bne     not_our_rom
-        
+
         ; Check for our ROM title string "cc65 CLIB"
-        ; Title starts at $8009
+        ; Title starts at $8009.
+        ; returns C=0 for match, C=1 for no match
         ldy     #0
 title_check_loop:
         lda     expected_title,y
@@ -128,15 +128,16 @@ title_check_loop:
         iny
         cpy     #9              ; Length of "cc65 CLIB"
         bcc     title_check_loop
-        
-our_rom_found:
-        lda     #1
-        rts
+        ; this falls through to failure if the title does not EXACTLY match "cc65 CLIB" with a terminating nul byte
 
 not_our_rom:
-        lda     #0
+        sec
+        rts
+
+our_rom_found:
+        clc
         rts
 
         .rodata
 expected_title:
-        .byte   "cc65 CLIB", 0
+        .byte   "cc65 CLIB", 0  ; needs the 0 terminator for the string match routine. shorter this way.

@@ -43,11 +43,10 @@
         lda     #OSFile_Delete
         jsr     osfile_callosfile
 
-        ; Clean up the 128-byte filename buffer
-        lda     #128
-        jsr     addysp
-
-        ldy     #18 + 10
+        ; A holds the returned object type; pass it straight to the return
+        ; handler without freeing the buffer first (see osfile_read.s). The
+        ; handler frees 18 (block) + 128 (buffer) + 10 (5 pointer args).
+        ldy     #18 + 128 + 10
         jmp     osfile_ret_read_delete_load
 
 .endproc
