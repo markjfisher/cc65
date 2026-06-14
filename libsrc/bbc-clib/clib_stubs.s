@@ -1,3 +1,4 @@
+		; 457 symbol(s) vectored through the fixed jump table at $8100
 		.export	ARGSV
 ARGSV		:=	$000214
 		.export	BGETV
@@ -96,6 +97,14 @@ WRCHV		:=	$00020E
 _OSASCI		:=	$00FFE3
 		.export	_OSWRCH
 _OSWRCH		:=	$00FFEE
+		; skipping symbol __HEADER_M_FILEOFFS__
+		; skipping symbol __HEADER_M_LAST__
+		; skipping symbol __HEADER_M_SIZE__
+		; skipping symbol __HEADER_M_START__
+		; skipping symbol __JUMP_M_FILEOFFS__
+		; skipping symbol __JUMP_M_LAST__
+		; skipping symbol __JUMP_M_SIZE__
+		; skipping symbol __JUMP_M_START__
 		; skipping symbol __MAIN_FILEOFFS__
 		; skipping symbol __MAIN_LAST__
 		; skipping symbol __MAIN_SIZE__
@@ -117,540 +126,540 @@ _OSWRCH		:=	$00FFEE
 		; skipping symbol __sin
 		; skipping symbol __sys_errlist
 		; skipping symbol __sysuname
-		.export	_abs
-_abs		:=	$0093EE
-		.export	_atoi
-_atoi		:=	$0082CA
-		.export	_atol
-_atol		:=	$0082CA
-		.export	_bzero
-_bzero		:=	$009234
-		.export	_cclear
-_cclear		:=	$00839B
-		.export	_cclearxy
-_cclearxy		:=	$008393
-		.export	_chline
-_chline		:=	$0083BD
-		.export	_chlinexy
-_chlinexy		:=	$0083B5
-		.export	_close_file
-_close_file		:=	$0083CB
-		.export	_cputc
-_cputc		:=	$0083E6
-		.export	_cputcxy
-_cputcxy		:=	$0083DE
-		.export	_decompress_lz4
-_decompress_lz4		:=	$008E31
-		.export	_decompress_lzsa1
-_decompress_lzsa1		:=	$008F41
-		.export	_decompress_lzsa2
-_decompress_lzsa2		:=	$00900B
-		.export	_decompress_zx02
-_decompress_zx02		:=	$00A009
-		.export	_div
-_div		:=	$0084CB
-		.export	_doesclrscrafterexit
-_doesclrscrafterexit		:=	$0097DD
-		.export	_getcpu
-_getcpu		:=	$008502
-		.export	_gotox
-_gotox		:=	$008577
-		.export	_gotoxy
-_gotoxy		:=	$00858A
-		.export	_gotoy
-_gotoy		:=	$00859A
-		.export	_htonl
-_htonl		:=	$009400
-		.export	_htons
-_htons		:=	$009411
-		.export	_idiv32by16r16
-_idiv32by16r16		:=	$00806C
-		.export	_imaxabs
-_imaxabs		:=	$008815
-		.export	_imul16x16r32
-_imul16x16r32		:=	$008086
-		.export	_imul8x8r16
-_imul8x8r16		:=	$008090
-		.export	_isalnum
-_isalnum		:=	$0086F9
-		.export	_isalpha
-_isalpha		:=	$008701
-		.export	_isascii
-_isascii		:=	$008709
-		.export	_isblank
-_isblank		:=	$008713
-		.export	_iscntrl
-_iscntrl		:=	$00871B
-		.export	_isdigit
-_isdigit		:=	$008723
-		.export	_isgraph
-_isgraph		:=	$00872B
-		.export	_islower
-_islower		:=	$008739
-		.export	_isprint
-_isprint		:=	$008741
-		.export	_ispunct
-_ispunct		:=	$00874B
-		.export	_isspace
-_isspace		:=	$008759
-		.export	_isupper
-_isupper		:=	$008761
-		.export	_isxdigit
-_isxdigit		:=	$008769
-		.export	_itoa
-_itoa		:=	$00878F
-		.export	_kbhit
-_kbhit		:=	$008805
-		.export	_labs
-_labs		:=	$008815
-		.export	_longjmp
-_longjmp		:=	$008AEE
-		.export	_ltoa
-_ltoa		:=	$008CE5
-		.export	_memchr
-_memchr		:=	$009142
-		.export	_memcmp
-_memcmp		:=	$009174
-		.export	_memcpy
-_memcpy		:=	$0091A8
-		.export	_memmove
-_memmove		:=	$0091E4
-		.export	_memset
-_memset		:=	$00923C
-		.export	_mul20
-_mul20		:=	$0092E7
-		.export	_mul40
-_mul40		:=	$009305
-		.export	_ntohl
-_ntohl		:=	$009400
-		.export	_ntohs
-_ntohs		:=	$009411
-		.export	_os_generate_error
-_os_generate_error		:=	$00943A
-		.export	_osfile_delete
-_osfile_delete		:=	$009489
-		.export	_osfile_load
-_osfile_load		:=	$00949E
-		.export	_osfile_read
-_osfile_read		:=	$0094D8
-		.export	_osfile_save
-_osfile_save		:=	$009557
-		.export	_osfile_write
-_osfile_write		:=	$0095D6
-		.export	_osfile_write_attr
-_osfile_write_attr		:=	$00961A
-		.export	_osfile_write_exec
-_osfile_write_exec		:=	$009630
-		.export	_osfile_write_load
-_osfile_write_load		:=	$009646
-		.export	_osfind
-_osfind		:=	$009429
-		.export	_stpcpy
-_stpcpy		:=	$009A0B
-		.export	_strcasecmp
-_strcasecmp		:=	$009ADD
-		.export	_strcat
-_strcat		:=	$009A18
-		.export	_strchr
-_strchr		:=	$009A49
-		.export	_strcmp
-_strcmp		:=	$009A70
-		.export	_strcoll
-_strcoll		:=	$009A70
-		.export	_strcpy
-_strcpy		:=	$009A91
-		.export	_strcspn
-_strcspn		:=	$009AB0
-		.export	_stricmp
-_stricmp		:=	$009ADD
-		.export	_strlen
-_strlen		:=	$009B20
-		.export	_strlen_ptr4
-_strlen_ptr4		:=	$009B24
-		.export	_strlower
-_strlower		:=	$009B36
-		.export	_strlwr
-_strlwr		:=	$009B36
-		.export	_strncasecmp
-_strncasecmp		:=	$009C20
-		.export	_strncat
-_strncat		:=	$009B5D
-		.export	_strncmp
-_strncmp		:=	$009BA5
-		.export	_strncpy
-_strncpy		:=	$009BDE
-		.export	_strnicmp
-_strnicmp		:=	$009C20
-		.export	_strnlen
-_strnlen		:=	$009C79
-		.export	_strpbrk
-_strpbrk		:=	$009CAB
-		.export	_strrchr
-_strrchr		:=	$009CDD
-		.export	_strspn
-_strspn		:=	$009D01
-		.export	_strstr
-_strstr		:=	$009D2E
-		.export	_strupper
-_strupper		:=	$009D80
-		.export	_strupr
-_strupr		:=	$009D80
-		.export	_strxfrm
-_strxfrm		:=	$009DA7
-		.export	_system
-_system		:=	$009E15
-		.export	_toascii
-_toascii		:=	$009E2B
-		.export	_tolower
-_tolower		:=	$009E2E
-		.export	_toupper
-_toupper		:=	$009E8C
-		.export	_udiv32by16r16
-_udiv32by16r16		:=	$0080DA
-		.export	_ultoa
-_ultoa		:=	$008D26
-		.export	_umul16x16r32
-_umul16x16r32		:=	$0080F6
-		.export	_umul16x8r32
-_umul16x8r32		:=	$008100
-		.export	_umul8x8r16
-_umul8x8r16		:=	$00810C
-		.export	_utoa
-_utoa		:=	$0087D1
-		.export	_wherex
-_wherex		:=	$009FEB
-		.export	_wherey
-_wherey		:=	$009FF1
-		.export	_xos_generate_error
-_xos_generate_error		:=	$00943A
-		.export	addeq0sp
-addeq0sp		:=	$008130
-		.export	addeqysp
-addeqysp		:=	$008132
-		.export	addysp
-addysp		:=	$008142
-		.export	addysp1
-addysp1		:=	$008141
-		.export	along
-along		:=	$00814F
-		.export	aslax1
-aslax1		:=	$00816C
-		.export	aslax2
-aslax2		:=	$008174
-		.export	aslax3
-aslax3		:=	$00817F
-		.export	aslax4
-aslax4		:=	$00818D
-		.export	aslaxy
-aslaxy		:=	$009869
-		.export	asleax1
-asleax1		:=	$00819E
-		.export	asleax2
-asleax2		:=	$0081AA
-		.export	asleax3
-asleax3		:=	$0081BD
-		.export	asleax4
-asleax4		:=	$0081D7
-		.export	asrax1
-asrax1		:=	$008224
-		.export	asrax2
-asrax2		:=	$00822E
-		.export	asrax3
-asrax3		:=	$00823D
-		.export	asrax4
-asrax4		:=	$008251
-		.export	asraxy
-asraxy		:=	$0081EF
-		.export	asreax1
-asreax1		:=	$00826A
-		.export	asreax2
-asreax2		:=	$00827A
-		.export	asreax3
-asreax3		:=	$008293
-		.export	asreax4
-asreax4		:=	$0082B5
-		.export	aulong
-aulong		:=	$008155
-		.export	axlong
-axlong		:=	$00835B
-		.export	axulong
-axulong		:=	$008361
-		.export	bcasta
-bcasta		:=	$00836C
-		.export	bcastax
-bcastax		:=	$008368
-		.export	bcasteax
-bcasteax		:=	$0088D4
-		.export	bnega
-bnega		:=	$008378
-		.export	bnegax
-bnegax		:=	$008374
-		.export	bnegeax
-bnegeax		:=	$0088E3
-		.export	booleq
-booleq		:=	$00911C
-		.export	boolge
-boolge		:=	$00912D
-		.export	boolgt
-boolgt		:=	$00912B
-		.export	boolle
-boolle		:=	$009123
-		.export	boollt
-boollt		:=	$009125
-		.export	boolne
-boolne		:=	$009116
-		.export	booluge
-booluge		:=	$00913D
-		.export	boolugt
-boolugt		:=	$00913B
-		.export	boolule
-boolule		:=	$009133
-		.export	boolult
-boolult		:=	$009135
-		.export	bpushbsp
-bpushbsp		:=	$008382
-		.export	bpushbysp
-bpushbysp		:=	$008384
+		.export	_abs	; vectored
+_abs		:=	$8100
+		.export	_atoi	; vectored
+_atoi		:=	$8103
+		.export	_atol	; vectored
+_atol		:=	$8106
+		.export	_bzero	; vectored
+_bzero		:=	$8109
+		.export	_cclear	; vectored
+_cclear		:=	$810C
+		.export	_cclearxy	; vectored
+_cclearxy		:=	$810F
+		.export	_chline	; vectored
+_chline		:=	$8112
+		.export	_chlinexy	; vectored
+_chlinexy		:=	$8115
+		.export	_close_file	; vectored
+_close_file		:=	$8118
+		.export	_cputc	; vectored
+_cputc		:=	$811B
+		.export	_cputcxy	; vectored
+_cputcxy		:=	$811E
+		.export	_decompress_lz4	; vectored
+_decompress_lz4		:=	$8121
+		.export	_decompress_lzsa1	; vectored
+_decompress_lzsa1		:=	$8124
+		.export	_decompress_lzsa2	; vectored
+_decompress_lzsa2		:=	$8127
+		.export	_decompress_zx02	; vectored
+_decompress_zx02		:=	$812A
+		.export	_div	; vectored
+_div		:=	$812D
+		.export	_doesclrscrafterexit	; vectored
+_doesclrscrafterexit		:=	$8130
+		.export	_getcpu	; vectored
+_getcpu		:=	$8133
+		.export	_gotox	; vectored
+_gotox		:=	$8136
+		.export	_gotoxy	; vectored
+_gotoxy		:=	$8139
+		.export	_gotoy	; vectored
+_gotoy		:=	$813C
+		.export	_htonl	; vectored
+_htonl		:=	$813F
+		.export	_htons	; vectored
+_htons		:=	$8142
+		.export	_idiv32by16r16	; vectored
+_idiv32by16r16		:=	$8145
+		.export	_imaxabs	; vectored
+_imaxabs		:=	$8148
+		.export	_imul16x16r32	; vectored
+_imul16x16r32		:=	$814B
+		.export	_imul8x8r16	; vectored
+_imul8x8r16		:=	$814E
+		.export	_isalnum	; vectored
+_isalnum		:=	$8151
+		.export	_isalpha	; vectored
+_isalpha		:=	$8154
+		.export	_isascii	; vectored
+_isascii		:=	$8157
+		.export	_isblank	; vectored
+_isblank		:=	$815A
+		.export	_iscntrl	; vectored
+_iscntrl		:=	$815D
+		.export	_isdigit	; vectored
+_isdigit		:=	$8160
+		.export	_isgraph	; vectored
+_isgraph		:=	$8163
+		.export	_islower	; vectored
+_islower		:=	$8166
+		.export	_isprint	; vectored
+_isprint		:=	$8169
+		.export	_ispunct	; vectored
+_ispunct		:=	$816C
+		.export	_isspace	; vectored
+_isspace		:=	$816F
+		.export	_isupper	; vectored
+_isupper		:=	$8172
+		.export	_isxdigit	; vectored
+_isxdigit		:=	$8175
+		.export	_itoa	; vectored
+_itoa		:=	$8178
+		.export	_kbhit	; vectored
+_kbhit		:=	$817B
+		.export	_labs	; vectored
+_labs		:=	$817E
+		.export	_longjmp	; vectored
+_longjmp		:=	$8181
+		.export	_ltoa	; vectored
+_ltoa		:=	$8184
+		.export	_memchr	; vectored
+_memchr		:=	$8187
+		.export	_memcmp	; vectored
+_memcmp		:=	$818A
+		.export	_memcpy	; vectored
+_memcpy		:=	$818D
+		.export	_memmove	; vectored
+_memmove		:=	$8190
+		.export	_memset	; vectored
+_memset		:=	$8193
+		.export	_mul20	; vectored
+_mul20		:=	$8196
+		.export	_mul40	; vectored
+_mul40		:=	$8199
+		.export	_ntohl	; vectored
+_ntohl		:=	$819C
+		.export	_ntohs	; vectored
+_ntohs		:=	$819F
+		.export	_os_generate_error	; vectored
+_os_generate_error		:=	$81A2
+		.export	_osfile_delete	; vectored
+_osfile_delete		:=	$81A5
+		.export	_osfile_load	; vectored
+_osfile_load		:=	$81A8
+		.export	_osfile_read	; vectored
+_osfile_read		:=	$81AB
+		.export	_osfile_save	; vectored
+_osfile_save		:=	$81AE
+		.export	_osfile_write	; vectored
+_osfile_write		:=	$81B1
+		.export	_osfile_write_attr	; vectored
+_osfile_write_attr		:=	$81B4
+		.export	_osfile_write_exec	; vectored
+_osfile_write_exec		:=	$81B7
+		.export	_osfile_write_load	; vectored
+_osfile_write_load		:=	$81BA
+		.export	_osfind	; vectored
+_osfind		:=	$81BD
+		.export	_stpcpy	; vectored
+_stpcpy		:=	$81C0
+		.export	_strcasecmp	; vectored
+_strcasecmp		:=	$81C3
+		.export	_strcat	; vectored
+_strcat		:=	$81C6
+		.export	_strchr	; vectored
+_strchr		:=	$81C9
+		.export	_strcmp	; vectored
+_strcmp		:=	$81CC
+		.export	_strcoll	; vectored
+_strcoll		:=	$81CF
+		.export	_strcpy	; vectored
+_strcpy		:=	$81D2
+		.export	_strcspn	; vectored
+_strcspn		:=	$81D5
+		.export	_stricmp	; vectored
+_stricmp		:=	$81D8
+		.export	_strlen	; vectored
+_strlen		:=	$81DB
+		.export	_strlen_ptr4	; vectored
+_strlen_ptr4		:=	$81DE
+		.export	_strlower	; vectored
+_strlower		:=	$81E1
+		.export	_strlwr	; vectored
+_strlwr		:=	$81E4
+		.export	_strncasecmp	; vectored
+_strncasecmp		:=	$81E7
+		.export	_strncat	; vectored
+_strncat		:=	$81EA
+		.export	_strncmp	; vectored
+_strncmp		:=	$81ED
+		.export	_strncpy	; vectored
+_strncpy		:=	$81F0
+		.export	_strnicmp	; vectored
+_strnicmp		:=	$81F3
+		.export	_strnlen	; vectored
+_strnlen		:=	$81F6
+		.export	_strpbrk	; vectored
+_strpbrk		:=	$81F9
+		.export	_strrchr	; vectored
+_strrchr		:=	$81FC
+		.export	_strspn	; vectored
+_strspn		:=	$81FF
+		.export	_strstr	; vectored
+_strstr		:=	$8202
+		.export	_strupper	; vectored
+_strupper		:=	$8205
+		.export	_strupr	; vectored
+_strupr		:=	$8208
+		.export	_strxfrm	; vectored
+_strxfrm		:=	$820B
+		.export	_system	; vectored
+_system		:=	$820E
+		.export	_toascii	; vectored
+_toascii		:=	$8211
+		.export	_tolower	; vectored
+_tolower		:=	$8214
+		.export	_toupper	; vectored
+_toupper		:=	$8217
+		.export	_udiv32by16r16	; vectored
+_udiv32by16r16		:=	$821A
+		.export	_ultoa	; vectored
+_ultoa		:=	$821D
+		.export	_umul16x16r32	; vectored
+_umul16x16r32		:=	$8220
+		.export	_umul16x8r32	; vectored
+_umul16x8r32		:=	$8223
+		.export	_umul8x8r16	; vectored
+_umul8x8r16		:=	$8226
+		.export	_utoa	; vectored
+_utoa		:=	$8229
+		.export	_wherex	; vectored
+_wherex		:=	$822C
+		.export	_wherey	; vectored
+_wherey		:=	$822F
+		.export	_xos_generate_error	; vectored
+_xos_generate_error		:=	$8232
+		.export	addeq0sp	; vectored
+addeq0sp		:=	$8235
+		.export	addeqysp	; vectored
+addeqysp		:=	$8238
+		.export	addysp	; vectored
+addysp		:=	$823B
+		.export	addysp1	; vectored
+addysp1		:=	$823E
+		.export	along	; vectored
+along		:=	$8241
+		.export	aslax1	; vectored
+aslax1		:=	$8244
+		.export	aslax2	; vectored
+aslax2		:=	$8247
+		.export	aslax3	; vectored
+aslax3		:=	$824A
+		.export	aslax4	; vectored
+aslax4		:=	$824D
+		.export	aslaxy	; vectored
+aslaxy		:=	$8250
+		.export	asleax1	; vectored
+asleax1		:=	$8253
+		.export	asleax2	; vectored
+asleax2		:=	$8256
+		.export	asleax3	; vectored
+asleax3		:=	$8259
+		.export	asleax4	; vectored
+asleax4		:=	$825C
+		.export	asrax1	; vectored
+asrax1		:=	$825F
+		.export	asrax2	; vectored
+asrax2		:=	$8262
+		.export	asrax3	; vectored
+asrax3		:=	$8265
+		.export	asrax4	; vectored
+asrax4		:=	$8268
+		.export	asraxy	; vectored
+asraxy		:=	$826B
+		.export	asreax1	; vectored
+asreax1		:=	$826E
+		.export	asreax2	; vectored
+asreax2		:=	$8271
+		.export	asreax3	; vectored
+asreax3		:=	$8274
+		.export	asreax4	; vectored
+asreax4		:=	$8277
+		.export	aulong	; vectored
+aulong		:=	$827A
+		.export	axlong	; vectored
+axlong		:=	$827D
+		.export	axulong	; vectored
+axulong		:=	$8280
+		.export	bcasta	; vectored
+bcasta		:=	$8283
+		.export	bcastax	; vectored
+bcastax		:=	$8286
+		.export	bcasteax	; vectored
+bcasteax		:=	$8289
+		.export	bnega	; vectored
+bnega		:=	$828C
+		.export	bnegax	; vectored
+bnegax		:=	$828F
+		.export	bnegeax	; vectored
+bnegeax		:=	$8292
+		.export	booleq	; vectored
+booleq		:=	$8295
+		.export	boolge	; vectored
+boolge		:=	$8298
+		.export	boolgt	; vectored
+boolgt		:=	$829B
+		.export	boolle	; vectored
+boolle		:=	$829E
+		.export	boollt	; vectored
+boollt		:=	$82A1
+		.export	boolne	; vectored
+boolne		:=	$82A4
+		.export	booluge	; vectored
+booluge		:=	$82A7
+		.export	boolugt	; vectored
+boolugt		:=	$82AA
+		.export	boolule	; vectored
+boolule		:=	$82AD
+		.export	boolult	; vectored
+boolult		:=	$82B0
+		.export	bpushbsp	; vectored
+bpushbsp		:=	$82B3
+		.export	bpushbysp	; vectored
+bpushbysp		:=	$82B6
 		.exportZP	c_sp
 		c_sp		:=	$000050
-		.export	callax
-callax		:=	$008389
-		.export	callptr4
-callptr4		:=	$008390
-		.export	checkferror
-checkferror		:=	$0083A9
-		.export	complax
-complax		:=	$0083D5
-		.export	compleax
-compleax		:=	$00892F
-		.export	ctypemask
-ctypemask		:=	$0083F3
-		.export	ctypemaskdirect
-ctypemaskdirect		:=	$0083F7
-		.export	decax1
-decax1		:=	$008411
-		.export	decax2
-decax2		:=	$008418
-		.export	decax3
-decax3		:=	$00841F
-		.export	decax4
-decax4		:=	$008426
-		.export	decax5
-decax5		:=	$00842D
-		.export	decax6
-decax6		:=	$008434
-		.export	decax7
-decax7		:=	$00843B
-		.export	decax8
-decax8		:=	$008442
-		.export	decaxy
-decaxy		:=	$008449
-		.export	deceaxy
-deceaxy		:=	$0089BB
-		.export	decsp1
-decsp1		:=	$008452
-		.export	decsp2
-decsp2		:=	$00845B
-		.export	decsp3
-decsp3		:=	$008468
-		.export	decsp4
-decsp4		:=	$008475
-		.export	decsp5
-decsp5		:=	$008482
-		.export	decsp6
-decsp6		:=	$00848F
-		.export	decsp7
-decsp7		:=	$00849C
-		.export	decsp8
-decsp8		:=	$0084A9
-		.export	enter
-enter		:=	$0084E0
-		.export	getlop
-getlop		:=	$008D73
-		.export	gotox
-gotox		:=	$008577
-		.export	gotoxy
-gotoxy		:=	$008587
-		.export	gotoy
-gotoy		:=	$00859A
-		.export	idiv32by16r16
-idiv32by16r16		:=	$0085E2
-		.export	imul16x16r32
-imul16x16r32		:=	$008612
-		.export	imul8x8r16
-imul8x8r16		:=	$00863D
-		.export	imul8x8r16m
-imul8x8r16m		:=	$00863F
-		.export	incax1
-incax1		:=	$008680
-		.export	incax2
-incax2		:=	$008687
-		.export	incax3
-incax3		:=	$00868E
-		.export	incax4
-incax4		:=	$0086A7
-		.export	incax5
-incax5		:=	$008693
-		.export	incax6
-incax6		:=	$008698
-		.export	incax7
-incax7		:=	$00869D
-		.export	incax8
-incax8		:=	$0086A2
-		.export	incaxy
-incaxy		:=	$0086A9
-		.export	inceaxy
-inceaxy		:=	$008A31
-		.export	incsp1
-incsp1		:=	$0086B2
-		.export	incsp2
-incsp2		:=	$0086C1
-		.export	incsp3
-incsp3		:=	$0086CF
-		.export	incsp4
-incsp4		:=	$0086D4
-		.export	incsp5
-incsp5		:=	$0086D9
-		.export	incsp6
-incsp6		:=	$0086DE
-		.export	incsp7
-incsp7		:=	$0086E3
-		.export	incsp8
-incsp8		:=	$0086E8
-		.export	init_stack
-init_stack		:=	$0086ED
-		.export	laddeq
-laddeq		:=	$00884A
-		.export	laddeq0sp
-laddeq0sp		:=	$00886F
-		.export	laddeq1
-laddeq1		:=	$008842
-		.export	laddeqa
-laddeqa		:=	$008844
-		.export	laddeqysp
-laddeqysp		:=	$008871
-		.export	ldaidx
-ldaidx		:=	$008944
-		.export	ldau00sp
-ldau00sp		:=	$008950
-		.export	ldau0ysp
-ldau0ysp		:=	$008952
-		.export	ldaui0sp
-ldaui0sp		:=	$008969
-		.export	ldauidx
-ldauidx		:=	$008960
-		.export	ldauiysp
-ldauiysp		:=	$00896B
-		.export	ldax0sp
-ldax0sp		:=	$008988
-		.export	ldaxi
-ldaxi		:=	$00897B
-		.export	ldaxidx
-ldaxidx		:=	$00897D
-		.export	ldaxysp
-ldaxysp		:=	$00898A
-		.export	ldeax0sp
-ldeax0sp		:=	$0089A8
-		.export	ldeaxi
-ldeaxi		:=	$008991
-		.export	ldeaxidx
-ldeaxidx		:=	$008993
-		.export	ldeaxysp
-ldeaxysp		:=	$0089AA
-		.export	leaa0sp
-leaa0sp		:=	$0089F6
-		.export	leaaxsp
-leaaxsp		:=	$0089F8
-		.export	leave
-leave		:=	$008A0F
-		.export	leave0
-leave0		:=	$008A04
-		.export	leave00
-leave00		:=	$008A02
-		.export	leavey
-leavey		:=	$008A0C
-		.export	leavey0
-leavey0		:=	$008A0A
-		.export	leavey00
-leavey00		:=	$008A08
-		.export	lsubeq
-lsubeq		:=	$008C64
-		.export	lsubeq0sp
-lsubeq0sp		:=	$008C8D
-		.export	lsubeq1
-lsubeq1		:=	$008C5C
-		.export	lsubeqa
-lsubeqa		:=	$008C5E
-		.export	lsubeqysp
-lsubeqysp		:=	$008C8F
-		.export	memcpy_getparams
-memcpy_getparams		:=	$0091D1
-		.export	memcpy_upwards
-memcpy_upwards		:=	$0091AB
-		.export	mul8x16
-mul8x16		:=	$009328
-		.export	mul8x16a
-mul8x16a		:=	$009332
-		.export	mulax10
-mulax10		:=	$009360
-		.export	mulax3
-mulax3		:=	$009379
-		.export	mulax5
-mulax5		:=	$00938A
-		.export	mulax6
-mulax6		:=	$00939E
-		.export	mulax7
-mulax7		:=	$0093B4
-		.export	mulax9
-mulax9		:=	$0093CD
-		.export	negax
-negax		:=	$0093F2
-		.export	negeax
-negeax		:=	$008AD0
-		.export	osfile_alloc_block
-osfile_alloc_block		:=	$009469
-		.export	osfile_callosfile
-osfile_callosfile		:=	$009481
-		.export	osfile_retA
-osfile_retA		:=	$009557
-		.export	osfile_ret_read_delete_load
-osfile_ret_read_delete_load		:=	$00951B
-		.export	osfile_retdword
-osfile_retdword		:=	$009533
-		.export	osfile_store_attr
-osfile_store_attr		:=	$00959E
-		.export	osfile_store_exec
-osfile_store_exec		:=	$0095A4
-		.export	osfile_store_fn
-osfile_store_fn		:=	$0095AA
-		.export	osfile_store_len
-osfile_store_len		:=	$0095CA
-		.export	osfile_store_load
-osfile_store_load		:=	$0095D0
-		.export	osfile_write_X_start
-osfile_write_X_start		:=	$009609
-		.export	popa
-popa		:=	$00965C
-		.export	popax
-popax		:=	$0086B9
-		.export	popeax
-popeax		:=	$008B3A
-		.export	poplsargs
-poplsargs		:=	$008BAF
-		.export	popptr1
-popptr1		:=	$009668
-		.export	popsargsudiv16
-popsargsudiv16		:=	$009842
-		.export	popsreg
-popsreg		:=	$009676
-		.export	preservezp
-preservezp		:=	$009686
-		.export	print0
-print0		:=	$0096A6
-		.export	printhex
-printhex		:=	$0096B3
-		.export	printstr
-printstr		:=	$0096D5
+		.export	callax	; vectored
+callax		:=	$82B9
+		.export	callptr4	; vectored
+callptr4		:=	$82BC
+		.export	checkferror	; vectored
+checkferror		:=	$82BF
+		.export	complax	; vectored
+complax		:=	$82C2
+		.export	compleax	; vectored
+compleax		:=	$82C5
+		.export	ctypemask	; vectored
+ctypemask		:=	$82C8
+		.export	ctypemaskdirect	; vectored
+ctypemaskdirect		:=	$82CB
+		.export	decax1	; vectored
+decax1		:=	$82CE
+		.export	decax2	; vectored
+decax2		:=	$82D1
+		.export	decax3	; vectored
+decax3		:=	$82D4
+		.export	decax4	; vectored
+decax4		:=	$82D7
+		.export	decax5	; vectored
+decax5		:=	$82DA
+		.export	decax6	; vectored
+decax6		:=	$82DD
+		.export	decax7	; vectored
+decax7		:=	$82E0
+		.export	decax8	; vectored
+decax8		:=	$82E3
+		.export	decaxy	; vectored
+decaxy		:=	$82E6
+		.export	deceaxy	; vectored
+deceaxy		:=	$82E9
+		.export	decsp1	; vectored
+decsp1		:=	$82EC
+		.export	decsp2	; vectored
+decsp2		:=	$82EF
+		.export	decsp3	; vectored
+decsp3		:=	$82F2
+		.export	decsp4	; vectored
+decsp4		:=	$82F5
+		.export	decsp5	; vectored
+decsp5		:=	$82F8
+		.export	decsp6	; vectored
+decsp6		:=	$82FB
+		.export	decsp7	; vectored
+decsp7		:=	$82FE
+		.export	decsp8	; vectored
+decsp8		:=	$8301
+		.export	enter	; vectored
+enter		:=	$8304
+		.export	getlop	; vectored
+getlop		:=	$8307
+		.export	gotox	; vectored
+gotox		:=	$830A
+		.export	gotoxy	; vectored
+gotoxy		:=	$830D
+		.export	gotoy	; vectored
+gotoy		:=	$8310
+		.export	idiv32by16r16	; vectored
+idiv32by16r16		:=	$8313
+		.export	imul16x16r32	; vectored
+imul16x16r32		:=	$8316
+		.export	imul8x8r16	; vectored
+imul8x8r16		:=	$8319
+		.export	imul8x8r16m	; vectored
+imul8x8r16m		:=	$831C
+		.export	incax1	; vectored
+incax1		:=	$831F
+		.export	incax2	; vectored
+incax2		:=	$8322
+		.export	incax3	; vectored
+incax3		:=	$8325
+		.export	incax4	; vectored
+incax4		:=	$8328
+		.export	incax5	; vectored
+incax5		:=	$832B
+		.export	incax6	; vectored
+incax6		:=	$832E
+		.export	incax7	; vectored
+incax7		:=	$8331
+		.export	incax8	; vectored
+incax8		:=	$8334
+		.export	incaxy	; vectored
+incaxy		:=	$8337
+		.export	inceaxy	; vectored
+inceaxy		:=	$833A
+		.export	incsp1	; vectored
+incsp1		:=	$833D
+		.export	incsp2	; vectored
+incsp2		:=	$8340
+		.export	incsp3	; vectored
+incsp3		:=	$8343
+		.export	incsp4	; vectored
+incsp4		:=	$8346
+		.export	incsp5	; vectored
+incsp5		:=	$8349
+		.export	incsp6	; vectored
+incsp6		:=	$834C
+		.export	incsp7	; vectored
+incsp7		:=	$834F
+		.export	incsp8	; vectored
+incsp8		:=	$8352
+		.export	init_stack	; vectored
+init_stack		:=	$8355
+		.export	laddeq	; vectored
+laddeq		:=	$8358
+		.export	laddeq0sp	; vectored
+laddeq0sp		:=	$835B
+		.export	laddeq1	; vectored
+laddeq1		:=	$835E
+		.export	laddeqa	; vectored
+laddeqa		:=	$8361
+		.export	laddeqysp	; vectored
+laddeqysp		:=	$8364
+		.export	ldaidx	; vectored
+ldaidx		:=	$8367
+		.export	ldau00sp	; vectored
+ldau00sp		:=	$836A
+		.export	ldau0ysp	; vectored
+ldau0ysp		:=	$836D
+		.export	ldaui0sp	; vectored
+ldaui0sp		:=	$8370
+		.export	ldauidx	; vectored
+ldauidx		:=	$8373
+		.export	ldauiysp	; vectored
+ldauiysp		:=	$8376
+		.export	ldax0sp	; vectored
+ldax0sp		:=	$8379
+		.export	ldaxi	; vectored
+ldaxi		:=	$837C
+		.export	ldaxidx	; vectored
+ldaxidx		:=	$837F
+		.export	ldaxysp	; vectored
+ldaxysp		:=	$8382
+		.export	ldeax0sp	; vectored
+ldeax0sp		:=	$8385
+		.export	ldeaxi	; vectored
+ldeaxi		:=	$8388
+		.export	ldeaxidx	; vectored
+ldeaxidx		:=	$838B
+		.export	ldeaxysp	; vectored
+ldeaxysp		:=	$838E
+		.export	leaa0sp	; vectored
+leaa0sp		:=	$8391
+		.export	leaaxsp	; vectored
+leaaxsp		:=	$8394
+		.export	leave	; vectored
+leave		:=	$8397
+		.export	leave0	; vectored
+leave0		:=	$839A
+		.export	leave00	; vectored
+leave00		:=	$839D
+		.export	leavey	; vectored
+leavey		:=	$83A0
+		.export	leavey0	; vectored
+leavey0		:=	$83A3
+		.export	leavey00	; vectored
+leavey00		:=	$83A6
+		.export	lsubeq	; vectored
+lsubeq		:=	$83A9
+		.export	lsubeq0sp	; vectored
+lsubeq0sp		:=	$83AC
+		.export	lsubeq1	; vectored
+lsubeq1		:=	$83AF
+		.export	lsubeqa	; vectored
+lsubeqa		:=	$83B2
+		.export	lsubeqysp	; vectored
+lsubeqysp		:=	$83B5
+		.export	memcpy_getparams	; vectored
+memcpy_getparams		:=	$83B8
+		.export	memcpy_upwards	; vectored
+memcpy_upwards		:=	$83BB
+		.export	mul8x16	; vectored
+mul8x16		:=	$83BE
+		.export	mul8x16a	; vectored
+mul8x16a		:=	$83C1
+		.export	mulax10	; vectored
+mulax10		:=	$83C4
+		.export	mulax3	; vectored
+mulax3		:=	$83C7
+		.export	mulax5	; vectored
+mulax5		:=	$83CA
+		.export	mulax6	; vectored
+mulax6		:=	$83CD
+		.export	mulax7	; vectored
+mulax7		:=	$83D0
+		.export	mulax9	; vectored
+mulax9		:=	$83D3
+		.export	negax	; vectored
+negax		:=	$83D6
+		.export	negeax	; vectored
+negeax		:=	$83D9
+		.export	osfile_alloc_block	; vectored
+osfile_alloc_block		:=	$83DC
+		.export	osfile_callosfile	; vectored
+osfile_callosfile		:=	$83DF
+		.export	osfile_retA	; vectored
+osfile_retA		:=	$83E2
+		.export	osfile_ret_read_delete_load	; vectored
+osfile_ret_read_delete_load		:=	$83E5
+		.export	osfile_retdword	; vectored
+osfile_retdword		:=	$83E8
+		.export	osfile_store_attr	; vectored
+osfile_store_attr		:=	$83EB
+		.export	osfile_store_exec	; vectored
+osfile_store_exec		:=	$83EE
+		.export	osfile_store_fn	; vectored
+osfile_store_fn		:=	$83F1
+		.export	osfile_store_len	; vectored
+osfile_store_len		:=	$83F4
+		.export	osfile_store_load	; vectored
+osfile_store_load		:=	$83F7
+		.export	osfile_write_X_start	; vectored
+osfile_write_X_start		:=	$83FA
+		.export	popa	; vectored
+popa		:=	$83FD
+		.export	popax	; vectored
+popax		:=	$8400
+		.export	popeax	; vectored
+popeax		:=	$8403
+		.export	poplsargs	; vectored
+poplsargs		:=	$8406
+		.export	popptr1	; vectored
+popptr1		:=	$8409
+		.export	popsargsudiv16	; vectored
+popsargsudiv16		:=	$840C
+		.export	popsreg	; vectored
+popsreg		:=	$840F
+		.export	preservezp	; vectored
+preservezp		:=	$8412
+		.export	print0	; vectored
+print0		:=	$8415
+		.export	printhex	; vectored
+printhex		:=	$8418
+		.export	printstr	; vectored
+printstr		:=	$841B
 		.exportZP	ptr1
 		ptr1		:=	$000058
 		.exportZP	ptr2
@@ -659,152 +668,152 @@ printstr		:=	$0096D5
 		ptr3		:=	$00005C
 		.exportZP	ptr4
 		ptr4		:=	$00005E
-		.export	push0
-push0		:=	$009722
-		.export	push0ax
-push0ax		:=	$008B52
-		.export	push1
-push1		:=	$0096E4
-		.export	push2
-push2		:=	$0096E9
-		.export	push3
-push3		:=	$0096EE
-		.export	push4
-push4		:=	$0096F3
-		.export	push5
-push5		:=	$0096F8
-		.export	push6
-push6		:=	$0096FD
-		.export	push7
-push7		:=	$009702
-		.export	pusha
-pusha		:=	$00970B
-		.export	pusha0
-pusha0		:=	$009724
-		.export	pusha0sp
-pusha0sp		:=	$009707
-		.export	pushaFF
-pushaFF		:=	$00971D
-		.export	pushax
-pushax		:=	$009726
-		.export	pushaysp
-pushaysp		:=	$009709
-		.export	pushb
-pushb		:=	$009744
-		.export	pushbidx
-pushbidx		:=	$00973C
-		.export	pushbsp
-pushbsp		:=	$009752
-		.export	pushbysp
-pushbysp		:=	$009754
-		.export	pushc0
-pushc0		:=	$009759
-		.export	pushc1
-pushc1		:=	$00975E
-		.export	pushc2
-pushc2		:=	$009763
-		.export	pusheax
-pusheax		:=	$008B58
-		.export	pushl0
-pushl0		:=	$008B4F
-		.export	pushlysp
-pushlysp		:=	$009768
-		.export	pushptr1idx
-pushptr1idx		:=	$009784
-		.export	pushw
-pushw		:=	$00977E
-		.export	pushw0sp
-pushw0sp		:=	$00978D
-		.export	pushwidx
-pushwidx		:=	$009780
-		.export	pushwysp
-pushwysp		:=	$00978F
-		.export	putchar
-putchar		:=	$0083E9
+		.export	push0	; vectored
+push0		:=	$841E
+		.export	push0ax	; vectored
+push0ax		:=	$8421
+		.export	push1	; vectored
+push1		:=	$8424
+		.export	push2	; vectored
+push2		:=	$8427
+		.export	push3	; vectored
+push3		:=	$842A
+		.export	push4	; vectored
+push4		:=	$842D
+		.export	push5	; vectored
+push5		:=	$8430
+		.export	push6	; vectored
+push6		:=	$8433
+		.export	push7	; vectored
+push7		:=	$8436
+		.export	pusha	; vectored
+pusha		:=	$8439
+		.export	pusha0	; vectored
+pusha0		:=	$843C
+		.export	pusha0sp	; vectored
+pusha0sp		:=	$843F
+		.export	pushaFF	; vectored
+pushaFF		:=	$8442
+		.export	pushax	; vectored
+pushax		:=	$8445
+		.export	pushaysp	; vectored
+pushaysp		:=	$8448
+		.export	pushb	; vectored
+pushb		:=	$844B
+		.export	pushbidx	; vectored
+pushbidx		:=	$844E
+		.export	pushbsp	; vectored
+pushbsp		:=	$8451
+		.export	pushbysp	; vectored
+pushbysp		:=	$8454
+		.export	pushc0	; vectored
+pushc0		:=	$8457
+		.export	pushc1	; vectored
+pushc1		:=	$845A
+		.export	pushc2	; vectored
+pushc2		:=	$845D
+		.export	pusheax	; vectored
+pusheax		:=	$8460
+		.export	pushl0	; vectored
+pushl0		:=	$8463
+		.export	pushlysp	; vectored
+pushlysp		:=	$8466
+		.export	pushptr1idx	; vectored
+pushptr1idx		:=	$8469
+		.export	pushw	; vectored
+pushw		:=	$846C
+		.export	pushw0sp	; vectored
+pushw0sp		:=	$846F
+		.export	pushwidx	; vectored
+pushwidx		:=	$8472
+		.export	pushwysp	; vectored
+pushwysp		:=	$8475
+		.export	putchar	; vectored
+putchar		:=	$8478
 		.exportZP	regbank
 		regbank		:=	$000064
 		.exportZP	regsave
 		regsave		:=	$000054
-		.export	regswap
-regswap		:=	$0097A9
-		.export	regswap1
-regswap1		:=	$0097BC
-		.export	regswap2
-regswap2		:=	$0097C7
-		.export	resteax
-resteax		:=	$008BA2
-		.export	restorezp
-restorezp		:=	$009696
-		.export	return0
-return0		:=	$0097DD
-		.export	return1
-return1		:=	$0097E1
-		.export	rwcommon
-rwcommon		:=	$0097F9
-		.export	saveeax
-saveeax		:=	$008B95
-		.export	screensize
-screensize		:=	$008098
-		.export	shlax1
-shlax1		:=	$00816C
-		.export	shlax2
-shlax2		:=	$008174
-		.export	shlax3
-shlax3		:=	$00817F
-		.export	shlax4
-shlax4		:=	$00818D
-		.export	shlaxy
-shlaxy		:=	$009869
-		.export	shleax1
-shleax1		:=	$00819E
-		.export	shleax2
-shleax2		:=	$0081AA
-		.export	shleax3
-shleax3		:=	$0081BD
-		.export	shleax4
-shleax4		:=	$0081D7
-		.export	shrax1
-shrax1		:=	$0098C9
-		.export	shrax2
-shrax2		:=	$0098D1
-		.export	shrax3
-shrax3		:=	$0098DC
-		.export	shrax4
-shrax4		:=	$0098EA
-		.export	shraxy
-shraxy		:=	$00989C
-		.export	shreax1
-shreax1		:=	$0098FB
-		.export	shreax2
-shreax2		:=	$009907
-		.export	shreax3
-shreax3		:=	$00991A
-		.export	shreax4
-shreax4		:=	$009934
+		.export	regswap	; vectored
+regswap		:=	$847B
+		.export	regswap1	; vectored
+regswap1		:=	$847E
+		.export	regswap2	; vectored
+regswap2		:=	$8481
+		.export	resteax	; vectored
+resteax		:=	$8484
+		.export	restorezp	; vectored
+restorezp		:=	$8487
+		.export	return0	; vectored
+return0		:=	$848A
+		.export	return1	; vectored
+return1		:=	$848D
+		.export	rwcommon	; vectored
+rwcommon		:=	$8490
+		.export	saveeax	; vectored
+saveeax		:=	$8493
+		.export	screensize	; vectored
+screensize		:=	$8496
+		.export	shlax1	; vectored
+shlax1		:=	$8499
+		.export	shlax2	; vectored
+shlax2		:=	$849C
+		.export	shlax3	; vectored
+shlax3		:=	$849F
+		.export	shlax4	; vectored
+shlax4		:=	$84A2
+		.export	shlaxy	; vectored
+shlaxy		:=	$84A5
+		.export	shleax1	; vectored
+shleax1		:=	$84A8
+		.export	shleax2	; vectored
+shleax2		:=	$84AB
+		.export	shleax3	; vectored
+shleax3		:=	$84AE
+		.export	shleax4	; vectored
+shleax4		:=	$84B1
+		.export	shrax1	; vectored
+shrax1		:=	$84B4
+		.export	shrax2	; vectored
+shrax2		:=	$84B7
+		.export	shrax3	; vectored
+shrax3		:=	$84BA
+		.export	shrax4	; vectored
+shrax4		:=	$84BD
+		.export	shraxy	; vectored
+shraxy		:=	$84C0
+		.export	shreax1	; vectored
+shreax1		:=	$84C3
+		.export	shreax2	; vectored
+shreax2		:=	$84C6
+		.export	shreax3	; vectored
+shreax3		:=	$84C9
+		.export	shreax4	; vectored
+shreax4		:=	$84CC
 		.exportZP	sreg
 		sreg		:=	$000052
-		.export	staspidx
-staspidx		:=	$009998
-		.export	stax0sp
-stax0sp		:=	$0099AE
-		.export	staxspidx
-staxspidx		:=	$0099B9
-		.export	staxysp
-staxysp		:=	$0099B0
-		.export	steax0sp
-steax0sp		:=	$0099D4
-		.export	steaxspidx
-steaxspidx		:=	$0099E9
-		.export	steaxysp
-steaxysp		:=	$0099D6
-		.export	subeq0sp
-subeq0sp		:=	$009DDC
-		.export	subeqysp
-subeqysp		:=	$009DDE
-		.export	subysp
-subysp		:=	$009DF1
-		.export	swapstk
-swapstk		:=	$009DFE
+		.export	staspidx	; vectored
+staspidx		:=	$84CF
+		.export	stax0sp	; vectored
+stax0sp		:=	$84D2
+		.export	staxspidx	; vectored
+staxspidx		:=	$84D5
+		.export	staxysp	; vectored
+staxysp		:=	$84D8
+		.export	steax0sp	; vectored
+steax0sp		:=	$84DB
+		.export	steaxspidx	; vectored
+steaxspidx		:=	$84DE
+		.export	steaxysp	; vectored
+steaxysp		:=	$84E1
+		.export	subeq0sp	; vectored
+subeq0sp		:=	$84E4
+		.export	subeqysp	; vectored
+subeqysp		:=	$84E7
+		.export	subysp	; vectored
+subysp		:=	$84EA
+		.export	swapstk	; vectored
+swapstk		:=	$84ED
 		.exportZP	tmp1
 		tmp1		:=	$000060
 		.exportZP	tmp2
@@ -813,247 +822,247 @@ swapstk		:=	$009DFE
 		tmp3		:=	$000062
 		.exportZP	tmp4
 		tmp4		:=	$000063
-		.export	tolowerdirect
-tolowerdirect		:=	$009E32
-		.export	tosadd0ax
-tosadd0ax		:=	$00881D
-		.export	tosadda0
-tosadda0		:=	$008114
-		.export	tosaddax
-tosaddax		:=	$008116
-		.export	tosaddeax
-tosaddeax		:=	$008823
-		.export	tosand0ax
-tosand0ax		:=	$008892
-		.export	tosanda0
-tosanda0		:=	$00815C
-		.export	tosandax
-tosandax		:=	$00815E
-		.export	tosandeax
-tosandeax		:=	$008898
-		.export	tosaslax
-tosaslax		:=	$009862
-		.export	tosasleax
-tosasleax		:=	$008C01
-		.export	tosasrax
-tosasrax		:=	$0081E8
-		.export	tosasreax
-tosasreax		:=	$0088B6
-		.export	tosdiv0ax
-tosdiv0ax		:=	$0089D0
-		.export	tosdiva0
-tosdiva0		:=	$0084B6
-		.export	tosdivax
-tosdivax		:=	$0084B8
-		.export	tosdiveax
-tosdiveax		:=	$0089D6
-		.export	toseq00
-toseq00		:=	$0084EE
-		.export	toseqa0
-toseqa0		:=	$0084F0
-		.export	toseqax
-toseqax		:=	$0084F2
-		.export	toseqeax
-toseqeax		:=	$008A1F
-		.export	tosge00
-tosge00		:=	$0084F8
-		.export	tosgea0
-tosgea0		:=	$0084FA
-		.export	tosgeax
-tosgeax		:=	$0084FC
-		.export	tosgeeax
-tosgeeax		:=	$008A25
-		.export	tosgt00
-tosgt00		:=	$0085AA
-		.export	tosgta0
-tosgta0		:=	$0085AC
-		.export	tosgtax
-tosgtax		:=	$0085AE
-		.export	tosgteax
-tosgteax		:=	$008A2B
-		.export	tosicmp
-tosicmp		:=	$0085B6
-		.export	tosicmp0
-tosicmp0		:=	$0085B4
-		.export	tosint
-tosint		:=	$009E40
-		.export	toslcmp
-toslcmp		:=	$0088F4
-		.export	tosle00
-tosle00		:=	$0089EC
-		.export	toslea0
-toslea0		:=	$0089EE
-		.export	tosleax
-tosleax		:=	$0089F0
-		.export	tosleeax
-tosleeax		:=	$008A42
-		.export	toslong
-toslong		:=	$009E72
-		.export	toslt00
-toslt00		:=	$008CB4
-		.export	toslta0
-toslta0		:=	$008CB6
-		.export	tosltax
-tosltax		:=	$008CB8
-		.export	toslteax
-toslteax		:=	$008A48
-		.export	tosmod0ax
-tosmod0ax		:=	$008A4E
-		.export	tosmoda0
-tosmoda0		:=	$009291
-		.export	tosmodax
-tosmodax		:=	$009293
-		.export	tosmodeax
-tosmodeax		:=	$008A54
-		.export	tosmul0ax
-tosmul0ax		:=	$008A6E
-		.export	tosmula0
-tosmula0		:=	$009326
-		.export	tosmulax
-tosmulax		:=	$0092A2
-		.export	tosmuleax
-tosmuleax		:=	$008A74
-		.export	tosne00
-tosne00		:=	$0093E4
-		.export	tosnea0
-tosnea0		:=	$0093E6
-		.export	tosneax
-tosneax		:=	$0093E8
-		.export	tosneeax
-tosneeax		:=	$008ACA
-		.export	tosor0ax
-tosor0ax		:=	$008B16
-		.export	tosora0
-tosora0		:=	$009417
-		.export	tosorax
-tosorax		:=	$009419
-		.export	tosoreax
-tosoreax		:=	$008B1C
-		.export	tosrsub0ax
-tosrsub0ax		:=	$008B70
-		.export	tosrsuba0
-tosrsuba0		:=	$0097E6
-		.export	tosrsubax
-tosrsubax		:=	$0097E8
-		.export	tosrsubeax
-tosrsubeax		:=	$008B76
-		.export	tosshlax
-tosshlax		:=	$009862
-		.export	tosshleax
-tosshleax		:=	$008C01
-		.export	tosshrax
-tosshrax		:=	$009895
-		.export	tosshreax
-tosshreax		:=	$008C1B
-		.export	tossub0ax
-tossub0ax		:=	$008C35
-		.export	tossuba0
-tossuba0		:=	$009DC7
-		.export	tossubax
-tossubax		:=	$009DC9
-		.export	tossubeax
-tossubeax		:=	$008C3B
-		.export	tosudiv0ax
-tosudiv0ax		:=	$008D62
-		.export	tosudiva0
-tosudiva0		:=	$009E9E
-		.export	tosudivax
-tosudivax		:=	$009EA0
-		.export	tosudiveax
-tosudiveax		:=	$008D68
-		.export	tosuge00
-tosuge00		:=	$009F1E
-		.export	tosugea0
-tosugea0		:=	$009F20
-		.export	tosugeax
-tosugeax		:=	$009F22
-		.export	tosugeeax
-tosugeeax		:=	$008DDC
-		.export	tosugt00
-tosugt00		:=	$009F28
-		.export	tosugta0
-tosugta0		:=	$009F2A
-		.export	tosugtax
-tosugtax		:=	$009F2C
-		.export	tosugteax
-tosugteax		:=	$008DE2
-		.export	tosule00
-tosule00		:=	$009F32
-		.export	tosulea0
-tosulea0		:=	$009F34
-		.export	tosuleax
-tosuleax		:=	$009F36
-		.export	tosuleeax
-tosuleeax		:=	$008DE8
-		.export	tosulong
-tosulong		:=	$009E54
-		.export	tosult00
-tosult00		:=	$0097DD
-		.export	tosulta0
-tosulta0		:=	$009F3C
-		.export	tosultax
-tosultax		:=	$009F3E
-		.export	tosulteax
-tosulteax		:=	$008DEE
-		.export	tosumod0ax
-tosumod0ax		:=	$008DF4
-		.export	tosumoda0
-tosumoda0		:=	$009F44
-		.export	tosumodax
-tosumodax		:=	$009F46
-		.export	tosumodeax
-tosumodeax		:=	$008DFA
-		.export	tosumul0ax
-tosumul0ax		:=	$008A6E
-		.export	tosumula0
-tosumula0		:=	$009326
-		.export	tosumulax
-tosumulax		:=	$0092A2
-		.export	tosumuleax
-tosumuleax		:=	$008A74
-		.export	tosxor0ax
-tosxor0ax		:=	$008E0D
-		.export	tosxora0
-tosxora0		:=	$009FF7
-		.export	tosxorax
-tosxorax		:=	$009FF9
-		.export	tosxoreax
-tosxoreax		:=	$008E13
-		.export	tsteax
-tsteax		:=	$008CBE
-		.export	udiv16
-udiv16		:=	$009EAF
-		.export	udiv32
-udiv32		:=	$008D97
-		.export	udiv32by16r16
-udiv32by16r16		:=	$009EED
-		.export	udiv32by16r16m
-udiv32by16r16m		:=	$009EF1
-		.export	umul16x16r16
-umul16x16r16		:=	$009F55
-		.export	umul16x16r16m
-umul16x16r16m		:=	$009F59
-		.export	umul16x16r32
-umul16x16r32		:=	$009F55
-		.export	umul16x16r32m
-umul16x16r32m		:=	$009F59
-		.export	umul8x16r16
-umul8x16r16		:=	$009F81
-		.export	umul8x16r16m
-umul8x16r16m		:=	$009F85
-		.export	umul8x16r24
-umul8x16r24		:=	$009F81
-		.export	umul8x16r24m
-umul8x16r24m		:=	$009F85
-		.export	umul8x8r16
-umul8x8r16		:=	$009FAE
-		.export	umul8x8r16m
-umul8x8r16m		:=	$009FB0
-		.export	utscopy
-utscopy		:=	$009FC7
+		.export	tolowerdirect	; vectored
+tolowerdirect		:=	$84F0
+		.export	tosadd0ax	; vectored
+tosadd0ax		:=	$84F3
+		.export	tosadda0	; vectored
+tosadda0		:=	$84F6
+		.export	tosaddax	; vectored
+tosaddax		:=	$84F9
+		.export	tosaddeax	; vectored
+tosaddeax		:=	$84FC
+		.export	tosand0ax	; vectored
+tosand0ax		:=	$84FF
+		.export	tosanda0	; vectored
+tosanda0		:=	$8502
+		.export	tosandax	; vectored
+tosandax		:=	$8505
+		.export	tosandeax	; vectored
+tosandeax		:=	$8508
+		.export	tosaslax	; vectored
+tosaslax		:=	$850B
+		.export	tosasleax	; vectored
+tosasleax		:=	$850E
+		.export	tosasrax	; vectored
+tosasrax		:=	$8511
+		.export	tosasreax	; vectored
+tosasreax		:=	$8514
+		.export	tosdiv0ax	; vectored
+tosdiv0ax		:=	$8517
+		.export	tosdiva0	; vectored
+tosdiva0		:=	$851A
+		.export	tosdivax	; vectored
+tosdivax		:=	$851D
+		.export	tosdiveax	; vectored
+tosdiveax		:=	$8520
+		.export	toseq00	; vectored
+toseq00		:=	$8523
+		.export	toseqa0	; vectored
+toseqa0		:=	$8526
+		.export	toseqax	; vectored
+toseqax		:=	$8529
+		.export	toseqeax	; vectored
+toseqeax		:=	$852C
+		.export	tosge00	; vectored
+tosge00		:=	$852F
+		.export	tosgea0	; vectored
+tosgea0		:=	$8532
+		.export	tosgeax	; vectored
+tosgeax		:=	$8535
+		.export	tosgeeax	; vectored
+tosgeeax		:=	$8538
+		.export	tosgt00	; vectored
+tosgt00		:=	$853B
+		.export	tosgta0	; vectored
+tosgta0		:=	$853E
+		.export	tosgtax	; vectored
+tosgtax		:=	$8541
+		.export	tosgteax	; vectored
+tosgteax		:=	$8544
+		.export	tosicmp	; vectored
+tosicmp		:=	$8547
+		.export	tosicmp0	; vectored
+tosicmp0		:=	$854A
+		.export	tosint	; vectored
+tosint		:=	$854D
+		.export	toslcmp	; vectored
+toslcmp		:=	$8550
+		.export	tosle00	; vectored
+tosle00		:=	$8553
+		.export	toslea0	; vectored
+toslea0		:=	$8556
+		.export	tosleax	; vectored
+tosleax		:=	$8559
+		.export	tosleeax	; vectored
+tosleeax		:=	$855C
+		.export	toslong	; vectored
+toslong		:=	$855F
+		.export	toslt00	; vectored
+toslt00		:=	$8562
+		.export	toslta0	; vectored
+toslta0		:=	$8565
+		.export	tosltax	; vectored
+tosltax		:=	$8568
+		.export	toslteax	; vectored
+toslteax		:=	$856B
+		.export	tosmod0ax	; vectored
+tosmod0ax		:=	$856E
+		.export	tosmoda0	; vectored
+tosmoda0		:=	$8571
+		.export	tosmodax	; vectored
+tosmodax		:=	$8574
+		.export	tosmodeax	; vectored
+tosmodeax		:=	$8577
+		.export	tosmul0ax	; vectored
+tosmul0ax		:=	$857A
+		.export	tosmula0	; vectored
+tosmula0		:=	$857D
+		.export	tosmulax	; vectored
+tosmulax		:=	$8580
+		.export	tosmuleax	; vectored
+tosmuleax		:=	$8583
+		.export	tosne00	; vectored
+tosne00		:=	$8586
+		.export	tosnea0	; vectored
+tosnea0		:=	$8589
+		.export	tosneax	; vectored
+tosneax		:=	$858C
+		.export	tosneeax	; vectored
+tosneeax		:=	$858F
+		.export	tosor0ax	; vectored
+tosor0ax		:=	$8592
+		.export	tosora0	; vectored
+tosora0		:=	$8595
+		.export	tosorax	; vectored
+tosorax		:=	$8598
+		.export	tosoreax	; vectored
+tosoreax		:=	$859B
+		.export	tosrsub0ax	; vectored
+tosrsub0ax		:=	$859E
+		.export	tosrsuba0	; vectored
+tosrsuba0		:=	$85A1
+		.export	tosrsubax	; vectored
+tosrsubax		:=	$85A4
+		.export	tosrsubeax	; vectored
+tosrsubeax		:=	$85A7
+		.export	tosshlax	; vectored
+tosshlax		:=	$85AA
+		.export	tosshleax	; vectored
+tosshleax		:=	$85AD
+		.export	tosshrax	; vectored
+tosshrax		:=	$85B0
+		.export	tosshreax	; vectored
+tosshreax		:=	$85B3
+		.export	tossub0ax	; vectored
+tossub0ax		:=	$85B6
+		.export	tossuba0	; vectored
+tossuba0		:=	$85B9
+		.export	tossubax	; vectored
+tossubax		:=	$85BC
+		.export	tossubeax	; vectored
+tossubeax		:=	$85BF
+		.export	tosudiv0ax	; vectored
+tosudiv0ax		:=	$85C2
+		.export	tosudiva0	; vectored
+tosudiva0		:=	$85C5
+		.export	tosudivax	; vectored
+tosudivax		:=	$85C8
+		.export	tosudiveax	; vectored
+tosudiveax		:=	$85CB
+		.export	tosuge00	; vectored
+tosuge00		:=	$85CE
+		.export	tosugea0	; vectored
+tosugea0		:=	$85D1
+		.export	tosugeax	; vectored
+tosugeax		:=	$85D4
+		.export	tosugeeax	; vectored
+tosugeeax		:=	$85D7
+		.export	tosugt00	; vectored
+tosugt00		:=	$85DA
+		.export	tosugta0	; vectored
+tosugta0		:=	$85DD
+		.export	tosugtax	; vectored
+tosugtax		:=	$85E0
+		.export	tosugteax	; vectored
+tosugteax		:=	$85E3
+		.export	tosule00	; vectored
+tosule00		:=	$85E6
+		.export	tosulea0	; vectored
+tosulea0		:=	$85E9
+		.export	tosuleax	; vectored
+tosuleax		:=	$85EC
+		.export	tosuleeax	; vectored
+tosuleeax		:=	$85EF
+		.export	tosulong	; vectored
+tosulong		:=	$85F2
+		.export	tosult00	; vectored
+tosult00		:=	$85F5
+		.export	tosulta0	; vectored
+tosulta0		:=	$85F8
+		.export	tosultax	; vectored
+tosultax		:=	$85FB
+		.export	tosulteax	; vectored
+tosulteax		:=	$85FE
+		.export	tosumod0ax	; vectored
+tosumod0ax		:=	$8601
+		.export	tosumoda0	; vectored
+tosumoda0		:=	$8604
+		.export	tosumodax	; vectored
+tosumodax		:=	$8607
+		.export	tosumodeax	; vectored
+tosumodeax		:=	$860A
+		.export	tosumul0ax	; vectored
+tosumul0ax		:=	$860D
+		.export	tosumula0	; vectored
+tosumula0		:=	$8610
+		.export	tosumulax	; vectored
+tosumulax		:=	$8613
+		.export	tosumuleax	; vectored
+tosumuleax		:=	$8616
+		.export	tosxor0ax	; vectored
+tosxor0ax		:=	$8619
+		.export	tosxora0	; vectored
+tosxora0		:=	$861C
+		.export	tosxorax	; vectored
+tosxorax		:=	$861F
+		.export	tosxoreax	; vectored
+tosxoreax		:=	$8622
+		.export	tsteax	; vectored
+tsteax		:=	$8625
+		.export	udiv16	; vectored
+udiv16		:=	$8628
+		.export	udiv32	; vectored
+udiv32		:=	$862B
+		.export	udiv32by16r16	; vectored
+udiv32by16r16		:=	$862E
+		.export	udiv32by16r16m	; vectored
+udiv32by16r16m		:=	$8631
+		.export	umul16x16r16	; vectored
+umul16x16r16		:=	$8634
+		.export	umul16x16r16m	; vectored
+umul16x16r16m		:=	$8637
+		.export	umul16x16r32	; vectored
+umul16x16r32		:=	$863A
+		.export	umul16x16r32m	; vectored
+umul16x16r32m		:=	$863D
+		.export	umul8x16r16	; vectored
+umul8x16r16		:=	$8640
+		.export	umul8x16r16m	; vectored
+umul8x16r16m		:=	$8643
+		.export	umul8x16r24	; vectored
+umul8x16r24		:=	$8646
+		.export	umul8x16r24m	; vectored
+umul8x16r24m		:=	$8649
+		.export	umul8x8r16	; vectored
+umul8x8r16		:=	$864C
+		.export	umul8x8r16m	; vectored
+umul8x8r16m		:=	$864F
+		.export	utscopy	; vectored
+utscopy		:=	$8652
 		.export	utsdata
-utsdata		:=	$00A30C
-		.export	utsteax
-utsteax		:=	$008CBE
-		.export	xosfile_ret_read_delete_load
-xosfile_ret_read_delete_load		:=	$009525
+utsdata		:=	$00AFCD
+		.export	utsteax	; vectored
+utsteax		:=	$8655
+		.export	xosfile_ret_read_delete_load	; vectored
+xosfile_ret_read_delete_load		:=	$8658
