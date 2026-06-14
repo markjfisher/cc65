@@ -48,6 +48,20 @@ FRAME_SIZE       = BLOCK_SIZE + FILENAME_SIZE + 2
         rts
 .endproc
 
+.proc create_empty
+        lda     #$80
+        jsr     pusha
+        lda     ptr1
+        ldx     ptr1+1
+        jsr     _osfind
+        beq     @fail
+        jsr     _close_file
+        lda     #$01
+        rts
+@fail:  lda     #$00
+        rts
+.endproc
+
 .proc _open
         ldy     #FRAME_SIZE
         jsr     subysp
@@ -151,15 +165,23 @@ FRAME_SIZE       = BLOCK_SIZE + FILENAME_SIZE + 2
         beq     @open_read
 
         cmp     #O_RDWR
-        bne     :+
+        bne     @not_rdwr
         lda     tmp3
         and     #O_APPEND
         bne     @use_update
+        ldy     #META_EXISTS
+        lda     (c_sp),y
+        bne     @rdwr_ready
+        jsr     create_empty
+        bne     @rdwr_ready
+        jmp     @io_error
+@rdwr_ready:
         lda     tmp3
         and     #O_TRUNC
         bne     @open_write
         jmp     @use_update
-:       
+
+@not_rdwr:
 
         lda     tmp3
         and     #O_APPEND
@@ -172,7 +194,7 @@ FRAME_SIZE       = BLOCK_SIZE + FILENAME_SIZE + 2
         lda     tmp3
         and     #O_TRUNC
         bne     @open_write
-        beq     @use_update
+        jmp     @use_update
 
 @open_write:
         lda     #$80

@@ -42,9 +42,9 @@ _osfind:
         ; Call OSFIND
         jsr     OSFIND
 
-        ; BBC MOS open calls return the allocated channel in Y.
-        ; Normalize to a cc65 16-bit return in A/X.
-        tya
+        ; OSFIND returns the file handle in A (0 if the open failed). Using Y
+        ; here feeds the caller the name-pointer high byte instead of the real
+        ; channel on the plain bbc target.
         ldx     #$00
 
         rts
