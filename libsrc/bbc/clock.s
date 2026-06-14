@@ -1,11 +1,9 @@
+; Dominic Beesley, 2005
+; Mark Fisher, 2026
 ;
-; Dominic Beesley 07.07.2005
-; Piotr Fusik, 04.11.2001
-; originally by Ullrich von Bassewitz and Sidney Cadot
-;
+
 ; clock_t clock (void);
 ; unsigned _clocks_per_sec (void);
-;
 
         .export         _clock
         .importzp       sreg

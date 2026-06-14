@@ -1,3 +1,7 @@
+; Dominic Beesley, 2005
+; Mark Fisher, 2026
+;
+
 ;
 ; Startup code for cc65 (bbc normal library - not ROM)
 

@@ -1,5 +1,6 @@
-; Dominic Beesley 27.04.2005, see fdtable.s
-
+; Dominic Beesley, 2005
+; Mark Fisher, 2026
+;
 
 FD_MAX		=	16
 FD_START	=	3

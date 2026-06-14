@@ -1,6 +1,6 @@
-; Dominic Beesley 14.04.2005
-; A register contents for OSWORD calls
-
+; Dominic Beesley, 2005
+; Mark Fisher, 2026
+;
 
 OSWORD_READ_LINE 	= $00
 OSWORD_READ_SYS_CLOCK	= $01
@@ -16,5 +16,3 @@ OSWORD_READ_CHARDEF	= $0A
 OSWORD_READ_PALETTE	= $0B
 OSWORD_WRITE_PALETTE	= $0C
 OSWORD_READ_CURSOR	= $0D
-
-

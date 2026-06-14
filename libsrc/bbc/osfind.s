@@ -1,3 +1,7 @@
+; Dominic Beesley, 2005
+; Mark Fisher, 2026
+;
+
 ; OSFIND wrapper for BBC Micro
 ; unsigned char __fastcall__ osfind(unsigned char mode, const char *name);
 

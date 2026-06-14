@@ -1,5 +1,7 @@
+; Dominic Beesley, 2005
+; Mark Fisher, 2026
 ;
-; Dominic Beesley 15.04.2005
+
 ;
 ; Setup arguments for main
 ;

@@ -1,10 +1,11 @@
-;
-; Dominic Beesley 14.04.2005
-;
-; unsigned char wherey (void);
+; Dominic Beesley, 2005
+; Mark Fisher, 2026
 ;
 
+; unsigned char wherey (void);
+
         .export  _wherey
+
         .include "oslib/os.inc"
         .include "oslib/vduvars.inc"
 

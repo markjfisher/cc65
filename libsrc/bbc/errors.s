@@ -1,7 +1,8 @@
-; Dominic Beesley 26.05.2005
-; Routines for setting errorno and returning -1L
+; Dominic Beesley, 2005
+; Mark Fisher, 2026
+;
 
-; ??? Assumes all error numbers < 256 and >0
+; Routines for setting errorno and returning -1L
 
         .include        "errno.inc"
         .export         einval

@@ -1,8 +1,9 @@
-
-; Dominic Beesley 2005
-; OSLib implementation for BBC/Master Target 
+; Dominic Beesley, 2005
+; Mark Fisher, 2026
 ;
-; xosfile_delete
+
+
+; OSLib implementation for BBC/Master Target 
 ;
 
         .export         _xosfile_delete
@@ -25,11 +26,7 @@
 ;      bits32 *exec_addr,
 ;      long *size,
 ;      fileswitch_attr *attr);
-;extern fileswitch_object_type osfile_delete (char const *file_name,
-;      bits32 *load_addr,
-;      bits32 *exec_addr,
-;      long *size,
-;      fileswitch_attr *attr);
+
 .proc _xosfile_delete
 
         jsr     osfile_alloc_block  ; Allocates OSFILE block + filename buffer, sets up ptr2

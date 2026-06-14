@@ -1,5 +1,7 @@
-; Dominic Beesley 27.04.2005
+; Dominic Beesley, 2005
+; Mark Fisher, 2026
 ;
+
 ; File descriptor indirection table
 ;
 ; Each file descriptor (as returned by open is an index into these tables
@@ -169,31 +171,6 @@ __fd_clearseek: sta     tmp1
         tax
 
 errcs:  rts
-;.proc  hexp
-;       pha
-;       ror
-;       ror
-;       ror
-;       ror
-;       jsr     digit
-;       pla
-;       pha
-;       jsr     digit
-;       pla
-;       rts
-;.endproc
-
-;.proc  digit
-;       and     #$0F
-;       cmp     #$0A
-;       bcc     d
-;       clc
-;       adc     #$07
-;d:     clc
-;       adc     #$30
-;       jsr     OSWRCH
-;       rts
-;.endproc
 
 .proc   _closeallfiles
 

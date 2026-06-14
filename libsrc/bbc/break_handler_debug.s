@@ -1,3 +1,7 @@
+; Dominic Beesley, 2005
+; Mark Fisher, 2026
+;
+
 ; break_handler_debug.s
 ; Debug arming entry: _set_brk_ret_debug
 ; ROM-free: uses only OSWRCH (no CLIB ROM calls).

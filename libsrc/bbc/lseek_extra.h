@@ -1,3 +1,7 @@
+// Dominic Beesley, 2005
+// Mark Fisher, 2026
+//
+
 
 #ifndef __LSEEK_EXTRA__
 #define __LSEEK_EXTRA__

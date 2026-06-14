@@ -1,5 +1,8 @@
+; Dominic Beesley, 2005
+; Mark Fisher, 2026
+;
+
 ; BBC MOS vector and entry point symbols
-; (c) Dominic Beesley 2005
 
 .import OSCLI
 .import OSBYTE

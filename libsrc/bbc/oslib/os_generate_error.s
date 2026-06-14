@@ -1,10 +1,10 @@
-;
-;       extern os_error *xos_generate_error (os_error const *error);
-;       extern void os_generate_error (os_error const *error);
+; Dominic Beesley, 2005
+; Mark Fisher, 2026
 ;
 
 ;
-;       Dominic Beesley 2005
+;       extern os_error *xos_generate_error (os_error const *error);
+;       extern void os_generate_error (os_error const *error);
 ;
 
 ;       Both raise the error!

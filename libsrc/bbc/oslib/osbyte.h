@@ -1,3 +1,7 @@
+// Dominic Beesley, 2005
+// Mark Fisher, 2026
+//
+
 #ifndef osbyte_H
 #define osbyte_H
 

@@ -1,4 +1,7 @@
-; Dominic Beesley 27.04.2005
+; Dominic Beesley, 2005
+; Mark Fisher, 2026
+;
+
 ; Close file function for BBC Micro
 ; int __fastcall__ close_file(unsigned char channel);
 

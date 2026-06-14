@@ -1,6 +1,3 @@
-/* Dominic Beesley 27.04.2005
-*/
-
 #include "fdtable.h"
 #include <errno.h>
 #include <stdio.h>

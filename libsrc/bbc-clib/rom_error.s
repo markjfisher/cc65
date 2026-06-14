@@ -1,3 +1,7 @@
+; Dominic Beesley, 2005
+; Mark Fisher, 2026
+;
+
 ;
 ; ROM error handling for bbc-clib target
 ; Displays error message when ROM is not present

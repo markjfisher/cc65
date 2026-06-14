@@ -1,6 +1,7 @@
+; Dominic Beesley, 2005
+; Mark Fisher, 2026
 ;
-; Dominic Beesley 20.04.2005
-;
+
 ; void __fastcall__ gotoy (unsigned char x);
 ;
 

@@ -1,3 +1,7 @@
+; Dominic Beesley, 2005
+; Mark Fisher, 2026
+;
+
 ; brk_global_install.s — optional global catch-all installer (production chain)
         .export         _install_brk_handler_global
         .export         _uninstall_brk_handler_global

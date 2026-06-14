@@ -1,6 +1,7 @@
+; Dominic Beesley, 2005
+; Mark Fisher, 2026
 ;
-; Dominic Beesley       16.04.2005
-;
+
 ;       unsigned char __fastcall__ xxxcolor (unsigned char color);
 ;       return old colour
 

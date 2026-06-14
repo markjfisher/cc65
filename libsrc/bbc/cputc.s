@@ -1,6 +1,7 @@
+; Dominic Beesley, 2005
+; Mark Fisher, 2026
 ;
-; Dominic Beesley 14.04.2005
-;
+
 ; void cputcxy (unsigned char x, unsigned char y, char c);
 ; void cputc (char c);
 ;

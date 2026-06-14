@@ -1,9 +1,10 @@
+; Dominic Beesley, 2005
+; Mark Fisher, 2026
+;
 
-; Dominic Beesley 2005
+
 ; OSLib implementation for BBC/Master Target 
-;
-; osfile_write_load
-;
+
         .export         _osfile_write_attr
 
         .import         osfile_write_X_start
@@ -16,8 +17,6 @@
 
         .include        "osfile.inc"
 
-;extern os_error *xosfile_write_attr (char const *file_name,
-;      fileswitch_attr attr);
 ;extern void osfile_write_attr (char const *file_name,
 ;      fileswitch_attr attr);
 

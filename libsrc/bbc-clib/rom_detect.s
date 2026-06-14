@@ -1,3 +1,7 @@
+; Dominic Beesley, 2005
+; Mark Fisher, 2026
+;
+
 ;
 ; BBC Micro ROM Detection for cc65 CLIB
 ; Checks for presence of cc65 CLIB sideways ROM in slot 1

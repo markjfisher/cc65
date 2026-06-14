@@ -1,6 +1,7 @@
+; Dominic Beesley, 2005
+; Mark Fisher, 2026
 ;
-; Dominic Beesley 16.04.2005
-;
+
 ; void cclearxy (unsigned char x, unsigned char y, unsigned char length);
 ; void cclear (unsigned char length);
 ;

@@ -1,8 +1,9 @@
-
-; Dominic Beesley 2005, Mark Fisher 2025
-; OSLib implementation for BBC/Master Target        
+; Dominic Beesley, 2005
+; Mark Fisher, 2026
 ;
-; osfile_delete
+
+
+; OSLib implementation for BBC/Master Target        
 ;
 
         .export   _osfile_load

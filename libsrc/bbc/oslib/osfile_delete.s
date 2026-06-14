@@ -1,5 +1,8 @@
+; Dominic Beesley, 2005
+; Mark Fisher, 2026
+;
 
-; Dominic Beesley 2005, Mark Fisher 2025
+
 ; OSLib implementation for BBC/Master Target        
 ;
 ; osfile_delete

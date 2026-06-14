@@ -1,4 +1,7 @@
-; Dominic Beesley 23.05.2005
+; Dominic Beesley, 2005
+; Mark Fisher, 2026
+;
+
 ; Assembler support functions for lseek etc
 
         .importzp ptr1, sreg, c_sp

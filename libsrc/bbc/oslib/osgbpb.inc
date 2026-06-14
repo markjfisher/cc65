@@ -1,6 +1,5 @@
-;
-; ca65 Assembler include file for BBC Micro OSGBPB constants.
-; (c) Dominic Beesley 2005
+; Dominic Beesley, 2005
+; Mark Fisher, 2026
 ;
 
 OSGBPB_WriteAt                  =       $1

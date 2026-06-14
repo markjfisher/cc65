@@ -1,6 +1,7 @@
+; Dominic Beesley, 2005
+; Mark Fisher, 2026
 ;
-; Dominic Beesley
-;
+
 ; Screen size variables
 ;
 

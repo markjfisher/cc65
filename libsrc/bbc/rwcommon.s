@@ -1,10 +1,9 @@
+; Dominic Beesley, 2005
+; Mark Fisher, 2026
 ;
-; Ullrich von Bassewitz, 17.11.2002
-; Dominic Beesley 13.04.2005
-;
+
 ; Common stuff for the read/write routines
 ;
-; ??? all file stuff assumes fd<3 is stdin..stderr
 
         .export         rwcommon
 

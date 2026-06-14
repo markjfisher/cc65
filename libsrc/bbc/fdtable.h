@@ -1,7 +1,7 @@
-/* Dominic Beesley 27.04.2005
-	functions for allocating and managing file descriptors - see fdtable.s
-*/
-	
+// Dominic Beesley, 2005
+// Mark Fisher, 2026
+//
+
 #ifndef __FDTABLE
 #define __FDTABLE
 

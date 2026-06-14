@@ -1,3 +1,7 @@
+; Dominic Beesley, 2005
+; Mark Fisher, 2026
+;
+
 ;
 ; Startup code for cc65 (bbc clib rom version)
 ; REQUIRES cc65 CLIB ROM to be present in any sideways ROM

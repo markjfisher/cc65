@@ -1,6 +1,5 @@
-;
-; ca65 Assembler include file for BBC Micro OSFILE constants.
-; (c) Dominic Beesley 2005
+; Dominic Beesley, 2005
+; Mark Fisher, 2026
 ;
 
 OSFile_Save                     =       0

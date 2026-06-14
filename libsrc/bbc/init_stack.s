@@ -1,3 +1,7 @@
+; Dominic Beesley, 2005
+; Mark Fisher, 2026
+;
+
 
     .export init_stack
     .include "oslib/os.inc"

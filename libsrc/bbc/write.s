@@ -1,9 +1,9 @@
+; Dominic Beesley, 2005
+; Mark Fisher, 2026
 ;
-; Dominic Beesley 13.04.2005
-;
+
+
 ; int write (int fd, const void* buf, unsigned count);
-;
-; ??? No error cheking yet
 
         .export         _write
 

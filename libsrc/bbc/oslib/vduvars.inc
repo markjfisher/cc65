@@ -1,3 +1,7 @@
+; Dominic Beesley, 2005
+; Mark Fisher, 2026
+;
+
 
 ; VDU Variables
 	VDUVAR_GRAPHICS_WINDOW_X0	= $00

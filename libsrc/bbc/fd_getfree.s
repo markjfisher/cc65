@@ -1,4 +1,6 @@
-; Dominic Beesley 27.04.2005
+; Dominic Beesley, 2005
+; Mark Fisher, 2026
+;
 
         .export         __fd_getfree
 

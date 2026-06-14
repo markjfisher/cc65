@@ -1,3 +1,7 @@
+; Dominic Beesley, 2005
+; Mark Fisher, 2026
+;
+
 ;
 ;
 ; struct dirent* __fastcall__ readdir (DIR* dir);

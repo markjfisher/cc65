@@ -1,3 +1,7 @@
+; Dominic Beesley, 2005
+; Mark Fisher, 2026
+;
+
 ; break_handler_common.s
 ; Shared state & RAM brkhandler used by both prod/debug installers.
 

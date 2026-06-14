@@ -1,3 +1,7 @@
+; Dominic Beesley, 2005
+; Mark Fisher, 2026
+;
+
 ;
 ; Ullrich von Bassewitz, 07.08.1998
 ;

@@ -1,3 +1,7 @@
+; Dominic Beesley, 2005
+; Mark Fisher, 2026
+;
+
 		; 457 symbol(s) vectored through the fixed jump table at $8100
 		.export	ARGSV
 ARGSV		:=	$000214

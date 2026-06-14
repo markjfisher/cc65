@@ -1,11 +1,9 @@
+; Dominic Beesley, 2005
+; Mark Fisher, 2026
+;
+
 ;
 ; ca65 Assembler include file for BBC Micro OSBYTE constants.
-;
-; Adapted from the OSLib OSByte header for cc65/ca65.
-; (c) Dominic Beesley 2005
-; Based on original work (c) 1994 Jonathan Coxhead
-;
-; Licensed under GPL v1 or later.
 ;
 
 osbyte_VERSION                          = $0

@@ -1,8 +1,9 @@
-
-;Dominic Beesley 2005
-;OSLib implementation for BBC/Master Target
+; Dominic Beesley, 2005
+; Mark Fisher, 2026
 ;
-;osfile_delete
+
+
+;OSLib implementation for BBC/Master Target
 ;
 
 .include "osfile.inc"

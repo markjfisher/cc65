@@ -1,5 +1,8 @@
+; Dominic Beesley, 2005
+; Mark Fisher, 2026
+;
 
-; Dominic Beesley 2005
+
 ; OSLib implementation for BBC/Master Target
 ;
 ; osfile_* utility functions

@@ -1,3 +1,7 @@
+// Dominic Beesley, 2005
+// Mark Fisher, 2026
+//
+
 #ifndef osfile_H
 #define osfile_H
 
@@ -31,27 +35,17 @@
 
 #define osfile_FILE_TYPE_SHIFT                  8
 
-extern os_error *xosfile_write (char const *file_name,
-      bits32 load_addr,
-      bits32 exec_addr,
-      fileswitch_attr attr);
 extern void osfile_write (char const *file_name,
       bits32 load_addr,
       bits32 exec_addr,
       fileswitch_attr attr);
 
-extern os_error *xosfile_write_load (char const *file_name,
-      bits32 load_addr);
 extern void osfile_write_load (char const *file_name,
       bits32 load_addr);
 
-extern os_error *xosfile_write_exec (char const *file_name,
-      bits32 exec_addr);
 extern void osfile_write_exec (char const *file_name,
       bits32 exec_addr);
 
-extern os_error *xosfile_write_attr (char const *file_name,
-      fileswitch_attr attr);
 extern void osfile_write_attr (char const *file_name,
       fileswitch_attr attr);
 

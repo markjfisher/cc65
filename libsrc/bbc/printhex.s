@@ -1,4 +1,6 @@
-; Dominic Beesley 26.05.2005, print a two digit hex no in A
+; Dominic Beesley, 2005
+; Mark Fisher, 2026
+;
 
         .include "oslib/os.inc"
         .export printhex

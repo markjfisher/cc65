@@ -1,5 +1,7 @@
-; Dominic Beesley 14.04.2005
+; Dominic Beesley, 2005
+; Mark Fisher, 2026
 ;
+
 ; int __fastcall__ read(int fd,void *buf,int count)
 ;
 

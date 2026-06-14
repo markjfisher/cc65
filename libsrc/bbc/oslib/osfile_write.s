@@ -1,13 +1,9 @@
+; Dominic Beesley, 2005
+; Mark Fisher, 2026
+;
 
-; Dominic Beesley 2005, Mark Fisher 2025
 ; OSLib implementation for BBC/Master Target 
-;
-; osfile_write
-;
-;extern os_error *xosfile_write (char const *file_name,
-;      bits32 load_addr,
-;      bits32 exec_addr,
-;      fileswitch_attr attr);
+
 ;extern void osfile_write (char const *file_name,               12
 ;      bits32 load_addr,                                        8
 ;      bits32 exec_addr,                                        4

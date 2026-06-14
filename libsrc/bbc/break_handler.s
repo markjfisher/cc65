@@ -1,3 +1,7 @@
+; Dominic Beesley, 2005
+; Mark Fisher, 2026
+;
+
 ; break_handler.s
 ; Production install/arm entry: _set_brk_ret
 

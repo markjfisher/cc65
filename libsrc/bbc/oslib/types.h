@@ -1,10 +1,12 @@
+// Dominic Beesley, 2005
+// Mark Fisher, 2026
+//
+
 #ifndef types_H
 #define types_H
 
-/* Base types for BBC Micro cc65 library.
- *
- * Adapted from the OSLib types header.
- * (c) 1994 Jonathan Coxhead. cc65 adaptation (c) Dominic Beesley 2005.
+/* 
+ * Base types for BBC Micro cc65 library.
  */
 
 typedef unsigned int                            bits;

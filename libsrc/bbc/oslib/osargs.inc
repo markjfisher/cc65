@@ -1,5 +1,6 @@
-; Dominic Beesley 27.04.2005
-
+; Dominic Beesley, 2005
+; Mark Fisher, 2026
+;
 
 ; following called with Y = 0 (i.e. no file)
 OSARGS_GET_CURRENT_FS 		= $00
