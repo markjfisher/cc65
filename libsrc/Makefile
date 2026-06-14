@@ -139,9 +139,6 @@ install:
 	$(INSTALL) -d $(DESTDIR)$(datadir)/include/oslib
 	$(INSTALL) -m0644 bbc/oslib/*.h $(DESTDIR)$(datadir)/include/oslib
 	$(INSTALL) -m0644 bbc/oslib/*.inc $(DESTDIR)$(datadir)/include/oslib
-	$(INSTALL) -d $(DESTDIR)$(datadir)/include/oslib-clib
-	$(INSTALL) -m0644 bbc-clib/oslib/*.h $(DESTDIR)$(datadir)/include/oslib-clib
-	$(INSTALL) -m0644 bbc-clib/oslib/*.inc $(DESTDIR)$(datadir)/include/oslib-clib
 
 endif # CMD_EXE
 
@@ -223,10 +220,12 @@ ifeq ($(TARGET), bbc)
 endif
 
 ifeq ($(TARGET), bbc-clib)
+  CA65FLAGS += -I bbc
   # Include main bbc-clib directory for ROM-specific files
   SRCDIRS += bbc-clib
   # Also include bbc directory for BBC-specific functions (disable_cursor_edit, trap_brk, etc.)
   SRCDIRS += bbc
+  SRCDIRS += bbc/oslib
   # brk handling for ROM targets requires additional handling
   SRCDIRS += bbc/brk/bbc-clib
 endif

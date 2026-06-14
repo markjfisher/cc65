@@ -718,6 +718,8 @@ pusheax		:=	$8460
 pushl0		:=	$8463
 		.export	pushlysp	; vectored
 pushlysp		:=	$8466
+		.export	pushptr1
+pushptr1		:=	$00A43F
 		.export	pushptr1idx	; vectored
 pushptr1idx		:=	$8469
 		.export	pushw	; vectored
@@ -1061,7 +1063,7 @@ umul8x8r16m		:=	$864F
 		.export	utscopy	; vectored
 utscopy		:=	$8652
 		.export	utsdata
-utsdata		:=	$00AFCD
+utsdata		:=	$00AFD4
 		.export	utsteax	; vectored
 utsteax		:=	$8655
 		.export	xosfile_ret_read_delete_load	; vectored
