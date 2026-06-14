@@ -67,19 +67,9 @@ l2:     lda     #FD_FLAG_CON
         jmp     errout2
 
 l4:     sta     tmp2
-
-        lda     #>dofile
-        sta     jumper+1
-        lda     #<dofile
-        sta     jumper
         jmp     L2
 
-scrout:
-        lda     #>doscreen
-        sta     jumper+1
-        lda     #<doscreen
-        sta     jumper
-        jmp     L2
+scrout: jmp     L2
 
 ; Output the next character from the buffer
 
@@ -88,7 +78,17 @@ L0:     ldy     #0
         inc     ptr2
         bne     L1
         inc     ptr2+1          ; A = *buf++;
-L1:     jmp     (jumper)
+L1:     pha
+        lda     tmp1
+        and     #FD_FLAG_CON
+        beq     dofile
+        pla
+        jmp     doscreen
+
+dofile: pla
+        ldy     tmp2
+        jsr     OSBPUT
+        jmp     next
 
 next:
 ; Count characters written
@@ -109,11 +109,6 @@ L2:     inc     ptr1
         ldx     ptr3+1
         rts
 
-dofile:
-        ldy     tmp2
-        jsr     OSBPUT
-        jmp     next
-
 doscreen:
         cmp     #$0a
         beq     newl
@@ -123,8 +118,5 @@ newl:
         jsr     OSNEWL
         jmp     next
 
+
 .endproc
-
-.bss
-jumper: .res    2
-

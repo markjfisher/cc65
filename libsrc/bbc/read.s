@@ -74,23 +74,25 @@ l2:     lda     #FD_FLAG_CON
         jmp     errout2         ; errno already set
 
 l4:     sta     tmp2
-
-        lda     #>dofile
-        sta     jumper+1
-        lda     #<dofile
-        sta     jumper
         jmp     L2
 
-keyin:
-        lda     #>dokey
-        sta     jumper+1
-        lda     #<dokey
-        sta     jumper
-        jmp     L2
+keyin:  jmp     L2
 
-; Output the next character from the buffer
+; Read the next character from the current source.
 
-L0:     jmp     (jumper)
+L0:     lda     #FD_FLAG_CON
+        bit     tmp1
+        bne     dokey
+
+        lda     #osbyte_READ_EOF_STATUS
+        ldx     tmp2
+        jsr     OSBYTE
+        cpx     #0
+        bne     eof
+
+        ldy     tmp2
+        jsr     OSBGET
+        jmp     next
 next:   ldy     #0
         sta     (ptr2),y
         inc     ptr2
@@ -114,16 +116,6 @@ eof:
         lda     ptr3
         ldx     ptr3+1
         rts
-
-dofile: lda     #osbyte_READ_EOF_STATUS
-        ldx     tmp2
-        jsr     OSBYTE
-        cpx     #0
-        bne     eof
-
-        ldy     tmp2
-        jsr     OSBGET
-        jmp     next
 
 dokey:
         jsr     OSRDCH
@@ -185,7 +177,3 @@ newline:
         lda     #13
         jmp     next
 .endproc
-
-.bss
-jumper: .res    2
-

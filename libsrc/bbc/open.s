@@ -48,45 +48,9 @@ FRAME_SIZE       = BLOCK_SIZE + FILENAME_SIZE + 2
         rts
 .endproc
 
-.proc create_or_truncate
-        jsr     check_exists
-        ldy     #10
-        lda     ptr1
-        sta     (ptr2),y
-        iny
-        lda     ptr1+1
-        sta     (ptr2),y
-        iny
-        lda     #$00
-        sta     (ptr2),y
-        iny
-        sta     (ptr2),y
-        iny
-        lda     ptr1
-        sta     (ptr2),y
-        iny
-        lda     ptr1+1
-        sta     (ptr2),y
-        iny
-        lda     #$00
-        sta     (ptr2),y
-        iny
-        sta     (ptr2),y
-        lda     #OSFile_Save
-        ldx     ptr2
-        ldy     ptr2+1
-        jsr     OSFILE
-        lda     #$01
-        rts
-.endproc
-
 .proc _open
         ldy     #FRAME_SIZE
         jsr     subysp
-
-        ldy     #FRAME_SIZE + 1
-        jsr     ldaxysp
-        sta     tmp3
 
         lda     c_sp
         clc
@@ -115,6 +79,10 @@ FRAME_SIZE       = BLOCK_SIZE + FILENAME_SIZE + 2
         sta     ptr2
         lda     c_sp+1
         sta     ptr2+1
+
+        ldy     #FRAME_SIZE + 1
+        jsr     ldaxysp
+        sta     tmp3
 
         lda     tmp3
         and     #O_RDWR
@@ -168,42 +136,13 @@ FRAME_SIZE       = BLOCK_SIZE + FILENAME_SIZE + 2
         bne     @maybe_truncate
         lda     tmp3
         and     #O_CREAT
-        bne     @creatable
+        bne     @choose_mode
         jmp     @enoent
-
-@creatable:
-        lda     tmp2
-        cmp     #O_RDWR
-        bne     @do_precreate
-        lda     tmp3
-        and     #O_APPEND
-        beq     @skip_precreate
-
-@do_precreate:
-        jsr     create_or_truncate
-        bne     @precreate_ok
-        jmp     @io_error
-
-@precreate_ok:
-        lda     #$01
-        sta     tmp1
-        jmp     @maybe_truncate
-
-@skip_precreate:
-        jmp     @maybe_truncate
 
 @maybe_truncate:
         lda     tmp3
         and     #O_TRUNC
         beq     @choose_mode
-        lda     tmp2
-        cmp     #O_WRONLY
-        beq     @choose_mode
-        cmp     #O_RDWR
-        beq     @choose_mode
-        jsr     create_or_truncate
-        bne     @choose_mode
-        jmp     @io_error
 
 @choose_mode:
         ldy     #META_ACCESS
@@ -216,14 +155,11 @@ FRAME_SIZE       = BLOCK_SIZE + FILENAME_SIZE + 2
         lda     tmp3
         and     #O_APPEND
         bne     @use_update
-        iny
-        lda     (ptr2),y
-        beq     @open_write
         lda     tmp3
         and     #O_TRUNC
         bne     @open_write
         jmp     @use_update
-:       ldy     #$02
+:       
 
         lda     tmp3
         and     #O_APPEND
@@ -235,6 +171,7 @@ FRAME_SIZE       = BLOCK_SIZE + FILENAME_SIZE + 2
 
         lda     tmp3
         and     #O_TRUNC
+        bne     @open_write
         beq     @use_update
 
 @open_write:
