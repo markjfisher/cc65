@@ -1,8 +1,4 @@
-; Dominic Beesley, 2005
-; Mark Fisher, 2026
-;
-
-		; 457 symbol(s) vectored through the fixed jump table at $8100
+		; 458 symbol(s) vectored through the fixed jump table at $8100
 		.export	ARGSV
 ARGSV		:=	$000214
 		.export	BGETV
@@ -148,6 +144,8 @@ _chline		:=	$8112
 _chlinexy		:=	$8115
 		.export	_close_file	; vectored
 _close_file		:=	$8118
+		.export	_closedir
+_closedir		:=	$009096
 		.export	_cputc	; vectored
 _cputc		:=	$811B
 		.export	_cputcxy	; vectored
@@ -722,8 +720,8 @@ pusheax		:=	$8460
 pushl0		:=	$8463
 		.export	pushlysp	; vectored
 pushlysp		:=	$8466
-		.export	pushptr1
-pushptr1		:=	$00A43F
+		.export	pushptr1	; vectored
+pushptr1		:=	$865B
 		.export	pushptr1idx	; vectored
 pushptr1idx		:=	$8469
 		.export	pushw	; vectored
@@ -1067,7 +1065,7 @@ umul8x8r16m		:=	$864F
 		.export	utscopy	; vectored
 utscopy		:=	$8652
 		.export	utsdata
-utsdata		:=	$00AFD4
+utsdata		:=	$00AFE4
 		.export	utsteax	; vectored
 utsteax		:=	$8655
 		.export	xosfile_ret_read_delete_load	; vectored
