@@ -158,6 +158,8 @@ _decompress_lzsa1		:=	$8124
 _decompress_lzsa2		:=	$8127
 		.export	_decompress_zx02	; vectored
 _decompress_zx02		:=	$812A
+		.export	_decompress_zx02_fast
+_decompress_zx02_fast		:=	$00AD6B
 		.export	_div	; vectored
 _div		:=	$812D
 		.export	_doesclrscrafterexit	; vectored
@@ -1065,7 +1067,7 @@ umul8x8r16m		:=	$864F
 		.export	utscopy	; vectored
 utscopy		:=	$8652
 		.export	utsdata
-utsdata		:=	$00AFE4
+utsdata		:=	$00B090
 		.export	utsteax	; vectored
 utsteax		:=	$8655
 		.export	xosfile_ret_read_delete_load	; vectored
