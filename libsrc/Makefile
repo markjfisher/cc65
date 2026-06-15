@@ -364,7 +364,8 @@ $(EXTRA_OBJS): | ../lib
 
 ../lib/$(TARGET).lib: $(OBJS) | ../lib
 	$(if $(QUIET),@echo $(TARGET) - $<)
-	$(AR65) a $@ $?
+	$(if $(filter $(TARGET),$(ROM_TARGETS)),rm -f $@)
+	$(AR65) a $@ $(if $(filter $(TARGET),$(ROM_TARGETS)),$^,$?)
 
 ../libwrk/$(TARGET) ../target/$(TARGET)/util:
 	@$(call MKDIR,$@)
