@@ -50,19 +50,13 @@ reset:
         lda     EVNTV + 1
         sta     oldeventv + 1
 
-        lda     #<eschandler
-        sta     EVNTV
-        lda     #>eschandler
-        sta     EVNTV + 1
-
         jsr     _install_brk_handler_global
         plp
 
-        ; enable escape event
-        lda     #osbyte_ENABLE_EVENT
-        ldx     #EVNTV_ESCAPE
-        jsr     OSBYTE
-        stx     oldescen
+        ; Leave Escape as an OSRDCH/cgetc character. Enabling EVNTV Escape
+        ; events consumes Escape asynchronously before cgetc can return it.
+        lda     #1
+        sta     oldescen
 
         jsr     initlib
 

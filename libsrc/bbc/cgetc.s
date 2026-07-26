@@ -31,6 +31,7 @@ escape: pha
         lda     #osbyte_ACKNOWLEDGE_ESCAPE
         jsr     OSBYTE
         pla
+        ldx     #0
         rts
 
 setcursor:
