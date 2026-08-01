@@ -26,6 +26,7 @@
 
         .import         _install_brk_handler_global
         .import         _uninstall_brk_handler_global
+        .import         bbc_exit_hook
 
         .include        "zeropage.inc"
         .include        "oslib/os.inc"
@@ -95,6 +96,7 @@ _exit_main:
         plp
 
         jsr     _cleanup_display
+        jsr     bbc_exit_hook
 
 exit:
         rts
