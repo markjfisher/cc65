@@ -146,6 +146,7 @@ nohandle:
         sta     @evj+2
         pla
 @evj:   jmp     $FFFF           ; patched to oldeventv
+
 _cleanup_display:
         ; turn cursor back on, in case anything turned it off (e.g. cgetc() with default cursor value off)
         lda     #$01
@@ -157,9 +158,7 @@ _cleanup_display:
         lda     #$7E            ; OSBYTE 126: acknowledge Escape
         jsr     OSBYTE
         lda     #$DA            ; OSBYTE 218: flush VDU queue
-        jsr     OSBYTE
-
-        rts
+        jmp     OSBYTE
 
         .bss
 oldeventv:      .res    2
